@@ -1,0 +1,93 @@
+.container {
+  padding: 1.25px;
+  min-height: 100vh;
+  background: #f5f5f5;
+}
+
+.header {
+  background: white;
+  padding: 1.875px 1.25px;
+  border-radius: 0.625px;
+  margin-bottom: 0.9375px;
+  box-shadow: 0 0.125px 0.375px rgba(0,0,0,0.08);
+}
+
+.title {
+  display: block;
+  font-size: 1.5px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 0.625px;
+}
+
+.update-time {
+  display: block;
+  font-size: 0.875px;
+  color: #999;
+}
+
+.content {
+  background: white;
+  padding: 1.25px;
+  border-radius: 0.625px;
+  box-shadow: 0 0.125px 0.375px rgba(0,0,0,0.08);
+}
+
+.section {
+  margin-bottom: 1.5625px;
+}
+
+.section:last-child {
+  margin-bottom: 0;
+}
+
+.section-title {
+  font-size: 1px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 0.75px;
+  padding-left: 0.625px;
+  border-left: 0.1875px solid #667eea;
+}
+
+.section-content text {
+  display: block;
+  font-size: 0.875px;
+  line-height: 1.8;
+  color: #666;
+  margin-bottom: 0.5px;
+}
+
+.list {
+  margin: 0.75px 0;
+  padding-left: 0.625px;
+}
+
+.list text {
+  display: block;
+  font-size: 0.875px;
+  line-height: 1.8;
+  color: #666;
+  margin-bottom: 0.375px;
+}
+
+.warning {
+  display: block;
+  color: #ff6b6b !important;
+  font-weight: 500;
+  margin-top: 0.625px;
+}
+
+.footer {
+  margin-top: 1.25px;
+  text-align: center;
+  padding: 0.9375px;
+  background: white;
+  border-radius: 0.625px;
+  box-shadow: 0 0.125px 0.375px rgba(0,0,0,0.08);
+}
+
+.footer text {
+  font-size: 0.8125px;
+  color: #999;
+}

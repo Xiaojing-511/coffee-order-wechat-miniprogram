@@ -1,0 +1,129 @@
+<view class="page-content-wrapper">
+  <view class="container">
+
+    <!-- 统计卡片 -->
+    <view class="stats-card">
+        <view class="stat-item">
+          <text class="stat-value text-primary">{{stats.todayCount}}</text>
+          <text class="stat-label">今日记录</text>
+        </view>
+        <view class="stat-divider"></view>
+        <view class="stat-item">
+          <text class="stat-value text-secondary">{{stats.todayCalories}}</text>
+          <text class="stat-label">今日热量</text>
+        </view>
+
+    </view>
+
+    <!-- 记录列表 -->
+    <view class="record-list" wx:if="{{records.length > 0}}">
+      <block wx:for="{{records}}" wx:key="_id">
+        <!-- 未完成和已完成记录之间的分割线 -->
+        <view class="records-divider" wx:if="{{index > 0 && item.completed !== records[index - 1].completed}}">
+          <view class="divider-line"></view>
+          <text class="divider-text">{{item.completed ? '已完成记录' : '未完成记录'}}</text>
+          <view class="divider-line"></view>
+        </view>
+
+        <view class="record-card" bindtap="viewDetail" data-item="{{item}}">
+          <view class="record-header">
+            <view class="record-number">#{{item.recordNumber}}</view>
+            <view class="completion-switch {{item.completed ? 'disabled' : ''}}" catchtap="toggleCompletion" data-record-id="{{item._id}}" data-completed="{{item.completed}}">
+                <view class="switch-circle {{item.completed ? 'completed' : ''}}">
+                  <text class="switch-text">{{item.completed ? '已完成' : '切换至完成'}}</text>
+                </view>
+              </view>
+          </view>
+
+          <view class="record-items">
+            <view class="record-item-row" wx:for="{{item.items}}" wx:for-item="recordItem" wx:key="id" wx:for-index="subIndex">
+              <view class="item-info">
+                <text class="item-name">{{recordItem.name || '未知饮品'}}</text>
+                <view class="item-options">
+                  <text class="option-tag temperature" data-temp="{{recordItem.temperature}}">{{recordItem.temperature}}</text>
+                  <text class="option-tag ice" wx:if="{{recordItem.temperature === '冷'}}">{{recordItem.iceLevel}}</text>
+                  <text class="option-tag sugar">{{recordItem.sugarLevel}}</text>
+                </view>
+                <text class="item-remark" wx:if="{{recordItem.remark}}">备注: {{recordItem.remark}}</text>
+              </view>
+              <view class="item-calories">{{recordItem.calories}}kcal</view>
+              <text class="item-quantity">×{{recordItem.quantity}}</text>
+            </view>
+          </view>
+
+          <view class="record-footer">
+            <text class="total-label">共 {{item.totalQuantity}} 件</text>
+            <view class="total-actions">
+              <text class="total-calories">{{item.totalCalories}} kcal</text>
+
+            </view>
+          </view>
+        </view>
+      </block>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="empty" wx:if="{{records.length === 0}}">
+      <text class="icon">📊</text>
+      <text class="text">暂无记录</text>
+      <text class="hint">添加第一条饮品记录吧</text>
+    </view>
+
+    <!-- 隐私政策 -->
+    <view class="privacy-link">
+      <text bindtap="goToPrivacy" class="privacy-text">隐私政策</text>
+    </view>
+  </view>
+</view>
+
+<!-- 右下角添加按钮 - 移到包装器外部 -->
+<view class="add-button" bindtap="showAddModal" wx:if="{{isAdmin}}">
+  <text class="add-icon">+</text>
+</view>
+
+<!-- 选择饮品弹窗 -->
+<view class="modal" wx:if="{{showAddModalFlag}}">
+  <view class="modal-mask" bindtap="closeAddModal"></view>
+  <view class="modal-content add-modal">
+    <view class="modal-header">
+      <text>选择饮品</text>
+    </view>
+    <view class="modal-body">
+      <view class="all-section">
+        <!-- 按分类依次展示所有饮品 -->
+        <view class="categories-container">
+          <view class="category-block" wx:for="{{categories}}" wx:key="*this" wx:for-item="categoryName">
+            <view class="category-title">{{categoryName}}</view>
+            <view class="drink-list-horizontal">
+              <view
+                class="drink-item-horizontal"
+                wx:for="{{categoryItemsMap[categoryName]}}"
+                wx:for-item="item"
+                wx:for-id="{{item._id}}"
+                wx:key="_id"
+                bindtap="goToItemDetail"
+                data-item="{{item}}"
+              >
+                <text class="drink-name-text">{{item.name}}</text>
+                <text class="drink-calories-text" wx:if="{{item.calories}}">{{item.calories}}</text>
+              </view>
+            </view>
+
+            <!-- 空状态 -->
+            <view class="empty-items" wx:if="{{!categoryItemsMap[categoryName] || categoryItemsMap[categoryName].length === 0}}">
+              <text class="empty-icon">📦</text>
+              <text class="empty-text">该分类下暂无饮品</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="modal-footer">
+      <view class="selected-count-footer clickable" bindtap="viewTempWaitingList" wx:if="{{tempWaitingCount > 0}}">
+        已选 {{tempWaitingCount}} 件
+      </view>
+      <view class="confirm-btn" bindtap="confirmAdd">立即完成</view>
+    </view>
+
+  </view>
+</view>

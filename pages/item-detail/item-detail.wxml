@@ -1,0 +1,117 @@
+<view class="page-content-wrapper">
+  <view class="container {{item ? 'loaded' : ''}}">
+    <!-- 饮品信息 -->
+    <view class="item-header">
+      <text class="item-name">{{item.name}}</text>
+      <text class="item-calories" wx:if="{{item.calories}}">{{item.calories}} kcal</text>
+    </view>
+
+    <!-- 选择区域 -->
+    <view class="selection-area">
+      <!-- 数量选择 -->
+      <view class="selection-section">
+        <text class="section-title">数量</text>
+        <view class="quantity-control">
+          <view class="control-btn decrease" bindtap="decreaseQuantity">-</view>
+          <text class="quantity">{{quantity}}</text>
+          <view class="control-btn increase" bindtap="increaseQuantity">+</view>
+        </view>
+      </view>
+
+      <!-- 温度选择 -->
+      <view class="selection-section">
+        <text class="section-title">温度</text>
+        <view class="option-tags">
+          <view
+            class="option-tag {{temperature === '冷' ? 'active' : ''}}"
+            bindtap="selectTemperature"
+            data-temperature="冷"
+          >冷</view>
+          <view
+            class="option-tag {{temperature === '热' ? 'active' : ''}}"
+            bindtap="selectTemperature"
+            data-temperature="热"
+          >热</view>
+        </view>
+      </view>
+
+      <!-- 冰度选择 -->
+      <view class="selection-section" wx:if="{{temperature === '冷'}}">
+        <text class="section-title">冰度</text>
+        <view class="option-tags">
+          <view
+            class="option-tag {{iceLevel === '去冰' ? 'active' : ''}}"
+            bindtap="selectIceLevel"
+            data-ice-level="去冰"
+          >去冰</view>
+          <view
+            class="option-tag {{iceLevel === '少冰' ? 'active' : ''}}"
+            bindtap="selectIceLevel"
+            data-ice-level="少冰"
+          >少冰</view>
+          <view
+            class="option-tag {{iceLevel === '正常冰' ? 'active' : ''}}"
+            bindtap="selectIceLevel"
+            data-ice-level="正常冰"
+          >正常冰</view>
+          <view
+            class="option-tag {{iceLevel === '多冰' ? 'active' : ''}}"
+            bindtap="selectIceLevel"
+            data-ice-level="多冰"
+          >多冰</view>
+        </view>
+      </view>
+
+      <!-- 糖度选择 -->
+      <view class="selection-section">
+        <text class="section-title">糖度</text>
+        <view class="option-tags">
+          <view
+            class="option-tag {{sugarLevel === '无糖' ? 'active' : ''}}"
+            bindtap="selectSugarLevel"
+            data-sugar-level="无糖"
+          >无糖</view>
+          <view
+            class="option-tag {{sugarLevel === '少糖' ? 'active' : ''}}"
+            bindtap="selectSugarLevel"
+            data-sugar-level="少糖"
+          >少糖</view>
+          <view
+            class="option-tag {{sugarLevel === '正常糖' ? 'active' : ''}}"
+            bindtap="selectSugarLevel"
+            data-sugar-level="正常糖"
+          >正常糖</view>
+          <view
+            class="option-tag {{sugarLevel === '多糖' ? 'active' : ''}}"
+            bindtap="selectSugarLevel"
+            data-sugar-level="多糖"
+          >多糖</view>
+        </view>
+      </view>
+
+      <!-- 备注 -->
+      <view class="selection-section">
+        <text class="section-title">备注</text>
+        <textarea
+          class="remark-input"
+          placeholder="添加备注（选填）"
+          value="{{remark}}"
+          bindinput="onRemarkInput"
+          maxlength="50"
+        />
+        <text class="char-count">{{remark.length}}/50</text>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- 底部按钮区域 - 移到包装器外部 -->
+<view class="footer-btns {{footerLoaded ? 'loaded' : ''}}">
+  <!-- 编辑模式 -->
+  <view class="finish-btn full-width" wx:if="{{mode === 'edit'}}" bindtap="updateRecord">保存修改</view>
+  <!-- 添加模式 -->
+  <block wx:else>
+    <view class="continue-btn" bindtap="continueSelect">继续选择</view>
+    <view class="finish-btn" bindtap="recordNow">立即完成</view>
+  </block>
+</view>

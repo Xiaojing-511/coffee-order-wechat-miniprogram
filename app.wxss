@@ -1,0 +1,179 @@
+/* ========== 全局样式 ========== */
+
+/* 全局样式 */
+page {
+  background-color: #f5efe6;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  font-size: 14px; /* ✅ 使用 px 确保字体大小一致 */
+  position: relative;
+  overflow-x: hidden;
+}
+
+
+
+
+/* 通用容器 */
+.container {
+  padding: 10px;
+  min-height: 100vh;
+}
+
+/* 卡片样式 */
+.card {
+  background: #FFFFFF;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+/* 按钮样式 */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  font-size: 14px; /* ✅ 使用 px 确保字体大小一致 */
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #8B4513 0%, #6F4E37 100%);
+  color: #FFFFFF;
+}
+
+.btn-success {
+  background: linear-gradient(135deg, #2e7d32 0%, #4caf50 100%);
+  color: #FFFFFF;
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #d32f2f 0%, #e53935 100%);
+  color: #FFFFFF;
+}
+
+.btn-warning {
+  background: linear-gradient(135deg, #D2691E 0%, #CD853F 100%);
+  color: #FFFFFF;
+}
+
+.btn:active {
+  opacity: 0.8;
+  transform: scale(0.98);
+}
+
+/* 输入框样式 */
+.input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #E0E0E0;
+  border-radius: 4px;
+  font-size: 14px; /* ✅ 使用 px 确保字体大小一致 */
+  background: #FFFFFF;
+}
+
+.input:focus {
+  border-color: #8B4513;
+}
+
+/* 标签样式 */
+.tag {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 2px;
+  border: 1px solid transparent;
+  font-size: 11px; /* ✅ 使用 px 确保字体大小一致 */
+  margin-right: 5px;
+}
+
+.tag-pending {
+  background: #f5efe6;
+  color: #D2691E;
+}
+
+.tag-completed {
+  background: #e8dcc8;
+  color: #6F4E37;
+}
+
+/* 热量样式 */
+.calories {
+  color: #D2691E;
+  font-weight: 600;
+}
+
+.calories-large {
+  font-size: 18px; /* ✅ 使用 px 确保字体大小一致 */
+  font-weight: 700;
+}
+
+/* 空状态 */
+.empty {
+  text-align: center;
+  padding: 50px 0;
+  color: #999;
+  font-size: 14px; /* ✅ 使用 px 确保字体大小一致 */
+}
+
+/* 分割线 */
+.divider {
+  height: 1px;
+  background: #F0F0F0;
+  margin: 10px 0;
+}
+
+/* Flex 布局 */
+.flex {
+  display: flex;
+}
+
+.flex-between {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flex-center {
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+/* 文字样式 */
+.text-primary {
+  color: #8B4513;
+}
+
+.text-success {
+  color: #6F4E37;
+}
+
+.text-danger {
+  color: #D2691E;
+}
+
+.text-warning {
+  color: #CD853F;
+}
+
+.text-muted {
+  color: #999;
+}
+
+/* 隐私政策入口样式 */
+.privacy-link {
+  font-size: 12px; /* ✅ 使用 px 确保字体大小一致 */
+  color: #999;
+  text-align: center;
+  padding: 10px 0;
+  margin-top: 20px;
+}

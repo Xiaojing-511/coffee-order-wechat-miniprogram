@@ -1,0 +1,110 @@
+<view class="page-content-wrapper">
+  <view class="container">
+    <!-- 今日统计卡片 -->
+    <view class="today-stats-card">
+      <view class="card-header">
+        <text class="card-title">今日统计</text>
+        <text class="card-date">{{todayDate}}</text>
+      </view>
+      <view class="stats-grid">
+        <view class="stat-item">
+          <text class="stat-value">{{todayStats.recordCount}}</text>
+          <text class="stat-label">记录数</text>
+        </view>
+        <view class="stat-divider"></view>
+        <view class="stat-item">
+          <text class="stat-value">{{todayStats.drinkCount}}</text>
+          <text class="stat-label">饮品数</text>
+        </view>
+        <view class="stat-divider"></view>
+        <view class="stat-item">
+          <text class="stat-value">{{todayStats.totalCalories}}</text>
+          <text class="stat-label">总热量</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 历史日报列表 -->
+    <view class="history-section">
+      <view class="section-header">
+        <text class="section-title">历史日报</text>
+      </view>
+      <view class="daily-list">
+        <view
+          class="daily-item"
+          wx:for="{{dailyReports}}"
+          wx:key="dateString"
+          bindtap="viewDetail"
+          data-report="{{item}}"
+        >
+          <view class="daily-main">
+            <view class="daily-info">
+              <view class="daily-date">{{item.dateString}}</view>
+              <view class="daily-meta">
+                <text class="daily-count">{{item.totalCount}} 条记录</text>
+                <text class="daily-quantity">{{item.totalQuantity}} 杯饮品</text>
+                <text class="daily-calories">{{item.totalCalories}} kcal</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="empty" wx:if="{{dailyReports.length === 0}}">
+        <text class="empty-text">暂无历史日报</text>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- 日报详情弹窗 -->
+<view class="modal" wx:if="{{showDetailModal}}">
+  <view class="modal-mask" bindtap="closeDetailModal"></view>
+  <view class="modal-content">
+    <view class="modal-header">
+      <text class="modal-title">{{selectedReport.dateString}}</text>
+      <view class="modal-close" bindtap="closeDetailModal">✕</view>
+    </view>
+    <scroll-view class="modal-scroll" scroll-y>
+      <view class="modal-body">
+        <!-- 统计摘要 -->
+        <view class="report-summary">
+          <view class="summary-item">
+            <text class="summary-label">记录数</text>
+            <text class="summary-value">{{selectedReport.totalCount}}</text>
+          </view>
+          <view class="summary-item">
+            <text class="summary-label">饮品数</text>
+            <text class="summary-value">{{selectedReport.totalQuantity}}</text>
+          </view>
+          <view class="summary-item">
+            <text class="summary-label">总热量</text>
+            <text class="summary-value highlight">{{selectedReport.totalCalories}} kcal</text>
+          </view>
+        </view>
+
+        <!-- 前10名饮品统计 -->
+        <view class="top-drinks-section">
+          <view class="section-title">Top 10</view>
+          <view class="top-drinks-list">
+            <view
+              class="top-drink-item"
+              wx:for="{{selectedReport.topDrinks}}"
+              wx:key="name"
+              wx:for-index="index"
+            >
+              <view class="rank-badge">{{index + 1}}</view>
+              <view class="drink-info">
+                <text class="drink-name">{{item.name}}</text>
+                <text class="drink-stats">{{item.count}} 杯 · {{item.calories}} kcal</text>
+              </view>
+              <view class="drink-percentage">{{item.percentage}}%</view>
+            </view>
+          </view>
+          <view class="empty" wx:if="{{selectedReport.topDrinks.length === 0}}">
+            <text class="empty-text">暂无饮品数据</text>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+</view>

@@ -1,0 +1,184 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #f5efe6;
+}
+
+/* 编号栏 */
+.record-number-bar {
+  background: linear-gradient(135deg, #A0846C 0%, #8B7355 100%);
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 10px rgba(139, 115, 85, 0.3);
+}
+
+.record-number-bar .label {
+  font-size: 14px; /* ✅ 使用 px 确保字体大小一致 */
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.record-number-bar .number {
+  font-size: 16px; /* ✅ 使用 px 确保字体大小一致 */
+  font-weight: 600;
+  color: #fff;
+}
+
+/* 列表区域 */
+.waiting-list {
+  flex: 1;
+  padding: 12px 16px;
+  padding-bottom: 90px;
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 0;
+  color: #999;
+}
+
+.empty .icon {
+  font-size: 60px; /* ✅ 使用 px 确保字体大小一致 */
+  margin-bottom: 12px;
+  opacity: 0.5;
+}
+
+.empty .text {
+  font-size: 14px; /* ✅ 使用 px 确保字体大小一致 */
+  margin-bottom: 6px;
+}
+
+.empty .hint {
+  font-size: 12px; /* ✅ 使用 px 确保字体大小一致 */
+  opacity: 0.7;
+}
+
+/* 饮品项 */
+.waiting-item {
+  background: #fff;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.04);
+}
+
+.item-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.item-name {
+  margin-bottom: 4px;
+  font-size: 15px; /* ✅ 使用 px 确保字体大小一致 */
+  font-weight: 600;
+  color: #333;
+}
+
+.item-options {
+  font-size: 12px; /* ✅ 使用 px 确保字体大小一致 */
+  color: #999;
+}
+
+.item-calories {
+  font-size: 12px; /* ✅ 使用 px 确保字体大小一致 */
+  color: #D2691E;
+  font-weight: 500;
+}
+
+.item-right {
+  display: flex;
+  align-items: center;
+}
+
+.item-right .control-btn.decrease {
+  margin-right: 12px;
+}
+
+.item-right .control-btn.increase {
+  margin-right: 0;
+}
+
+.quantity {
+  font-size: 14px; /* ✅ 使用 px 确保字体大小一致 */
+  font-weight: 600;
+  color: #333;
+  min-width: 20px;
+  text-align: center;
+}
+
+.control-btn {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  font-size: 16px; /* ✅ 使用 px 确保字体大小一致 */
+  font-weight: 600;
+}
+
+.control-btn.decrease {
+  background: #f5f5f5;
+  color: #666;
+}
+
+.control-btn.increase {
+  background: linear-gradient(135deg, #A0846C 0%, #8B7355 100%);
+  color: #fff;
+}
+
+/* 底部栏 */
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  padding: 12px 16px;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: calc(env(safe-area-inset-bottom));
+}
+
+.waiting-summary {
+  display: flex;
+  flex-direction: column;
+}
+
+.summary-label {
+  margin-bottom: 4px;
+  font-size: 12px; /* ✅ 使用 px 确保字体大小一致 */
+  color: #999;
+}
+
+.summary-calories {
+  font-size: 16px; /* ✅ 使用 px 确保字体大小一致 */
+  font-weight: 600;
+  color: #8B4513;
+}
+
+.submit-btn {
+  background: linear-gradient(135deg, #A0846C 0%, #8B7355 100%);
+  color: #fff;
+  padding: 10px 24px;
+  border-radius: 24px;
+  font-size: 15px; /* ✅ 使用 px 确保字体大小一致 */
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(139, 115, 85, 0.4);
+}
+
+.submit-btn.disabled {
+  opacity: 0.5;
+  box-shadow: none;
+}

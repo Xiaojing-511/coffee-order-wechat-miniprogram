@@ -1,0 +1,614 @@
+/* 日报页面样式 */
+.container {
+  min-height: 100vh;
+  background: #fff;
+  padding-bottom: 5px;
+}
+
+/* ========== 今日统计卡片 ========== */
+.today-stats-card {
+  background: linear-gradient(135deg, rgba( 139, 69, 19, 0.6) 0%, #6F4E37 100%);
+  margin: 6px;
+  padding: 12px 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(139, 69, 19, 0.35);
+  position: relative;
+  overflow: hidden;
+}
+
+/* 装饰背景 */
+.today-stats-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 75px;
+  height: 75px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+}
+
+.today-stats-card::after {
+  content: '';
+  position: absolute;
+  bottom: -30%;
+  left: -10%;
+  width: 50px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.25);
+  position: relative;
+  z-index: 1;
+}
+
+.card-title {
+  font-size: 18px; /* ✅ 使用 px 确保字体大小一致 */
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.5px;
+}
+
+.card-date {
+  font-size: 13px; /* ✅ 使用 px 确保字体大小一致 */
+  color: rgba(255, 255, 255, 0.95);
+  font-weight: 500;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  position: relative;
+  z-index: 1;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-value {
+  margin-bottom: 4px;
+  font-size: 24px; /* ✅ 使用 px 确保字体大小一致 */
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 0.5px 2px rgba(0, 0, 0, 0.1);
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 12px; /* ✅ 使用 px 确保字体大小一致 */
+  color: rgba(255, 255, 255, 0.95);
+  font-weight: 500;
+}
+
+/* ========== 历史日报区块 ========== */
+.history-section {
+  padding: 10px 6px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.section-title {
+  font-size: 17px; /* ✅ 使用 px 确保字体大小一致 */
+  font-weight: 700;
+  color: #333;
+  letter-spacing: 0.25px;
+  margin: 10px 0;
+}
+
+.section-count {
+  font-size: 13px; /* ✅ 使用 px 确保字体大小一致 */
+  color: #999;
+  padding: 4px 8px;
+  background: #f0f0f0;
+  border-radius: 10px;
+}
+
+/* ========== 日报列表 ========== */
+.daily-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.daily-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+  margin-bottom: 6px;
+}
+
+.daily-item:last-child {
+  margin-bottom: 0;
+}
+
+.daily-item:active {
+  transform: scale(0.98);
+  box-shadow: 0 0.5px 3px rgba(0, 0, 0, 0.08);
+}
+
+.daily-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.daily-date {
+  margin-bottom: 4px;
+  font-size: 15px; /* ✅ 使用 px 确保字体大小一致 */
+  font-weight: 600;
+  color: #333;
+  letter-spacing: 0.25px;
+}
+
+.daily-meta {
+  display: flex;
+  align-items: center;
+}
+
+.daily-count,
+.daily-quantity,
+.daily-calories {
+  margin-right: 8px;
+}
+
+.daily-count:last-child,
+.daily-quantity:last-child,
+.daily-calories:last-child {
+  margin-right: 0;
+}
+
+.daily-count,
+.daily-quantity, .daily-calories {
+  font-size: 13px; /* ✅ 使用 px 确保字体大小一致 */
+  color: #999;
+  padding: 4px 6px 0px 0px;
+  border-radius: 4px;
+}
+
+.daily-arrow {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ccc;
+  font-size: 16px; /* ✅ 使用 px 确保字体大小一致 */
+  font-weight: 300;
+}
+
+/* ========== 空状态 ========== */
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 0;
+}
+
+.empty-icon {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #8B451315, #6F4E3715);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  color: rgba(139, 69, 19, 0.3);
+  margin-bottom: 8px;
+}
+
+.empty-text {
+  font-size: 14px; /* ✅ 使用 px 确保字体大小一致 */
+  color: #999;
+  font-weight: 500;
+}
+
+/* ========== 详情弹窗 ========== */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.modal-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-content {
+  position: relative;
+  width: 100%;
+  /* max-width: 600px; */
+  background: #fff;
+  border-radius: 16px 16px 0 0;
+  overflow: hidden;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.modal-header {
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 0.5px solid #f0f0f0;
+  flex-shrink: 0;
+  background: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.modal-title {
+  font-size: 16px; /* ✅ 使用 px 确保字体大小一致 */
+  font-weight: 700;
+  color: #333;
+}
+
+.modal-close {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px; /* ✅ 使用 px 确保字体大小一致 */
+  color: #999;
+  font-weight: 300;
+  border-radius: 50%;
+  background: #f5efe6;
+}
+
+.modal-body {
+  padding: 12px;
+  box-sizing: border-box;
+  width: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ========== 滚动优化 ========== */
+.modal-scroll {
+  flex: 1;
+  overflow-y: auto;
+  width: 100%;
+  box-sizing: border-box;
+  -webkit-overflow-scrolling: touch;
+}
+
+
+
+/* ========== 详情内容 ========== */
+.report-summary {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px;
+  padding: 10px;
+  background: linear-gradient(135deg, #f5efe6 0%, #fff 100%);
+  border-radius: 8px;
+  border: 0.5px solid rgba(139, 115, 85, 0.1);
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.summary-item:last-child {
+  margin-bottom: 0;
+}
+
+.summary-label {
+  font-size: 13px; /* ✅ 使用 px 确保字体大小一致 */
+  color: #666;
+  font-weight: 500;
+}
+
+.summary-value {
+  font-size: 14px; /* ✅ 使用 px 确保字体大小一致 */
+  font-weight: 600;
+  color: #333;
+}
+
+.summary-value.highlight {
+  color: #8B4513;
+  font-size: 16px; /* ✅ 使用 px 确保字体大小一致 */
+}
+
+/* ========== 前10名饮品统计 ========== */
+.top-drinks-section {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 8px;
+}
+
+.top-drinks-section .section-title {
+  font-size: 14px; /* ✅ 使用 px 确保字体大小一致 */
+  font-weight: 600;
+  color: #666;
+  padding-left: 6px;
+  border-left: 2px solid #8B4513;
+  margin-bottom: 10px;
+}
+
+.top-drinks-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.top-drink-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background: linear-gradient(135deg, #f5efe6 0%, #fff 100%);
+  border-radius: 8px;
+  border: 0.5px solid rgba(139, 115, 85, 0.1);
+  transition: all 0.3s ease;
+  margin-bottom: 6px;
+}
+
+.top-drink-item:last-child {
+  margin-bottom: 0;
+}
+
+.rank-badge {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #8B4513 0%, #6F4E37 100%);
+  color: #fff;
+  font-size: 12px; /* ✅ 使用 px 确保字体大小一致 */
+  font-weight: 700;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 1px 4px rgba(139, 69, 19, 0.3);
+  margin-right: 10px;
+}
+
+.top-drink-item:nth-child(1) .rank-badge {
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+  font-size: 14px; /* ✅ 使用 px 确保字体大小一致 */
+}
+
+.top-drink-item:nth-child(2) .rank-badge {
+  background: linear-gradient(135deg, #C0C0C0 0%, #A0A0A0 100%);
+}
+
+.top-drink-item:nth-child(3) .rank-badge {
+  background: linear-gradient(135deg, #CD7F32 0%, #B87333 100%);
+}
+
+.drink-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.drink-info .drink-name {
+  margin-bottom: 2px;
+  font-size: 14px; /* ✅ 使用 px 确保字体大小一致 */
+  font-weight: 600;
+  color: #333;
+}
+
+.drink-info .drink-stats {
+  font-size: 12px; /* ✅ 使用 px 确保字体大小一致 */
+  color: #999;
+}
+
+.drink-percentage {
+  font-size: 14px; /* ✅ 使用 px 确保字体大小一致 */
+  font-weight: 700;
+  color: #8B4513;
+  flex-shrink: 0;
+}
+
+/* ========== 记录列表 ========== */
+.records-section {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 8px;
+}
+
+.records-title {
+  font-size: 14px; /* ✅ 使用 px 确保字体大小一致 */
+  font-weight: 600;
+  color: #666;
+  padding-left: 6px;
+  border-left: 2px solid #8B4513;
+}
+
+.record-card {
+  padding: 10px;
+  border-radius: 8px;
+  border: 0.5px solid rgba(139, 115, 85, 0.08);
+  margin-bottom: 8px;
+}
+
+.record-card:last-child {
+  margin-bottom: 0;
+}
+
+.record-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 0.5px solid rgba(139, 115, 85, 0.1);
+}
+
+.record-number {
+  font-size: 13px; /* ✅ 使用 px 确保字体大小一致 */
+  font-weight: 600;
+  color: #8B4513;
+  padding: 2px 6px;
+  background: rgba(139, 115, 85, 0.1);
+  border-radius: 4px;
+}
+
+.record-time {
+  font-size: 12px; /* ✅ 使用 px 确保字体大小一致 */
+  color: #999;
+}
+
+.record-items {
+  display: flex;
+  flex-direction: column;
+}
+
+.drink-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 8px;
+  background: #fff;
+  border-radius: 6px;
+  background: #f5efe6;
+  margin-bottom: 4px;
+}
+
+.drink-item:last-child {
+  margin-bottom: 0;
+}
+
+.drink-item .drink-name {
+  font-size: 14px; /* ✅ 使用 px 确保字体大小一致 */
+  font-weight: 500;
+  color: #333;
+}
+
+.drink-spec {
+  font-size: 12px; /* ✅ 使用 px 确保字体大小一致 */
+  color: #999;
+  margin-left: 6px;
+}
+
+.drink-quantity {
+  font-size: 14px; /* ✅ 使用 px 确保字体大小一致 */
+  font-weight: 700;
+  color: #D2691E;
+}
+
+.record-summary {
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 0.5px solid rgba(139, 115, 85, 0.1);
+  text-align: right;
+}
+
+.summary-calories {
+  font-size: 14px; /* ✅ 使用 px 确保字体大小一致 */
+  font-weight: 600;
+  color: #D2691E;
+}
+
+.summary-count {
+  font-size: 12px; /* ✅ 使用 px 确保字体大小一致 */
+  color: #999;
+  margin-top: 2px;
+}
+
+/* ========== 底部按钮 ========== */
+.settle-btn {
+  position: fixed;
+  bottom: 16px;
+  left: 12px;
+  right: 12px;
+  background: linear-gradient(135deg, #A0846C 0%, #8B7355 100%);
+  color: #fff;
+  padding: 12px;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(139, 115, 85, 0.4);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  z-index: 100;
+}
+
+.settle-btn .settle-btn-text {
+  margin-right: 4px;
+}
+
+.settle-btn .settle-btn-text:last-child {
+  margin-right: 0;
+}
+
+.settle-btn:active {
+  transform: scale(0.96);
+}
+
+.btn-icon {
+  font-size: 16px; /* ✅ 使用 px 确保字体大小一致 */
+}
+
+.btn-text {
+  font-size: 15px; /* ✅ 使用 px 确保字体大小一致 */
+  font-weight: 600;
+}
+
+/* ========== 滚动优化 ========== */
+.modal-scroll {
+  flex: 1;
+  overflow-y: auto;
+  width: 100%;
+  box-sizing: border-box;
+}

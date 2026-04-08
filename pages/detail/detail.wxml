@@ -1,0 +1,78 @@
+<view class="page-content-wrapper">
+  <view class="container {{record ? 'loaded' : ''}}">
+    <!-- 头部信息 -->
+    <view class="header">
+      <view class="record-number">#{{record.recordNumber}}</view>
+      <view class="record-time">{{recordTime}}</view>
+      <!-- 完成状态标签 -->
+      <view class="completion-badge {{record.completed ? 'completed' : ''}}" wx:if="{{!isTemp}}">
+        <text class="badge-text">{{record.completed ? '已完成' : '待完成'}}</text>
+      </view>
+    </view>
+
+    <!-- 记录内容 -->
+    <view class="content">
+      <!-- 饮品列表 -->
+      <view class="section">
+        <view class="section-title">饮品清单</view>
+        <view class="item-list">
+          <view class="item-card {{record.completed ? 'readonly' : ''}}" wx:for="{{record.items}}" wx:key="id" bindtap="editItem" data-index="{{index}}">
+            <view class="item-main">
+              <text class="item-name">{{item.name}}</text>
+              <view class="item-spec">
+                <text class="spec-tag" data-temp="{{item.temperature}}">{{item.temperature}}</text>
+                <!-- 冰量 -->
+                <text class="spec-tag" wx:if="{{item.iceLevel}}" data-temp="{{item.temperature}}">{{item.iceLevel}}</text>
+                <text class="spec-tag">{{item.sugarLevel}}</text>
+              </view>
+              <text class="item-remark" wx:if="{{item.remark}}">备注: {{item.remark}}</text>
+            </view>
+            <view class="item-side">
+              <text class="item-quantity">×{{item.quantity}}</text>
+              <text class="item-calories" wx:if="{{item.calories}}">{{item.calories * item.quantity}} kcal</text>
+              <view class="item-actions">
+                <view class="edit-item-btn" catchtap="editItem" data-index="{{index}}" wx:if="{{!record.completed}}">
+                  <text>编辑</text>
+                </view>
+                <view class="delete-item-btn" catchtap="deleteItem" data-index="{{index}}" wx:if="{{!record.completed}}">
+                  <text>删除</text>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 统计信息 -->
+      <view class="section stats">
+        <view class="stat-row">
+          <text class="stat-label">饮品数量</text>
+          <text class="stat-value">{{record.totalQuantity}} 件</text>
+        </view>
+        <view class="stat-row">
+          <text class="stat-label">总热量</text>
+          <text class="stat-value highlight">{{record.totalCalories}} kcal</text>
+        </view>
+        <view class="stat-row">
+          <text class="stat-label">创建时间</text>
+          <text class="stat-value">{{createTime}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- 底部操作 - 移到包装器外部 -->
+<view class="footer {{footerLoaded ? 'loaded' : ''}}" wx:if="{{isTemp}}">
+  <view class="btn btn-secondary" bindtap="goBack">
+    继续选择
+  </view>
+  <view class="btn btn-primary" bindtap="confirmSubmit">
+    立即完成
+  </view>
+</view>
+<view class="footer {{footerLoaded ? 'loaded' : ''}}" wx:if="{{!isTemp}}">
+  <view class="btn btn-delete" bindtap="deleteRecord">
+    删除记录
+  </view>
+</view>

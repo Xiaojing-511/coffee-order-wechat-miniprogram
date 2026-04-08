@@ -1,0 +1,386 @@
+/* 页面包装器 */
+.page-content-wrapper {
+  min-height: 100vh;
+  background: #f5efe6;
+}
+
+/* 容器 */
+.container {
+  min-height: 100vh;
+  padding: 16px;
+  padding-bottom: 100px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.container.loaded {
+  opacity: 1;
+}
+
+/* 头部信息 */
+.header {
+  background: linear-gradient(135deg, #8B4513 0%, #6F4E37 100%);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 12px rgba(139, 69, 19, 0.3);
+  display: flex;
+  flex-direction: column;
+}
+
+.header .record-number,
+.header .completion-badge {
+  margin-bottom: 8px;
+}
+
+.header .record-time {
+  margin-bottom: 0;
+}
+
+.record-number {
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.5px;
+}
+
+.record-time {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* 完成状态标签 */
+.completion-badge {
+  align-self: flex-start;
+  padding: 4px 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  margin-top: 4px;
+}
+
+.completion-badge.completed {
+  background: linear-gradient(135deg, #52c41a 0%, #389e0d 100%);
+  border-color: #52c41a;
+}
+
+.badge-text {
+  font-size: 12px;
+  font-weight: 500;
+  color: #fff;
+}
+
+/* 内容区域 */
+.content {
+  display: flex;
+  flex-direction: column;
+}
+
+.content .section {
+  margin-bottom: 16px;
+}
+
+.content .section:last-child {
+  margin-bottom: 0;
+}
+
+/* 分区 */
+.section {
+  background: #fff;
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+/* 饮品列表 */
+.item-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-list .item-card {
+  margin-bottom: 12px;
+}
+
+.item-list .item-card:last-child {
+  margin-bottom: 0;
+}
+
+.item-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 12px;
+  background: #f7f8fa;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.item-card:active {
+  background: #f5efe6;
+  transform: scale(0.98);
+}
+
+.item-card.readonly {
+  pointer-events: none;
+}
+
+.item-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.item-main .item-name,
+.item-main .item-spec,
+.item-main .item-remark {
+  margin-bottom: 6px;
+}
+
+.item-main .item-remark {
+  margin-bottom: 0;
+}
+
+.item-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  line-height: 1.4;
+}
+
+.item-spec {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.item-spec .spec-tag {
+  margin-right: 6px;
+}
+
+.item-spec .spec-tag:last-child {
+  margin-right: 0;
+}
+
+.spec-tag {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: #f5efe6;
+  color: #8B4513;
+  font-weight: 500;
+}
+
+.spec-tag[data-temp="冷"] {
+  background: #7BB8F0;
+  color: #fff;
+}
+
+.spec-tag[data-temp="热"] {
+  background: #F08B85;
+  color: #fff;
+}
+
+.item-remark {
+  font-size: 12px;
+  color: #999;
+  margin-top: 4px;
+  line-height: 1.4;
+}
+
+.item-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-left: 12px;
+}
+
+.item-side .item-quantity,
+.item-side .item-actions {
+  margin-bottom: 8px;
+}
+
+.item-side .item-actions {
+  margin-bottom: 0;
+}
+
+.item-quantity {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.item-calories {
+  font-size: 13px;
+  color: #D2691E;
+  font-weight: 500;
+}
+
+.item-actions {
+  display: flex;
+}
+
+.item-actions .edit-item-btn,
+.item-actions .delete-item-btn {
+  margin-right: 8px;
+}
+
+.item-actions .delete-item-btn {
+  margin-right: 0;
+}
+
+.edit-item-btn,
+.delete-item-btn {
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.edit-item-btn {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.edit-item-btn:active {
+  background: #bbdefb;
+}
+
+.delete-item-btn {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.delete-item-btn:active {
+  background: #ffcdd2;
+}
+
+/* 统计信息 */
+.stats {
+  display: flex;
+  flex-direction: column;
+}
+
+.stats .stat-row {
+  margin-bottom: 12px;
+}
+
+.stats .stat-row:last-child {
+  margin-bottom: 0;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+}
+
+.stat-row:last-child {
+  padding-bottom: 0;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #666;
+}
+
+.stat-value {
+  font-size: 15px;
+  font-weight: 600;
+  color: #333;
+}
+
+.stat-value.highlight {
+  color: #D2691E;
+  font-size: 17px;
+}
+
+/* 底部操作栏 */
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  padding: 12px 16px;
+  padding-bottom: calc(12px + env(safe-area-inset-bottom));
+  display: flex;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
+  transform: translateY(100%);
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  z-index: 9999;
+}
+
+.footer .btn {
+  margin-right: 12px;
+}
+
+.footer .btn:last-child {
+  margin-right: 0;
+}
+
+.footer.loaded {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 24px;
+  font-size: 15px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-secondary {
+  background: #f5f5f5;
+  color: #666;
+  border: 1px solid #e0e0e0;
+}
+
+.btn-secondary:active {
+  background: #e0e0e0;
+  border-color: #d0d0d0;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #8B4513 0%, #6F4E37 100%);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(139, 69, 19, 0.4);
+}
+
+.btn-primary:active {
+  box-shadow: 0 2px 6px rgba(139, 69, 19, 0.3);
+  background: linear-gradient(135deg, #7B3A0F 0%, #5F3E27 100%);
+}
+
+.btn-delete {
+  background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(235, 51, 73, 0.4);
+}
+
+.btn-delete:active {
+  box-shadow: 0 2px 6px rgba(235, 51, 73, 0.3);
+  background: linear-gradient(135deg, #d62a3f 0%, #e05038 100%);
+}

@@ -1,0 +1,45 @@
+<view class="page-content-wrapper">
+  <view class="container">
+    <!-- 记录编号显示 -->
+    <view class="record-number-bar">
+      <text class="label">编号</text>
+      <text class="number">#{{recordNumber}}</text>
+    </view>
+
+    <!-- 待选列表 -->
+    <scroll-view scroll-y class="waiting-list">
+      <!-- 空状态 -->
+      <view class="empty" wx:if="{{waitingItems.length === 0}}">
+        <text class="icon">📝</text>
+        <text class="text">待选列表为空</text>
+        <text class="hint">去饮品单选择吧</text>
+      </view>
+
+      <!-- 待选饮品 -->
+      <view class="waiting-item" wx:for="{{waitingItems}}" wx:key="index">
+        <view class="item-info">
+          <text class="item-name">{{item.name}}</text>
+          <text class="item-options">{{item.temperature}} / {{item.sugarLevel}}</text>
+          <text class="item-calories" wx:if="{{item.calories}}">{{item.calories * item.quantity}} kcal</text>
+        </view>
+        <view class="item-right">
+          <view class="control-btn decrease" catchtap="decreaseQuantity" data-index="{{index}}">-</view>
+          <text class="quantity">{{item.quantity}}</text>
+          <view class="control-btn increase" catchtap="increaseQuantity" data-index="{{index}}">+</view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+</view>
+
+<!-- 底部保存栏 - 移到包装器外部 -->
+<view class="bottom-bar">
+  <view class="waiting-summary">
+    <text class="summary-label">共 {{totalQuantity}} 件</text>
+    <text class="summary-calories">总计 {{totalCalories}} kcal</text>
+  </view>
+
+  <view class="submit-btn {{waitingItems.length === 0 ? 'disabled' : ''}}" bindtap="submitRecord">
+    保存记录
+  </view>
+</view>

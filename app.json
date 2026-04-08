@@ -1,0 +1,45 @@
+{
+  "pages": [
+    "pages/record/record",
+    "pages/drink/drink",
+    "pages/item-detail/item-detail",
+    "pages/waiting-list/waiting-list",
+    "pages/detail/detail",
+    "pages/daily/daily",
+    "pages/privacy/privacy"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#f5efe6",
+    "navigationBarTitleText": "饮品记录",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#7A7E83",
+    "selectedColor": "#A67C52",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/record/record",
+        "iconPath": "images/record.png",
+        "selectedIconPath": "images/record-active.png",
+        "text": "记录"
+      },
+      {
+        "pagePath": "pages/drink/drink",
+        "iconPath": "images/drink.png",
+        "selectedIconPath": "images/drink-active.png",
+        "text": "饮品"
+      },
+      {
+        "pagePath": "pages/daily/daily",
+        "iconPath": "images/daily.png",
+        "selectedIconPath": "images/daily-active.png",
+        "text": "日报"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

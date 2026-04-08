@@ -1,0 +1,158 @@
+<view class="page-content-wrapper">
+  <view class="container">
+    <!-- 分类管理 -->
+    <view class="section" wx:if="{{isAdmin}}">
+      <view class="section-header">
+        <text class="section-title">分类管理</text>
+        <view class="btn btn-primary btn-small" bindtap="showCategoryModal">
+          + 新建分类
+        </view>
+      </view>
+
+      <view class="category-list" wx:if="{{categories.length > 0}}">
+        <view class="category-item" wx:for="{{categories}}" wx:key="_id">
+          <text class="category-name">{{item.name}}</text>
+          <view class="category-actions">
+            <view class="delete-btn" bindtap="deleteCategory" data-id="{{item._id}}">删除</view>
+          </view>
+        </view>
+      </view>
+      <view class="empty" wx:if="{{categories.length === 0}}">
+        <text>暂无分类</text>
+      </view>
+    </view>
+
+    <!-- 饮品 -->
+    <view class="section">
+      <view class="section-header">
+        <text class="section-title">饮品</text>
+        <view class="btn btn-primary btn-small" bindtap="showDrinkModal" wx:if="{{isAdmin}}">
+          + 新建饮品
+        </view>
+      </view>
+
+      <!-- 按分类展示饮品 -->
+      <view class="categories-drinks" wx:if="{{drinkItems.length > 0}}">
+        <view class="category-block" wx:for="{{categories}}" wx:key="_id" wx:for-item="category">
+          <view class="category-header">
+            <text class="category-title">{{category.name}}</text>
+            <text class="drink-count">{{categoryItemsMap[category.name].length || 0}} 件</text>
+          </view>
+
+          <view class="drink-list-grid" wx:if="{{categoryItemsMap[category.name].length > 0}}">
+            <view class="drink-item-grid" wx:for="{{categoryItemsMap[category.name]}}" wx:for-item="item" wx:for-id="{{item._id}}" wx:key="_id">
+              <view class="drink-item-content">
+                <text class="drink-name-text">{{item.name}}</text>
+                <text class="drink-calories-text" wx:if="{{item.calories}}">{{item.calories}}</text>
+              </view>
+              <view class="drink-item-actions" wx:if="{{isAdmin}}">
+                <view class="item-action-btn edit" catchtap="editDrink" data-item="{{item}}">编辑</view>
+                <view class="item-action-btn delete" catchtap="deleteDrink" data-id="{{item._id}}">删除</view>
+              </view>
+            </view>
+          </view>
+
+          <!-- 空状态 -->
+          <view class="empty-drinks" wx:if="{{categoryItemsMap[category.name].length === 0}}">
+            <text class="empty-icon">📦</text>
+            <text class="empty-text">该分类下暂无饮品</text>
+          </view>
+        </view>
+
+        <!-- 未分类的饮品 -->
+        <view class="category-block" wx:if="{{categoryItemsMap['未分类'].length > 0}}">
+          <view class="category-header">
+            <text class="category-title">未分类</text>
+            <text class="drink-count">{{categoryItemsMap['未分类'].length}} 件</text>
+          </view>
+
+          <view class="drink-list-grid">
+            <view class="drink-item-grid" wx:for="{{categoryItemsMap['未分类']}}" wx:for-item="item" wx:for-id="{{item._id}}" wx:key="_id">
+              <view class="drink-item-content">
+                <text class="drink-name-text">{{item.name}}</text>
+                <text class="drink-calories-text" wx:if="{{item.calories}}">{{item.calories}}</text>
+              </view>
+              <view class="drink-item-actions" wx:if="{{isAdmin}}">
+                <view class="item-action-btn edit" catchtap="editDrink" data-item="{{item}}">编辑</view>
+                <view class="item-action-btn delete" catchtap="deleteDrink" data-id="{{item._id}}">删除</view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view class="empty" wx:if="{{drinkItems.length === 0}}">
+        <text>暂无饮品</text>
+      </view>
+    </view>
+
+    <!-- 隐私政策 -->
+    <view class="privacy-link">
+      <text bindtap="goToPrivacy" class="privacy-text">隐私政策</text>
+    </view>
+  </view>
+</view>
+
+<!-- 分类弹窗 -->
+<view class="modal" wx:if="{{showCategoryModalFlag}}">
+  <view class="modal-mask" bindtap="closeCategoryModal"></view>
+  <view class="modal-content">
+    <view class="modal-header">新建分类</view>
+    <view class="modal-body">
+      <input
+        class="modal-input"
+        placeholder="请输入分类名称"
+        value="{{categoryName}}"
+        bindinput="onCategoryNameInput"
+      />
+    </view>
+    <view class="modal-footer">
+      <view class="modal-btn" bindtap="closeCategoryModal">取消</view>
+      <view class="modal-btn confirm" bindtap="addCategory">确定</view>
+    </view>
+  </view>
+</view>
+
+<!-- 饮品弹窗 -->
+<view class="modal" wx:if="{{showDrinkModalFlag}}">
+  <view class="modal-mask" bindtap="closeDrinkModal"></view>
+  <view class="modal-content drink-modal">
+    <view class="modal-header">{{editingDrink ? '编辑饮品' : '新建饮品'}}</view>
+    <view class="modal-body">
+      <input
+        class="modal-input"
+        placeholder="饮品名称"
+        value="{{drinkName}}"
+        bindinput="onDrinkNameInput"
+      />
+      <input
+        class="modal-input"
+        type="digit"
+        placeholder="卡路里（选填）"
+        value="{{drinkCalories}}"
+        bindinput="onDrinkCaloriesInput"
+      />
+      <picker
+        mode="selector"
+        range="{{categories}}"
+        range-key="name"
+        bindchange="onCategoryChange"
+      >
+        <view class="picker">
+          <text class="picker-label">选择分类</text>
+          <text class="picker-value">{{selectedCategory || '请选择分类'}}</text>
+        </view>
+      </picker>
+      <textarea
+        class="modal-textarea"
+        placeholder="描述（选填）"
+        value="{{drinkDescription}}"
+        bindinput="onDrinkDescriptionInput"
+      />
+    </view>
+    <view class="modal-footer">
+      <view class="modal-btn" bindtap="closeDrinkModal">取消</view>
+      <view class="modal-btn confirm" bindtap="addDrink">确定</view>
+    </view>
+  </view>
+</view>

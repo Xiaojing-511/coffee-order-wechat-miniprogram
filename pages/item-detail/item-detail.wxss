@@ -1,0 +1,332 @@
+/* 容器 */
+.container {
+  min-height: 100vh;
+  background: #f5efe6;
+  padding-bottom: 80px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.container.loaded {
+  opacity: 1;
+}
+
+/* 头部 */
+.item-header {
+  background: linear-gradient(135deg, #A0846C 0%, #8B7355 100%);
+  padding: 24px 16px;
+  border-radius: 12px 12px 0 0;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 10px rgba(139, 115, 85, 0.15);
+}
+
+.item-name {
+  font-size: 20px; /* ✅ 使用 px 确保字体大小一致 */
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.item-calories {
+  font-size: 14px; /* ✅ 使用 px 确保字体大小一致 */
+  color: rgba(255, 255, 255, 0.9);
+  display: block;
+}
+
+.selection-area{
+  margin-bottom: 35px;
+}
+
+/* 选择区域 */
+.selection-section {
+  background: #fff;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.04);
+}
+
+.section-title {
+  font-size: 16px; /* ✅ 使用 px 确保字体大小一致 */
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.section-title::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 16px;
+  background: linear-gradient(180deg, #A0846C 0%, #8B7355 100%);
+  border-radius: 2px;
+  margin-right: 8px;
+}
+
+/* 数量控制 */
+.quantity-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quantity-control .control-btn.decrease {
+  margin-right: 16px;
+}
+
+.quantity-control .control-btn.increase {
+  margin-left: 16px;
+}
+
+.control-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 18px; /* ✅ 使用 px 确保字体大小一致 */
+  font-weight: 600;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.control-btn:active {
+  transform: scale(0.95);
+}
+
+.control-btn.decrease {
+  background: #f5f5f5;
+  color: #666;
+  border-color: #e0e0e0;
+}
+
+.control-btn.increase {
+  background: linear-gradient(135deg, #A0846C 0%, #8B7355 100%);
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(139, 115, 85, 0.3);
+}
+
+.quantity {
+  font-size: 18px; /* ✅ 使用 px 确保字体大小一致 */
+  font-weight: 700;
+  color: #333;
+  min-width: 30px;
+  text-align: center;
+}
+
+/* 选项标签 */
+.option-tags {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.option-tag {
+  margin-right: 8px;
+  margin-bottom: 8px;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px; /* ✅ 使用 px 确保字体大小一致 */
+  font-weight: 500;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: #f5f5f5;
+  color: #666;
+}
+
+.option-tag:active {
+  transform: scale(0.98);
+}
+
+/* 温度选择 - 冷蓝色，热红色 */
+.option-tag[data-temperature="冷"] {
+  background: rgba(123, 184, 240, 0.1);
+  color: #7BB8F0;
+  border-color: rgba(123, 184, 240, 0.3);
+}
+
+.option-tag[data-temperature="冷"].active {
+  background: #7BB8F0;
+  color: #fff;
+  border-color: #7BB8F0;
+  box-shadow: 0 2px 6px rgba(123, 184, 240, 0.3);
+}
+
+.option-tag[data-temperature="热"] {
+  background: rgba(240, 139, 133, 0.1);
+  color: #F08B85;
+  border-color: rgba(240, 139, 133, 0.3);
+}
+
+.option-tag[data-temperature="热"].active {
+  background: #F08B85;
+  color: #fff;
+  border-color: #F08B85;
+  box-shadow: 0 2px 6px rgba(240, 139, 133, 0.3);
+}
+
+/* 冰度选择 - 冷蓝色系 */
+.option-tag[data-ice-level="去冰"],
+.option-tag[data-ice-level="少冰"],
+.option-tag[data-ice-level="正常冰"],
+.option-tag[data-ice-level="多冰"] {
+  background: rgba(123, 184, 240, 0.1);
+  color: #7BB8F0;
+  border-color: rgba(123, 184, 240, 0.3);
+}
+
+.option-tag[data-ice-level="去冰"].active,
+.option-tag[data-ice-level="少冰"].active,
+.option-tag[data-ice-level="正常冰"].active,
+.option-tag[data-ice-level="多冰"].active {
+  background: #7BB8F0;
+  color: #fff;
+  border-color: #7BB8F0;
+  box-shadow: 0 2px 6px rgba(123, 184, 240, 0.3);
+}
+
+/* 糖度选择 - 木质色系 */
+.option-tag[data-sugar-level="无糖"],
+.option-tag[data-sugar-level="少糖"],
+.option-tag[data-sugar-level="正常糖"],
+.option-tag[data-sugar-level="多糖"] {
+  background: rgba(139, 115, 85, 0.1);
+  color: #8B7355;
+  border-color: rgba(139, 115, 85, 0.3);
+}
+
+.option-tag[data-sugar-level="无糖"].active,
+.option-tag[data-sugar-level="少糖"].active,
+.option-tag[data-sugar-level="正常糖"].active,
+.option-tag[data-sugar-level="多糖"].active {
+  background: #8B7355;
+  color: #fff;
+  border-color: #8B7355;
+  box-shadow: 0 2px 6px rgba(139, 115, 85, 0.3);
+}
+
+/* 备注 */
+.remark-input-wrapper {
+  background: #f5f5f5;
+  border-radius: 8px;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.remark-input {
+  width: 100%;
+  min-height: 60px;
+  padding: 8px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  font-size: 14px; /* ✅ 使用 px 确保字体大小一致 */
+  box-sizing: border-box;
+  resize: none;
+  background: #fff;
+  transition: all 0.3s ease;
+  color: #333;
+}
+
+.remark-input:focus {
+  border-color: #A0846C;
+  outline: none;
+}
+
+.char-count {
+  font-size: 11px; /* ✅ 使用 px 确保字体大小一致 */
+  color: #999;
+  text-align: right;
+  display: block;
+  margin-top: 6px;
+}
+
+/* 底部按钮区域 */
+.footer-btns {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  padding: 12px 16px;
+  padding-bottom: calc(10px + env(safe-area-inset-bottom));
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
+  display: flex;
+  z-index: 9999;
+  transform: translateY(100%);
+  opacity: 0;
+  transition: transform 0.4s ease 0.2s, opacity 0.3s ease 0.2s;
+}
+
+.footer-btns .continue-btn {
+  margin-right: 10px;
+}
+
+.footer-btns .finish-btn {
+  margin-right: 0;
+}
+
+.footer-btns.loaded {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* 继续选择按钮 - 次要操作 - 浅灰色 */
+.continue-btn {
+  flex: 1;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f5f5;
+  color: #666;
+  font-size: 15px; /* ✅ 使用 px 确保字体大小一致 */
+  font-weight: 500;
+  border-radius: 24px;
+  border: 1px solid #e0e0e0;
+  box-shadow: none;
+  transition: all 0.3s ease;
+}
+
+.continue-btn:active {
+  background: #e0e0e0;
+  border-color: #d0d0d0;
+  transform: scale(0.98);
+}
+
+/* 立即完成按钮 - 主要操作 - 棕色渐变 */
+.finish-btn {
+  flex: 1;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #8B4513 0%, #6F4E37 100%);
+  color: #fff;
+  font-size: 15px; /* ✅ 使用 px 确保字体大小一致 */
+  font-weight: 500;
+  border-radius: 24px;
+  box-shadow: 0 4px 12px rgba(139, 115, 85, 0.4);
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.finish-btn:active {
+  transform: scale(0.98);
+  box-shadow: 0 2px 6px rgba(139, 115, 85, 0.3);
+}
+
+/* 全宽按钮样式 */
+.finish-btn.full-width {
+  flex: auto;
+  width: 100%;
+}
+
+/* 占位底部 */
+.bottom-spacer {
+  height: 80px;
+}
