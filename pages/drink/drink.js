@@ -17,6 +17,7 @@ Page({
     drinkDescription: '',
     selectedCategory: '',
     editingDrink: null,
+    drinkImageUrl: '',  // 饮品图片URL
     isAdmin: true  // 控制管理员按钮显示
   },
 
@@ -241,8 +242,8 @@ Page({
     });
   },
 
-  // 显示饮品弹窗
-  showDrinkModal: function() {
+   // 显示饮品弹窗
+   showDrinkModal: function() {
     if (!this.data.isAdmin) {
       wx.showToast({ title: '只有管理员可以管理饮品', icon: 'none' });
       return;
@@ -253,7 +254,8 @@ Page({
       drinkName: '',
       drinkCalories: '',
       drinkDescription: '',
-      selectedCategory: ''
+      selectedCategory: '',
+      drinkImageUrl: ''
     });
   },
 
@@ -265,9 +267,11 @@ Page({
       drinkName: '',
       drinkCalories: '',
       drinkDescription: '',
-      selectedCategory: ''
+      selectedCategory: '',
+      drinkImageUrl: ''
     });
   },
+
 
   // 编辑饮品
   editDrink: function(e) {
@@ -282,7 +286,8 @@ Page({
       drinkName: item.name,
       drinkCalories: item.calories || '',
       drinkDescription: item.description || '',
-      selectedCategory: item.category || ''
+      selectedCategory: item.category || '',
+      drinkImageUrl: item.imageUrl || ''
     });
   },
 
@@ -307,52 +312,100 @@ Page({
     const category = this.data.categories[index];
     this.setData({ selectedCategory: category.name });
   },
+  // 上传饮品图片
+  chooseDrinkImage: function() {
+    wx.chooseMedia({
+      count: 1,
+      mediaType: ['image'],
+      sourceType: ['album', 'camera'],
+      success: async (res) => {
+        const tempFilePath = res.tempFiles[0].tempFilePath;
+        wx.showLoading({ title: '上传中...' });
+        
+        try {
+          // 上传到云存储
+          const cloudPath = `drink-images/${Date.now()}-${Math.random().toString(36).substr(2, 9)}.png`;
+          
+          const uploadRes = await wx.cloud.uploadFile({
+            cloudPath: cloudPath,
+            filePath: tempFilePath
+          });
 
-  // 添加/更新饮品
-  addDrink: async function() {
-    const { drinkName, drinkCalories, drinkDescription, selectedCategory, editingDrink } = this.data;
+          if (uploadRes.fileID) {
+            this.setData({ drinkImageUrl: uploadRes.fileID });
+            wx.hideLoading();
+            wx.showToast({ title: '上传成功', icon: 'success' });
+          } else {
+            wx.hideLoading();
+            wx.showToast({ title: '上传失败', icon: 'none' });
+          }
+        } catch (err) {
+          wx.hideLoading();
+          console.error('上传图片失败:', err);
+          wx.showToast({ title: '上传失败', icon: 'none' });
+        }
+      },
+      fail: (err) => {
+        console.log('选择图片取消或失败', err);
+      }
+    });
+  },
 
-    if (!drinkName.trim()) {
-      wx.showToast({ title: '请输入饮品名称', icon: 'none' });
-      return;
+  // 删除饮品图片
+  removeDrinkImage: function() {
+    this.setData({ drinkImageUrl: '' });
+  },
+
+ // 添加/更新饮品
+ addDrink: async function() {
+  const { drinkName, drinkCalories, drinkDescription, selectedCategory, editingDrink, drinkImageUrl } = this.data;
+
+  if (!drinkName.trim()) {
+    wx.showToast({ title: '请输入饮品名称', icon: 'none' });
+    return;
+  }
+
+  wx.showLoading({ title: '保存中...' });
+
+  try {
+    const drinkData = {
+      name: drinkName.trim(),
+      calories: drinkCalories ? parseFloat(drinkCalories) : 0,
+      description: drinkDescription.trim(),
+      category: selectedCategory,
+      updateTime: new Date().getTime()
+    };
+
+    // 如果有图片，添加到数据中
+    if (drinkImageUrl) {
+      drinkData.imageUrl = drinkImageUrl;
     }
 
-    wx.showLoading({ title: '保存中...' });
+    let res;
+    if (editingDrink) {
+      // 更新饮品
+      res = await db.update('drink_items', editingDrink._id, drinkData);
+    } else {
+      // 新增饮品
+      drinkData.createTime = new Date().getTime();
+      res = await db.add('drink_items', drinkData);
+    }
 
-    try {
-      const drinkData = {
-        name: drinkName.trim(),
-        calories: drinkCalories ? parseFloat(drinkCalories) : 0,
-        description: drinkDescription.trim(),
-        category: selectedCategory,
-        updateTime: new Date().getTime()
-      };
+    wx.hideLoading();
 
-      let res;
-      if (editingDrink) {
-        // 更新饮品
-        res = await db.update('drink_items', editingDrink._id, drinkData);
-      } else {
-        // 新增饮品
-        drinkData.createTime = new Date().getTime();
-        res = await db.add('drink_items', drinkData);
-      }
-
-      wx.hideLoading();
-
-      if (res.success) {
-        this.closeDrinkModal();
-        this.loadDrinkItems();
-        wx.showToast({ title: '保存成功', icon: 'success' });
-      } else {
-        wx.showToast({ title: '保存失败', icon: 'none' });
-      }
-    } catch (err) {
-      wx.hideLoading();
-      console.error('保存饮品失败:', err);
+    if (res.success) {
+      this.closeDrinkModal();
+      this.loadDrinkItems();
+      wx.showToast({ title: '保存成功', icon: 'success' });
+    } else {
       wx.showToast({ title: '保存失败', icon: 'none' });
     }
-  },
+  } catch (err) {
+    wx.hideLoading();
+    console.error('保存饮品失败:', err);
+    wx.showToast({ title: '保存失败', icon: 'none' });
+  }
+},
 
   // 删除饮品
   deleteDrink: async function(e) {

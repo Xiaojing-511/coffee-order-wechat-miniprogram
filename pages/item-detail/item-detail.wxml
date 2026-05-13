@@ -1,9 +1,21 @@
 <view class="page-content-wrapper">
   <view class="container {{item ? 'loaded' : ''}}">
+    <!-- 饮品图片 -->
+    <view class="item-image-wrapper" wx:if="{{item.imageUrl}}">
+      <image 
+        class="item-image" 
+        src="{{item.imageUrl}}" 
+        mode="aspectFill"
+        bindtap="previewImage"
+        data-url="{{item.imageUrl}}"
+      />
+    </view>
+
     <!-- 饮品信息 -->
-    <view class="item-header">
+    <view class="item-header {{item.imageUrl ? 'has-image' : ''}}">
       <text class="item-name">{{item.name}}</text>
       <text class="item-calories" wx:if="{{item.calories}}">{{item.calories}} kcal</text>
+      <text class="item-description" wx:if="{{item.description}}">{{item.description}}</text>
     </view>
 
     <!-- 选择区域 -->
@@ -89,18 +101,6 @@
         </view>
       </view>
 
-      <!-- 备注 -->
-      <view class="selection-section">
-        <text class="section-title">备注</text>
-        <textarea
-          class="remark-input"
-          placeholder="添加备注（选填）"
-          value="{{remark}}"
-          bindinput="onRemarkInput"
-          maxlength="50"
-        />
-        <text class="char-count">{{remark.length}}/50</text>
-      </view>
     </view>
   </view>
 </view>

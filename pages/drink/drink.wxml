@@ -119,6 +119,26 @@
   <view class="modal-content drink-modal">
     <view class="modal-header">{{editingDrink ? '编辑饮品' : '新建饮品'}}</view>
     <view class="modal-body">
+      <!-- 图片上传区域 -->
+      <view class="image-upload-section">
+        <view class="image-upload-label">饮品图片</view>
+        <view class="image-upload-area" bindtap="chooseDrinkImage">
+          <view wx:if="{{!drinkImageUrl}}" class="upload-placeholder">
+            <text class="upload-icon">+</text>
+            <text class="upload-text">点击上传图片</text>
+          </view>
+          <view wx:else class="upload-preview">
+            <image class="preview-image" src="{{drinkImageUrl}}" mode="aspectFill"></image>
+            <view class="preview-overlay">
+              <text class="preview-tip">点击更换</text>
+            </view>
+          </view>
+        </view>
+        <view wx:if="{{drinkImageUrl}}" class="remove-image-btn" bindtap="removeDrinkImage">
+          <text>删除图片</text>
+        </view>
+      </view>
+
       <input
         class="modal-input"
         placeholder="饮品名称"
@@ -143,6 +163,7 @@
           <text class="picker-value">{{selectedCategory || '请选择分类'}}</text>
         </view>
       </picker>
+      
       <textarea
         class="modal-textarea"
         placeholder="描述（选填）"

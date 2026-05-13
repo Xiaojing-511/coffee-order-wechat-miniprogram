@@ -12,6 +12,15 @@ Page({
     editRecordInfo: null
   },
 
+  // 图片预览
+  previewImage: function(e) {
+    const url = e.currentTarget.dataset.url;
+    wx.previewImage({
+      current: url,
+      urls: [url]
+    });
+  },
+
   // 测试方法
   testClick: function() {
     console.log('测试按钮被点击了');
@@ -280,16 +289,25 @@ Page({
       // 如果上一页是 record 页面，更新其 tempWaitingCount 并确保弹窗保持打开
       if (prevPage.route === 'pages/record/record') {
         console.log('更新上一页的弹窗状态');
-        // 计算新的 tempWaitingCount
+        console.log('当前 tempWaitingList 数据:', JSON.stringify(tempWaitingList));
+        // 计算新的 tempWaitingCount 和 tempWaitingCalories
         let count = 0;
+        let calories = 0;
         tempWaitingList.forEach(item => {
           count += item.quantity || 1;
+          calories += (item.calories || 0) * (item.quantity || 1);
         });
-        // 确保弹窗保持打开状态
+        console.log('更新数据: count=', count, 'calories=', calories);
+        // 确保弹窗保持打开状态，并更新完整的购物车数据
         prevPage.setData({
           tempWaitingCount: count,
+          tempWaitingList: tempWaitingList,
+          tempWaitingCalories: calories,
           showAddModalFlag: true  // 确保弹窗保持打开
         });
+        console.log('prevPage.setData 调用完成');
+      } else {
+        console.log('未匹配到 record 页面，当前 prevPage.route:', prevPage.route);
       }
 
       wx.showToast({
@@ -459,16 +477,25 @@ Page({
       // 如果上一页是 record 页面，更新其 tempWaitingCount 并确保弹窗保持打开
       if (prevPage.route === 'pages/record/record') {
         console.log('更新上一页的弹窗状态');
-        // 计算新的 tempWaitingCount
+        console.log('当前 tempWaitingList 数据:', JSON.stringify(tempWaitingList));
+        // 计算新的 tempWaitingCount 和 tempWaitingCalories
         let count = 0;
+        let calories = 0;
         tempWaitingList.forEach(item => {
           count += item.quantity || 1;
+          calories += (item.calories || 0) * (item.quantity || 1);
         });
-        // 确保弹窗保持打开状态
+        console.log('更新数据: count=', count, 'calories=', calories);
+        // 确保弹窗保持打开状态，并更新完整的购物车数据
         prevPage.setData({
           tempWaitingCount: count,
+          tempWaitingList: tempWaitingList,
+          tempWaitingCalories: calories,
           showAddModalFlag: true  // 确保弹窗保持打开
         });
+        console.log('prevPage.setData 调用完成');
+      } else {
+        console.log('未匹配到 record 页面，当前 prevPage.route:', prevPage.route);
       }
 
       wx.showToast({
