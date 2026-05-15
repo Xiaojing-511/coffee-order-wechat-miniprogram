@@ -1,0 +1,144 @@
+<!-- 顾客菜单页面 - 仅查看模式 -->
+<view class="page-content-wrapper">
+  <view class="container">
+    <!-- 欢迎标题 -->
+    <view class="welcome-header">
+      <text class="welcome-title">欢迎光临</text>
+      <text class="welcome-subtitle">请浏览我们的饮品菜单</text>
+    </view>
+
+    <!-- 饮品分类导航 -->
+    <view class="category-nav" wx:if="{{categories.length > 1}}">
+      <scroll-view scroll-x class="category-scroll">
+        <view class="category-nav-list">
+          <view 
+            class="category-nav-item {{currentCategory === 'all' ? 'active' : ''}}"
+            bindtap="selectCategory"
+            data-category="all"
+          >全部</view>
+          <view 
+            class="category-nav-item {{currentCategory === item.name ? 'active' : ''}}"
+            wx:for="{{categories}}"
+            wx:for-item="item"
+            wx:key="_id"
+            bindtap="selectCategory"
+            data-category="{{item.name}}"
+          >{{item.name}}</view>
+        </view>
+      </scroll-view>
+    </view>
+
+    <!-- 饮品列表 -->
+    <view class="menu-section">
+      <!-- 按分类展示饮品 -->
+      <view class="category-block" wx:if="{{currentCategory === 'all'}}">
+        <view 
+          class="category-group"
+          wx:for="{{categories}}"
+          wx:key="_id"
+          wx:for-item="category"
+        >
+          <view class="category-header" wx:if="{{categoryItemsMap[category.name] && categoryItemsMap[category.name].length > 0}}">
+            <text class="category-title">{{category.name}}</text>
+            <text class="drink-count">{{categoryItemsMap[category.name].length}} 款</text>
+          </view>
+
+          <view class="drink-grid" wx:if="{{categoryItemsMap[category.name] && categoryItemsMap[category.name].length > 0}}">
+            <view 
+              class="drink-card"
+              wx:for="{{categoryItemsMap[category.name]}}"
+              wx:for-item="item"
+              wx:key="_id"
+              wx:for-index="index"
+              bindtap="goToDetail"
+              data-item="{{item}}"
+            >
+              <view class="drink-image-box" wx:if="{{item.imageUrl}}">
+                <image 
+                  class="drink-image" 
+                  src="{{item.imageUrl}}" 
+                  mode="aspectFill"
+                />
+              </view>
+              <view class="drink-info">
+                <text class="drink-name">{{item.name}}</text>
+                <text class="drink-calories" wx:if="{{item.calories}}">{{item.calories}} </text>
+                <text class="drink-description" wx:if="{{item.description}}">{{item.description}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+
+        <!-- 未分类的饮品 -->
+        <view class="category-group" wx:if="{{categoryItemsMap['未分类'] && categoryItemsMap['未分类'].length > 0}}">
+          <view class="category-header">
+            <text class="category-title">未分类</text>
+            <text class="drink-count">{{categoryItemsMap['未分类'].length}} 款</text>
+          </view>
+
+          <view class="drink-grid">
+            <view 
+              class="drink-card"
+              wx:for="{{categoryItemsMap['未分类']}}"
+              wx:for-item="item"
+              wx:key="_id"
+              wx:for-index="index"
+              bindtap="goToDetail"
+              data-item="{{item}}"
+            >
+              <view class="drink-image-box" wx:if="{{item.imageUrl}}">
+                <image 
+                  class="drink-image" 
+                  src="{{item.imageUrl}}" 
+                  mode="aspectFill"
+                />
+              </view>
+              <view class="drink-info">
+                <text class="drink-name">{{item.name}}</text>
+                <text class="drink-calories" wx:if="{{item.calories}}">{{item.calories}} </text>
+                <text class="drink-description" wx:if="{{item.description}}">{{item.description}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 单个分类展示 -->
+      <view class="drink-grid" wx:if="{{currentCategory !== 'all'}}">
+        <view 
+          class="drink-card"
+          wx:for="{{categoryItemsMap[currentCategory] || []}}"
+          wx:for-item="item"
+          wx:key="_id"
+          wx:for-index="index"
+          bindtap="goToDetail"
+          data-item="{{item}}"
+        >
+          <view class="drink-image-box" wx:if="{{item.imageUrl}}">
+            <image 
+              class="drink-image" 
+              src="{{item.imageUrl}}" 
+              mode="aspectFill"
+            />
+          </view>
+          <view class="drink-info">
+            <text class="drink-name">{{item.name}}</text>
+            <text class="drink-calories" wx:if="{{item.calories}}">{{item.calories}} </text>
+            <text class="drink-description" wx:if="{{item.description}}">{{item.description}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 空状态 -->
+      <view class="empty-state" wx:if="{{drinkItems.length === 0}}">
+        <text class="empty-icon">📦</text>
+        <text class="empty-text">暂无饮品</text>
+      </view>
+    </view>
+
+    <!-- 隐私政策 -->
+    <view class="privacy-link">
+      <text bindtap="goToPrivacy" class="privacy-text">隐私政策</text>
+    </view>
+  </view>
+</view>

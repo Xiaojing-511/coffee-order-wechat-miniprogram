@@ -6,7 +6,9 @@
     "pages/waiting-list/waiting-list",
     "pages/detail/detail",
     "pages/daily/daily",
-    "pages/privacy/privacy"
+    "pages/privacy/privacy",
+    "menu-pages/menu-list",
+    "menu-pages/menu-detail"
   ],
   "window": {
     "backgroundTextStyle": "light",

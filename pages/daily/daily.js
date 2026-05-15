@@ -115,7 +115,7 @@ Page({
       }
 
       console.log(`总共加载了 ${allReports.length} 条日报数据`);
-      this.setData({ dailyReports: allReports });
+      this.setData({ dailyReports: allReports.filter(report => report.totalCount > 0) });
     } catch (err) {
       console.error('加载历史日报失败:', err);
     }

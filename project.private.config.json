@@ -19,5 +19,17 @@
     "bigPackageSizeSupport": false,
     "useIsolateContext": false
   },
-  "condition": {}
+  "condition": {
+    "miniprogram": {
+      "list": [
+        {
+          "name": "menu-pages/menu-list",
+          "pathName": "menu-pages/menu-list",
+          "query": "",
+          "scene": null,
+          "launchMode": "default"
+        }
+      ]
+    }
+  }
 }

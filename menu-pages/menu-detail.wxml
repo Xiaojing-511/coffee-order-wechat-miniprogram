@@ -1,0 +1,85 @@
+<!-- 顾客菜单详情页面 - 仅查看模式 -->
+<view class="page-content-wrapper">
+  <!-- 返回按钮 -->
+  <view class="back-btn" bindtap="goBack">
+    <text class="back-icon">←</text>
+  </view>
+  
+  <view class="container">
+    <!-- 饮品图片 -->
+    <view class="image-wrapper" wx:if="{{item.imageUrl}}">
+      <image 
+        class="detail-image" 
+        src="{{item.imageUrl}}" 
+        mode="aspectFill"
+        bindtap="previewImage"
+      />
+    </view>
+    
+    <view class="image-placeholder" wx:else>
+      <text class="placeholder-icon">🍵</text>
+      <text class="placeholder-text">暂无图片</text>
+    </view>
+
+    <!-- 饮品信息 -->
+    <view class="info-section {{item.imageUrl ? 'has-image' : ''}}">
+      <view class="drink-header">
+        <text class="drink-name">{{item.name}}</text>
+        <view class="calories-badge" wx:if="{{item.calories}}">
+          <!-- <text class="calories-icon">🔥</text> -->
+          <text class="calories-value">{{item.calories}} </text>
+        </view>
+      </view>
+      
+      <view class="category-tag" wx:if="{{item.category && item.category !== '未分类'}}">
+        <text class="tag-icon">📁</text>
+        <text class="tag-text">{{item.category}}</text>
+      </view>
+      
+      <view class="description-section" wx:if="{{item.description}}">
+        <text class="section-label">饮品介绍</text>
+        <text class="description-text">{{item.description}}</text>
+      </view>
+    </view>
+
+    <!-- 饮品特色 -->
+    <view class="features-section">
+      <view class="features-title">
+        <text class="title-icon">✨</text>
+        <text class="title-text">可选定制</text>
+      </view>
+      
+      <view class="features-list">
+        <view class="feature-item">
+          <view class="feature-icon temperature">🌡️</view>
+          <view class="feature-content">
+            <text class="feature-name">温度选择</text>
+            <text class="feature-options">冷 / 热</text>
+          </view>
+        </view>
+        
+        <view class="feature-item">
+          <view class="feature-icon ice">❄️</view>
+          <view class="feature-content">
+            <text class="feature-name">冰度选择</text>
+            <text class="feature-options">去冰 / 少冰 / 正常冰 / 多冰</text>
+          </view>
+        </view>
+        
+        <view class="feature-item">
+          <view class="feature-icon sugar">🍬</view>
+          <view class="feature-content">
+            <text class="feature-name">糖度选择</text>
+            <text class="feature-options">无糖 / 少糖 / 正常糖 / 多糖</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 底部提示 -->
+    <view class="bottom-notice">
+      <text class="notice-icon">ℹ️</text>
+      <text class="notice-text">以上为饮品展示页面，如需点单请联系店员</text>
+    </view>
+  </view>
+</view>

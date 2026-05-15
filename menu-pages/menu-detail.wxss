@@ -1,0 +1,251 @@
+.page-content-wrapper {
+  min-height: 100vh;
+  background: #f5efe6;
+}
+
+.container {
+  padding: 0;
+  padding-bottom: 24px;
+}
+
+/* 返回按钮 */
+.back-btn {
+  position: fixed;
+  top: 100px;
+  left: 26px;
+  width: 50px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.42);
+  z-index: 100;
+}
+
+.back-icon {
+  font-size: 20px;
+  color: #5D4037;
+}
+
+.image-wrapper {
+  width: 100%;
+  height: 320px;
+  background: #fff;
+}
+
+.detail-image {
+  width: 100%;
+  height: 100%;
+}
+
+.image-placeholder {
+  width: 100%;
+  height: 320px;
+  background: linear-gradient(135deg, #f5efe6 0%, #EFEBE9 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.placeholder-icon {
+  font-size: 80px;
+  margin-bottom: 12px;
+}
+
+.placeholder-text {
+  font-size: 16px;
+  color: #999;
+}
+
+.info-section {
+  padding: 24px 16px;
+  background: #fff;
+  border-radius: 0 0 16px 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.info-section.has-image {
+  /* margin-top: -16px; */
+  border-radius: 0 0 16px 16px;
+}
+
+.drink-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.drink-name {
+  flex: 1;
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  line-height: 1.3;
+}
+
+.calories-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%);
+  border-radius: 20px;
+  margin-left: 12px;
+}
+
+.calories-icon {
+  font-size: 16px;
+}
+
+.calories-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #D2691E;
+}
+
+.category-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  background: #f5efe6;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
+
+.tag-icon {
+  font-size: 14px;
+}
+
+.tag-text {
+  font-size: 13px;
+  color: #8D6E63;
+  font-weight: 500;
+}
+
+.description-section {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #E0E0E0;
+}
+
+.section-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #5D4037;
+  margin-bottom: 8px;
+}
+
+.description-text {
+  display: block;
+  font-size: 14px;
+  color: #666;
+  line-height: 1.6;
+}
+
+.features-section {
+  margin: 16px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.features-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.title-icon {
+  font-size: 18px;
+}
+
+.title-text {
+  font-size: 16px;
+  font-weight: 600;
+  color: #5D4037;
+}
+
+.features-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: #f5efe6;
+  border-radius: 8px;
+}
+
+.feature-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.feature-icon.temperature {
+  background: linear-gradient(135deg, #FF7043 0%, #FF5722 100%);
+}
+
+.feature-icon.ice {
+  background: linear-gradient(135deg, #4FC3F7 0%, #29B6F6 100%);
+}
+
+.feature-icon.sugar {
+  background: linear-gradient(135deg, #FFF176 0%, #FFEE58 100%);
+}
+
+.feature-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.feature-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.feature-options {
+  font-size: 12px;
+  color: #666;
+}
+
+.bottom-notice {
+  margin: 16px;
+  padding: 16px;
+  background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.notice-icon {
+  font-size: 20px;
+}
+
+.notice-text {
+  font-size: 13px;
+  color: #1976D2;
+  line-height: 1.5;
+}
