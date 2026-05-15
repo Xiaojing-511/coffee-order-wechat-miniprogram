@@ -596,3 +596,20 @@
   background: rgba(139, 69, 19, 0.1);
   color: #8B4513;
 }
+
+.link-divider {
+  color: #ddd;
+  margin: 0 8px;
+}
+
+.menu-link-text {
+  color: #bbb;
+  padding: 5px 10px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.menu-link-text:active {
+  background: rgba(139, 69, 19, 0.1);
+  color: #8B4513;
+}

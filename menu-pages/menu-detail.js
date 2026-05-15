@@ -83,7 +83,7 @@ Page({
     }
   },
 
-  // 返回菜单列表（使用 redirectTo 禁止返回）
+  // 返回饮品单列表（使用 redirectTo 禁止返回）
   goBack: function() {
     wx.redirectTo({
       url: '/menu-pages/menu-list'

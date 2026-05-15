@@ -447,5 +447,12 @@ Page({
     wx.navigateTo({
       url: '/pages/privacy/privacy'
     });
+  },
+
+  // 跳转顾客饮品单
+  goToMenu: function() {
+    wx.redirectTo({
+      url: '/menu-pages/menu-list'
+    });
   }
 });

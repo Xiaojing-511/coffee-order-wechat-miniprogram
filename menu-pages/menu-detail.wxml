@@ -1,4 +1,4 @@
-<!-- 顾客菜单详情页面 - 仅查看模式 -->
+<!-- 顾客饮品单详情页面 - 仅查看模式 -->
 <view class="page-content-wrapper">
   <!-- 返回按钮 -->
   <view class="back-btn" bindtap="goBack">

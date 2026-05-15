@@ -1,10 +1,10 @@
-<!-- 顾客菜单页面 - 仅查看模式 -->
+<!-- 顾客饮品单页面 - 仅查看模式 -->
 <view class="page-content-wrapper">
   <view class="container">
     <!-- 欢迎标题 -->
     <view class="welcome-header">
       <text class="welcome-title">欢迎光临</text>
-      <text class="welcome-subtitle">请浏览我们的饮品菜单</text>
+      <text class="welcome-subtitle">请浏览我们的饮品饮品单</text>
     </view>
 
     <!-- 饮品分类导航 -->
