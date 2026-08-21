@@ -22,19 +22,27 @@ const DEMO_DRINKS = [
   { name: '珍珠奶茶', price: 1600, calories: 300, description: 'Q弹珍珠搭配经典奶茶', category: '茶饮' }
 ]
 
-exports.main = async () => {
+exports.main = async (event, context) => {
+  const wxContext = cloud.getWXContext()
+  const callerOpenid = wxContext.OPENID
   const db = cloud.database()
-  const results = { merchants: 0, stores: 0, categories: 0, drinks: 0, seeded: false }
+  const results = { merchants: 0, stores: 0, categories: 0, drinks: 0, seeded: false, callerOpenid: callerOpenid || '' }
 
-  // 1. 为创始人创建 merchants 白名单记录
-  for (const openid of OWNER_OPENIDS) {
+  // 1. 商家白名单：创始人 + 运行者自己（自动开通）
+  const targets = []
+  OWNER_OPENIDS.forEach(function(o) { if (targets.indexOf(o) === -1) targets.push(o) })
+  if (callerOpenid && targets.indexOf(callerOpenid) === -1) targets.push(callerOpenid)
+
+  for (const openid of targets) {
     const exist = await db.collection('merchants').where({ openid: openid }).count()
     if (exist.total === 0) {
+      const isOwner = OWNER_OPENIDS.indexOf(openid) > -1
+      const storeId = isOwner ? DEFAULT_STORE_ID : ('S' + String(Math.floor(Math.random() * 9000) + 1000))
       await db.collection('merchants').add({ data: {
         openid: openid,
-        storeId: DEFAULT_STORE_ID,
-        storeName: '青柠咖啡',
-        plan: 'owner',
+        storeId: storeId,
+        storeName: '我的店铺',
+        plan: isOwner ? 'owner' : 'trial',
         status: 'active',
         expireTime: null,
         createTime: Date.now()

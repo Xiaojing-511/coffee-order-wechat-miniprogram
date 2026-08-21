@@ -8,6 +8,12 @@ cloud.init({
   env: cloud.DYNAMIC_CURRENT_ENV
 })
 
+// 平台创始人白名单（merchants 集合缺失时兜底为商家）
+const OWNER_OPENIDS = [
+  "oCZJh3WBgr-C9IRK2udIW30FFWzo",
+  "oCZJh3bTvykjmkDB6OB4k0YY7NnQ"
+]
+
 const STATUS = {
   PENDING: 'pending',
   PAID: 'paid',
@@ -61,6 +67,10 @@ exports.main = async (event, context) => {
       }
     } catch (e) {
       console.error('查询商家白名单失败:', e)
+    }
+    // 创始人兜底（merchants 尚未录入时）
+    if (OWNER_OPENIDS.indexOf(openid) > -1) {
+      return { storeId: 'S1001', status: 'active', expireTime: null }
     }
     return null
   }

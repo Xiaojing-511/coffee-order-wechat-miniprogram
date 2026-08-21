@@ -3,6 +3,12 @@
 // 安全：校验 merchants 白名单 + 到期时间 + 文档店铺归属（防止跨店改数据）
 const cloud = require('wx-server-sdk')
 
+// 平台创始人白名单（merchants 集合缺失时兜底为商家）
+const OWNER_OPENIDS = [
+  "oCZJh3WBgr-C9IRK2udIW30FFWzo",
+  "oCZJh3bTvykjmkDB6OB4k0YY7NnQ"
+]
+
 cloud.init({
   env: cloud.DYNAMIC_CURRENT_ENV
 })
@@ -23,7 +29,14 @@ exports.main = async (event, context) => {
   } catch (e) {
     console.error('查询商家白名单失败:', e)
   }
-  if (!merchant) return { success: false, error: '无权限', code: 'not_merchant' }
+  if (!merchant) {
+    // 创始人兜底（merchants 尚未录入时）
+    if (OWNER_OPENIDS.indexOf(openid) > -1) {
+      merchant = { storeId: 'S1001', status: 'active', expireTime: null }
+    } else {
+      return { success: false, error: '无权限', code: 'not_merchant' }
+    }
+  }
   const expired = (merchant.status === 'expired') || (merchant.expireTime && merchant.expireTime < Date.now())
   if (expired) return { success: false, error: '服务已到期，请联系平台续费', code: 'expired' }
   const storeId = merchant.storeId
