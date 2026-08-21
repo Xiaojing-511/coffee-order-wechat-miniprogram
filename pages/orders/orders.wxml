@@ -1,37 +1,76 @@
 <view class="page-content-wrapper">
   <view class="container">
-    <view class="p2-note">
-      <text class="p2-note-icon">ℹ️</text>
-      <text class="p2-note-text">接单 / 制作 / 核销功能将在下一阶段上线，当前为订单总览</text>
+
+    <!-- 非商家提示 -->
+    <view class="empty" wx:if="{{notMerchant}}">
+      <text class="empty-icon">🔒</text>
+      <text class="empty-text">订单管理仅商家可用</text>
+      <text class="empty-hint">请扫描店铺二维码进行点单</text>
     </view>
 
-    <view class="order-list" wx:if="{{orders.length > 0}}">
-      <view class="order-card" wx:for="{{orders}}" wx:key="_id">
-        <view class="order-head">
-          <view>
-            <text class="order-no">#{{item.orderNo}}</text>
-            <text class="order-time">{{formatTime(item.createTime)}}</text>
-          </view>
-          <view class="order-status {{item.status}}">{{statusText[item.status] || item.status}}</view>
-        </view>
-        <view class="order-items">
-          <view class="oi-row" wx:for="{{item.items}}" wx:for-item="oi" wx:key="key">
-            <text class="oi-name">{{oi.name}}</text>
-            <text class="oi-spec">{{oi.temperature}}/{{oi.iceLevel}}/{{oi.sugarLevel}}</text>
-            <text class="oi-qty">×{{oi.quantity}}</text>
-          </view>
-        </view>
-        <view class="order-foot">
-          <text class="pickup-code" wx:if="{{item.pickupCode}}">取餐码 {{item.pickupCode}}</text>
-          <text class="customer" wx:if="{{item.customerName}}">{{item.customerName}}{{item.customerPhone ? ' ' + item.customerPhone : ''}}</text>
-          <text class="amount">{{formatPrice(item.totalAmount)}}</text>
+    <!-- 服务到期提示 -->
+    <view class="expired-banner" wx:if="{{expired}}">
+      <text class="expired-icon">⏰</text>
+      <text class="expired-text">服务已到期，请联系平台续费后继续使用</text>
+    </view>
+
+    <block wx:if="{{!notMerchant}}">
+      <!-- 状态筛选 -->
+      <view class="tabs">
+        <view
+          class="tab {{currentTab === item.key ? 'active' : ''}}"
+          wx:for="{{tabs}}"
+          wx:key="key"
+          bindtap="switchTab"
+          data-key="{{item.key}}"
+        >
+          {{item.label}}
+          <text class="tab-count" wx:if="{{item.key && counts[item.key]}}">{{counts[item.key]}}</text>
         </view>
       </view>
-    </view>
 
-    <view class="empty" wx:else>
-      <text class="empty-icon">📋</text>
-      <text class="empty-text">暂无订单</text>
-    </view>
+      <!-- 订单列表 -->
+      <view class="order-list" wx:if="{{orders.length > 0}}">
+        <view class="order-card" wx:for="{{orders}}" wx:key="_id">
+          <view class="order-head">
+            <view>
+              <text class="order-no">#{{item.orderNo}}</text>
+              <text class="order-time">{{formatTime(item.createTime)}}<text wx:if="{{item.pickupTime}}"> · {{item.pickupTime}}取</text></text>
+            </view>
+            <view class="order-status {{item.status}}">{{statusText[item.status] || item.status}}</view>
+          </view>
+
+          <view class="order-customer">
+            <text class="customer-name">{{item.customerName || '未留名'}}</text>
+            <text class="customer-phone" wx:if="{{item.customerPhone}}">{{item.customerPhone}}</text>
+            <text class="pickup-code" wx:if="{{item.pickupCode}}">取餐码 {{item.pickupCode}}</text>
+          </view>
+
+          <view class="order-items">
+            <view class="oi-row" wx:for="{{item.items}}" wx:for-item="oi" wx:key="key">
+              <text class="oi-name">{{oi.name}}</text>
+              <text class="oi-spec">{{oi.temperature}}/{{oi.iceLevel}}/{{oi.sugarLevel}}</text>
+              <text class="oi-qty">×{{oi.quantity}}</text>
+            </view>
+            <view class="oi-remark" wx:if="{{item.remark}}">备注：{{item.remark}}</view>
+          </view>
+
+          <view class="order-foot">
+            <text class="amount">{{formatPrice(item.totalAmount)}}</text>
+            <view class="actions">
+              <view class="action-btn danger" wx:if="{{item.status === 'pending' || item.status === 'paid'}}" catchtap="cancelOrder" data-id="{{item._id}}">取消</view>
+              <view class="action-btn primary" wx:if="{{item.status === 'paid'}}" catchtap="acceptOrder" data-id="{{item._id}}">接单</view>
+              <view class="action-btn primary" wx:if="{{item.status === 'accepted'}}" catchtap="startReady" data-id="{{item._id}}">完成制作</view>
+              <view class="action-btn success" wx:if="{{item.status === 'ready'}}" catchtap="completeOrder" data-id="{{item._id}}">核销完成</view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view class="empty" wx:else>
+        <text class="empty-icon">📋</text>
+        <text class="empty-text">暂无订单</text>
+      </view>
+    </block>
   </view>
 </view>
