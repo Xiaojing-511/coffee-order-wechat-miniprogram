@@ -1,8 +1,9 @@
 /**
- * 演示数据：一键导入带价格的演示饮品/分类/店铺信息
- * 依赖 utils/database.js（云数据库不可用时自动落到本地存储），幂等：已有饮品数据则跳过
+ * 演示数据：一键导入带价格的演示饮品/分类/店铺信息（多租户：按 storeId 隔离）
+ * 依赖 utils/database.js（云数据库不可用时自动落到本地存储），幂等
  */
 const db = require('./database.js');
+const { myStoreId } = require('./merchant.js');
 
 const DEMO_CATEGORIES = ['经典咖啡', '特调咖啡', '茶饮', '鲜果茶'];
 
@@ -21,35 +22,30 @@ const DEMO_DRINKS = [
   { name: '柠檬绿茶', price: 1400, calories: 80,  description: '手打柠檬，茶香与果香交织', category: '鲜果茶' }
 ];
 
-const DEMO_STORE = {
-  storeName: '青柠咖啡',
-  announcement: '新店开业，全场饮品第二杯半价！',
-  openTime: '09:00 - 21:00',
-  status: 'open',
-  pickupNote: '到店请出示取餐码取餐'
-};
-
 /**
- * 导入演示数据（幂等）
+ * 导入演示数据（幂等，按店铺）
+ * @param {string} [storeId] 店铺ID，默认当前商家店铺
  * @returns {Promise<object>} 导入结果统计
  */
-const seedDemoData = async () => {
-  const results = { categories: 0, drinks: 0, store: false, skipped: false };
+const seedDemoData = async (storeId) => {
+  const sid = storeId || myStoreId();
+  const results = { categories: 0, drinks: 0, store: false, skipped: false, storeId: sid };
   try {
-    // 幂等检查：已有饮品数据则跳过
-    const existRes = await db.query('drink_items', {}, { limit: 1 });
+    // 幂等检查：该店已有饮品数据则跳过
+    const existRes = await db.query('drink_items', { storeId: sid }, { limit: 1 });
     if (existRes.success && existRes.data && existRes.data.length > 0) {
       results.skipped = true;
       return results;
     }
 
     for (const name of DEMO_CATEGORIES) {
-      const res = await db.add('categories', { name: name, createTime: Date.now() });
+      const res = await db.add('categories', { storeId: sid, name: name, createTime: Date.now() });
       if (res.success) results.categories++;
     }
 
     for (const d of DEMO_DRINKS) {
       const res = await db.add('drink_items', {
+        storeId: sid,
         name: d.name,
         price: d.price,
         calories: d.calories,
@@ -62,17 +58,20 @@ const seedDemoData = async () => {
       if (res.success) results.drinks++;
     }
 
-    // 店铺设置（已存在则跳过）
-    const storeRes = await db.query('store_settings', {}, { limit: 1 });
+    // 店铺设置（stores 集合，已存在则跳过）
+    const storeRes = await db.query('stores', { storeId: sid }, { limit: 1 });
     if (storeRes.success && storeRes.data && storeRes.data.length > 0) {
       results.store = true;
     } else {
-      const res = await db.add('store_settings', {
-        storeName: DEMO_STORE.storeName,
-        announcement: DEMO_STORE.announcement,
-        openTime: DEMO_STORE.openTime,
-        status: DEMO_STORE.status,
-        pickupNote: DEMO_STORE.pickupNote,
+      const res = await db.add('stores', {
+        storeId: sid,
+        storeName: '青柠咖啡',
+        announcement: '新店开业，全场饮品第二杯半价！',
+        openTime: '09:00 - 21:00',
+        status: 'open',
+        pickupNote: '到店请出示取餐码取餐',
+        address: '',
+        phone: '',
         createTime: Date.now()
       });
       results.store = res.success;
@@ -84,4 +83,4 @@ const seedDemoData = async () => {
   return results;
 };
 
-module.exports = { seedDemoData, DEMO_CATEGORIES, DEMO_DRINKS, DEMO_STORE };
+module.exports = { seedDemoData, DEMO_CATEGORIES, DEMO_DRINKS };

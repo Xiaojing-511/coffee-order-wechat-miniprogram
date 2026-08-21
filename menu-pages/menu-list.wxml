@@ -17,6 +17,16 @@
       <text class="welcome-title">{{store.storeName || '欢迎光临'}}</text>
       <text class="welcome-subtitle" wx:if="{{store.openTime}}">营业时间 {{store.openTime}}</text>
       <text class="welcome-announcement" wx:if="{{store.announcement}}">{{store.announcement}}</text>
+      <view class="store-contact" wx:if="{{store.address || store.phone}}">
+        <text class="store-address" wx:if="{{store.address}}">📍 {{store.address}}</text>
+        <text class="store-phone" wx:if="{{store.phone}}">📞 {{store.phone}}</text>
+      </view>
+    </view>
+
+    <!-- 歇业提示 -->
+    <view class="store-closed-banner" wx:if="{{store.status === 'closed'}}">
+      <text class="closed-icon">⏸️</text>
+      <text class="closed-text">店铺休息中，暂不可下单</text>
     </view>
 
     <!-- 饮品分类导航 -->

@@ -300,3 +300,24 @@
 .welcome-header {
   position: relative;
 }
+
+.store-contact {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 8px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.store-closed-banner {
+  background: #FFEBEE;
+  color: #C62828;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+}

@@ -1,5 +1,6 @@
 const { formatPrice } = require('../utils/money.js');
 const { ORDER_STATUS_TEXT, ORDER_STATUS } = require('../utils/order.js');
+const db = require('../utils/database.js');
 const orderService = require('../utils/orderService.js');
 
 Page({
@@ -23,6 +24,27 @@ Page({
         });
       }
     });
+
+    // 加载订单对应店铺名
+    const storeIds = [];
+    orders.forEach(function(o) {
+      if (o.storeId && storeIds.indexOf(o.storeId) === -1) storeIds.push(o.storeId);
+    });
+    const storeNameMap = {};
+    if (storeIds.length > 0) {
+      await Promise.all(storeIds.map(async function(sid) {
+        const res = await db.query('stores', { storeId: sid }, { limit: 1 });
+        if (res.success && res.data && res.data.length > 0) {
+          storeNameMap[sid] = res.data[0].storeName || sid;
+        } else {
+          storeNameMap[sid] = sid;
+        }
+      }));
+    }
+    orders.forEach(function(o) {
+      if (o.storeId) o.storeName = storeNameMap[o.storeId] || o.storeId;
+    });
+
     this.setData({ orders: orders });
   },
 

@@ -7,6 +7,10 @@
     "pages/detail/detail",
     "pages/daily/daily",
     "pages/privacy/privacy",
+    "pages/orders/orders",
+    "pages/me/me",
+    "pages/store-settings/store-settings",
+    "pages/store-qr/store-qr",
     "menu-pages/menu-list",
     "menu-pages/menu-detail",
     "menu-pages/cart",
@@ -43,6 +47,18 @@
         "iconPath": "images/daily.png",
         "selectedIconPath": "images/daily-active.png",
         "text": "日报"
+      },
+      {
+        "pagePath": "pages/orders/orders",
+        "iconPath": "images/orders.png",
+        "selectedIconPath": "images/orders-active.png",
+        "text": "订单"
+      },
+      {
+        "pagePath": "pages/me/me",
+        "iconPath": "images/me.png",
+        "selectedIconPath": "images/me-active.png",
+        "text": "我的"
       }
     ]
   },

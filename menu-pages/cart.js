@@ -1,4 +1,5 @@
 const { formatPrice } = require('../utils/money.js');
+const { cartKey } = require('../utils/storeContext.js');
 
 Page({
   data: {
@@ -12,7 +13,7 @@ Page({
   },
 
   loadCart: function() {
-    const items = wx.getStorageSync('cart') || [];
+    const items = wx.getStorageSync(cartKey()) || [];
     let totalQuantity = 0;
     let totalAmount = 0;
     items.forEach(function(it) {
@@ -24,7 +25,7 @@ Page({
   },
 
   saveCart: function(items) {
-    wx.setStorageSync('cart', items);
+    wx.setStorageSync(cartKey(), items);
     this.loadCart();
   },
 

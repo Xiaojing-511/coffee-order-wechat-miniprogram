@@ -1,0 +1,37 @@
+<view class="page-content-wrapper">
+  <view class="container">
+    <view class="p2-note">
+      <text class="p2-note-icon">ℹ️</text>
+      <text class="p2-note-text">接单 / 制作 / 核销功能将在下一阶段上线，当前为订单总览</text>
+    </view>
+
+    <view class="order-list" wx:if="{{orders.length > 0}}">
+      <view class="order-card" wx:for="{{orders}}" wx:key="_id">
+        <view class="order-head">
+          <view>
+            <text class="order-no">#{{item.orderNo}}</text>
+            <text class="order-time">{{formatTime(item.createTime)}}</text>
+          </view>
+          <view class="order-status {{item.status}}">{{statusText[item.status] || item.status}}</view>
+        </view>
+        <view class="order-items">
+          <view class="oi-row" wx:for="{{item.items}}" wx:for-item="oi" wx:key="key">
+            <text class="oi-name">{{oi.name}}</text>
+            <text class="oi-spec">{{oi.temperature}}/{{oi.iceLevel}}/{{oi.sugarLevel}}</text>
+            <text class="oi-qty">×{{oi.quantity}}</text>
+          </view>
+        </view>
+        <view class="order-foot">
+          <text class="pickup-code" wx:if="{{item.pickupCode}}">取餐码 {{item.pickupCode}}</text>
+          <text class="customer" wx:if="{{item.customerName}}">{{item.customerName}}{{item.customerPhone ? ' ' + item.customerPhone : ''}}</text>
+          <text class="amount">{{formatPrice(item.totalAmount)}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="empty" wx:else>
+      <text class="empty-icon">📋</text>
+      <text class="empty-text">暂无订单</text>
+    </view>
+  </view>
+</view>

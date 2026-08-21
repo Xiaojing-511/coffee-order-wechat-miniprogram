@@ -1,19 +1,22 @@
-const { isAdmin } = require('./utils/admin.js');
+const { parseStoreId, setStoreId } = require('./utils/storeContext.js');
 
-// 管理员白名单
+// 平台创始人白名单（始终拥有商家权限）
 const ADMIN_OPENIDS = [
   "oCZJh3WBgr-C9IRK2udIW30FFWzo",
   "oCZJh3bTvykjmkDB6OB4k0YY7NnQ"
 ]
+
 // app.js
 App({
   globalData: {
     userInfo: null,
     openid: "",
+    isMerchant: true,   // 是否为商家（白名单内）
+    merchant: null,     // 商家信息 { storeId, storeName, plan, status, expireTime }
     isAdmin: true
   },
 
-  onLaunch() {
+  onLaunch(options) {
     // 初始化云开发环境
     if (wx.cloud) {
       wx.cloud.init({
@@ -21,103 +24,87 @@ App({
         traceUser: true
       })
       console.log('云开发初始化成功')
-
-      // 获取用户 openid 并检查管理员权限
-      // this.fetchOpenidAndCheckAdmin()
-
-
-      // wx.removeStorageSync('currentRecordNumber')
-
-
-      // 检查日期变化，执行每日重置任务
-      this.checkDailyReset()
     } else {
       console.log('请使用 2.2.3 或以上的基础库以使用云能力')
     }
+
+    // 解析启动参数中的店铺（小程序码/分享链接）
+    if (options && options.query) {
+      const sid = parseStoreId(options.query)
+      if (sid) setStoreId(sid)
+    }
+
+    // 获取登录态（openid + 商家信息）
+    this.initLogin()
+
+    // 检查日期变化，执行每日重置任务
+    this.checkDailyReset()
   },
 
-  // 获取 openid 并检查管理员权限（通过云函数）
-  // async fetchOpenidAndCheckAdmin() {
-  //   try {
-  //     // 从本地存储获取 openid（如果之前已获取）
-  //     let cachedOpenid = wx.getStorageSync('openid');
-  //     let cachedIsAdmin = wx.getStorageSync('isAdmin');
+  // 初始化登录态
+  async initLogin() {
+    try {
+      if (wx.cloud && wx.cloud.callFunction) {
+        const res = await wx.cloud.callFunction({ name: 'login', data: {} })
+        const result = res.result || {}
+        const openid = result.userOpenId || ''
+        const merchant = result.merchant || null
 
-  //     // 如果本地已有数据，直接使用
-  //     if (cachedOpenid && cachedIsAdmin !== undefined) {
-  //       console.log('从本地存储读取用户信息:', cachedOpenid, cachedIsAdmin);
-  //       this.globalData.openid = cachedOpenid;
-  //       this.globalData.isAdmin = cachedIsAdmin;
-  //       return;
-  //     }
+        if (openid) {
+          this.globalData.openid = openid
+          wx.setStorageSync('openid', openid)
+        }
 
-  //     // 否则调用云函数获取
-  //     console.log('调用 login 云函数获取 openid...');
+        if (merchant) {
+          // 白名单商家
+          this.globalData.merchant = merchant
+          this.globalData.isMerchant = true
+          wx.setStorageSync('merchantInfo', merchant)
+          wx.setStorageSync('isMerchant', true)
+          if (merchant.storeId) wx.setStorageSync('storeId', merchant.storeId)
+          console.log('✅ 商家登录成功:', merchant.storeId, merchant.storeName)
+        } else {
+          // 普通顾客：创始人白名单兜底
+          const isAdmin = ADMIN_OPENIDS.indexOf(openid) > -1
+          this.globalData.isMerchant = isAdmin
+          this.globalData.isAdmin = isAdmin
+          console.log('顾客身份，openid:', openid)
+        }
+        return
+      }
+    } catch (err) {
+      console.warn('[login] 云函数调用失败:', err)
+    }
 
-  //     const res = await wx.cloud.callFunction({
-  //       name: 'login',
-  //       data: {}
-  //     });
-
-  //     console.log('云函数完整返回:', res.result);
-  //     console.log('返回数据结构:', JSON.stringify(res.result, null, 2));
-
-  //     const openid = res.result?.userOpenId ||
-  //                    res.result?.userInfo?.openId ||
-  //                    res.result?.data?.adminCheck?.checkedOpenid;
-
-  //     if (openid) {
-  //       console.log('✅ 成功获取 openid:', openid);
-        
-  //       // 从云函数返回或本地检查管理员状态
-  //       let isAdmin =  res.result?.isAdminStatus || 
-  //                     res.result?.isUserAdmin || 
-  //                     res.result?.adminFlag ||
-  //                     ADMIN_OPENIDS.includes(openid);
-        
-  //       console.log('✅ 管理员状态:', isAdmin);
-
-  //       // 保存到全局数据
-  //       this.globalData.openid = openid;
-  //       this.globalData.isAdmin = isAdmin;
-
-  //       // 存储到本地
-  //       wx.setStorageSync('openid', openid);
-  //       wx.setStorageSync('isAdmin', isAdmin);
-
-  //       console.log('用户信息已保存到本地');
-  //     } else {
-  //       console.error('❌ 云函数返回数据异常:', res.result);
-  //       console.error('❌ 无法从返回数据中提取 openid');
-  //       this.globalData.isAdmin = false;
-  //     }
-  //   } catch (err) {
-  //     console.error('获取 openid 或检查管理员权限失败:', err);
-  //     this.globalData.isAdmin = false;
-  //   }
-  // },
-
-  // 获取当前用户的 openid
-  // getOpenid() {
-  //   return this.globalData.openid || wx.getStorageSync('openid') || '';
-  // },
+    // 降级：本地缓存或开发默认商家（便于预览）
+    const cachedMerchant = wx.getStorageSync('merchantInfo')
+    if (cachedMerchant) {
+      this.globalData.merchant = cachedMerchant
+      this.globalData.isMerchant = true
+      return
+    }
+    const storeId = wx.getStorageSync('storeId') || 'S1001'
+    this.globalData.isMerchant = true
+    this.globalData.merchant = {
+      storeId: storeId,
+      storeName: '青柠咖啡',
+      plan: 'dev',
+      status: 'active',
+      expireTime: null
+    }
+    wx.setStorageSync('storeId', storeId)
+    console.log('[dev] 本地降级为商家模式，storeId =', storeId)
+  },
 
   // 检查当前用户是否为管理员
   checkIsAdmin() {
-    // const isAdmin = this.globalData.isAdmin !== undefined ?
-    //   this.globalData.isAdmin :
-    //   wx.getStorageSync('isAdmin');
-
-    // return isAdmin === true;
-
-    return true
+    return this.globalData.isAdmin === true || this.globalData.isMerchant === true
   },
 
   // 检查日期变化，执行每日重置任务
   async checkDailyReset() {
     const today = this.getTodayString()
-    const lastDate = 
-     wx.getStorageSync('lastActiveDate')
+    const lastDate = wx.getStorageSync('lastActiveDate')
 
     console.log('当前日期:', today)
     console.log('上次激活日期:', lastDate)
@@ -127,10 +114,7 @@ App({
       console.log('日期已变更，执行每日重置任务')
 
       try {
-        wx.showLoading({
-          title: '正在重置...',
-          mask: true
-        })
+        wx.showLoading({ title: '正在重置...', mask: true })
 
         // 1. 生成昨天的日报
         await this.generateDailyReport(lastDate)
@@ -142,19 +126,11 @@ App({
 
         wx.hideLoading()
 
-        wx.showToast({
-          title: '新的一天！',
-          icon: 'success',
-          duration: 2000
-        })
+        wx.showToast({ title: '新的一天！', icon: 'success', duration: 2000 })
       } catch (err) {
         console.error('每日重置任务执行失败:', err)
         wx.hideLoading()
-        wx.showToast({
-          title: '重置失败',
-          icon: 'none',
-          duration: 2000
-        })
+        wx.showToast({ title: '重置失败', icon: 'none', duration: 2000 })
       }
     }
 
@@ -176,8 +152,8 @@ App({
         .get()
 
       if (existingReportRes.data && existingReportRes.data.length > 0) {
-        console.log(`日期 ${dateString} 的日报已存在，跳过生成`)
-        return existingReportRes.data[0]  // 返回已存在的日报
+        console.log('日期 ' + dateString + ' 的日报已存在，跳过生成')
+        return existingReportRes.data[0]
       }
 
       // 查询当天的所有记录
@@ -185,7 +161,7 @@ App({
         .where({
           dateString: dateString,
           status: 'completed',
-          completed: true  // 只统计已完成的记录
+          completed: true
         })
         .get()
 
@@ -196,7 +172,7 @@ App({
       let totalCount = 0
       let totalQuantity = 0
       let totalCalories = 0
-      const itemStats = {} // 饮品统计
+      const itemStats = {}
 
       records.forEach(record => {
         totalCount++
@@ -205,7 +181,7 @@ App({
 
         if (record.items && record.items.length > 0) {
           record.items.forEach(item => {
-            const key = `${item.name}-${item.temperature}-${item.sugarLevel}`
+            const key = item.name + '-' + (item.temperature || '') + '-' + (item.sugarLevel || '')
             if (!itemStats[key]) {
               itemStats[key] = {
                 name: item.name,
@@ -224,7 +200,7 @@ App({
       // 按数量排序饮品
       const sortedItems = Object.values(itemStats)
         .sort((a, b) => b.quantity - a.quantity)
-        .slice(0, 10) // 取前10名
+        .slice(0, 10)
 
       // 生成日报数据
       const report = {
@@ -244,11 +220,6 @@ App({
       })
 
       console.log('日报保存成功，日期:', dateString)
-      console.log('总记录数:', totalCount)
-      console.log('总饮品数:', totalQuantity)
-      console.log('总热量:', totalCalories)
-      console.log('热门饮品TOP10:', sortedItems.map(item => item.name))
-
       return report
     } catch (err) {
       console.error('生成日报失败:', err)
@@ -258,39 +229,37 @@ App({
 
   // 获取今日日期字符串
   getTodayString() {
-    const date = new Date();
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
+    const date = new Date()
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+    return year + '-' + month + '-' + day
   },
 
   // 格式化热量/数值
   formatCalories(calories) {
-    if (calories === null || calories === undefined) {
-      return '0';
-    }
-    return parseInt(calories).toString();
+    if (calories === null || calories === undefined) return '0'
+    return parseInt(calories).toString()
   },
 
   // 格式化时间
   formatTime(timestamp) {
-    if (!timestamp) return '';
-    const date = new Date(timestamp);
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    return `${hours}:${minutes}`;
+    if (!timestamp) return ''
+    const date = new Date(timestamp)
+    const hours = String(date.getHours()).padStart(2, '0')
+    const minutes = String(date.getMinutes()).padStart(2, '0')
+    return hours + ':' + minutes
   },
 
   // 格式化完整时间
   formatFullTime(timestamp) {
-    if (!timestamp) return '';
-    const date = new Date(timestamp);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    return `${year}-${month}-${day} ${hours}:${minutes}`;
+    if (!timestamp) return ''
+    const date = new Date(timestamp)
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+    const hours = String(date.getHours()).padStart(2, '0')
+    const minutes = String(date.getMinutes()).padStart(2, '0')
+    return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes
   }
 })

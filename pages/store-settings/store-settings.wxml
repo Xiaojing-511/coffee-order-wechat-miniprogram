@@ -1,0 +1,42 @@
+<view class="page-content-wrapper">
+  <view class="container" wx:if="{{!loading}}">
+    <view class="card">
+      <view class="form-row">
+        <text class="form-label">店铺名称</text>
+        <input class="form-input" placeholder="请输入店铺名称" value="{{form.storeName}}" data-field="storeName" bindinput="onInput" />
+      </view>
+      <view class="form-row">
+        <text class="form-label">营业时间</text>
+        <input class="form-input" placeholder="如 09:00 - 21:00" value="{{form.openTime}}" data-field="openTime" bindinput="onInput" />
+      </view>
+      <view class="form-row">
+        <text class="form-label">营业状态</text>
+        <view class="form-right">
+          <text class="status-text {{form.status === 'closed' ? 'closed' : ''}}">{{form.status === 'closed' ? '休息中' : '营业中'}}</text>
+          <switch checked="{{form.status === 'open'}}" bindchange="onStatusChange" color="#8D6E63" />
+        </view>
+      </view>
+      <view class="form-row">
+        <text class="form-label">店铺地址</text>
+        <input class="form-input" placeholder="选填" value="{{form.address}}" data-field="address" bindinput="onInput" />
+      </view>
+      <view class="form-row">
+        <text class="form-label">联系电话</text>
+        <input class="form-input" placeholder="选填" value="{{form.phone}}" data-field="phone" bindinput="onInput" />
+      </view>
+    </view>
+
+    <view class="card">
+      <view class="form-row">
+        <text class="form-label">店铺公告</text>
+        <textarea class="form-textarea" placeholder="新店开业优惠、促销活动等（选填）" value="{{form.announcement}}" data-field="announcement" bindinput="onInput" />
+      </view>
+      <view class="form-row">
+        <text class="form-label">取餐说明</text>
+        <textarea class="form-textarea" placeholder="如：到店请出示取餐码（选填）" value="{{form.pickupNote}}" data-field="pickupNote" bindinput="onInput" />
+      </view>
+    </view>
+
+    <view class="save-btn" bindtap="save">保存设置</view>
+  </view>
+</view>

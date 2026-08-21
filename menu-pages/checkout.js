@@ -1,4 +1,5 @@
 const { formatPrice } = require('../utils/money.js');
+const { cartKey } = require('../utils/storeContext.js');
 const orderService = require('../utils/orderService.js');
 
 Page({
@@ -19,7 +20,7 @@ Page({
   },
 
   loadCart: function() {
-    const items = wx.getStorageSync('cart') || [];
+    const items = wx.getStorageSync(cartKey()) || [];
     let totalQuantity = 0;
     let totalAmount = 0;
     items.forEach(function(it) {
@@ -90,7 +91,7 @@ Page({
       }
 
       // 3. 清空购物车
-      wx.setStorageSync('cart', []);
+      wx.setStorageSync(cartKey(), []);
 
       wx.hideLoading();
       wx.redirectTo({

@@ -1,5 +1,6 @@
 const db = require('../utils/database.js');
 const { formatPrice } = require('../utils/money.js');
+const { parseStoreId, setStoreId, cartKey } = require('../utils/storeContext.js');
 
 Page({
   data: {
@@ -19,6 +20,9 @@ Page({
 
   onLoad: function(options) {
     wx.hideHomeButton();
+    // 店铺上下文兜底
+    const sid = parseStoreId(options);
+    if (sid) setStoreId(sid);
     // 优先从数据库加载数据
     if (options.id) {
       this.loadDrinkById(options.id);
@@ -98,10 +102,10 @@ Page({
 
   // ===== 购物车 =====
   getCart: function() {
-    return wx.getStorageSync('cart') || [];
+    return wx.getStorageSync(cartKey()) || [];
   },
   saveCart: function(cart) {
-    wx.setStorageSync('cart', cart);
+    wx.setStorageSync(cartKey(), cart);
     this.refreshCart();
   },
   refreshCart: function() {

@@ -1,6 +1,7 @@
 const db = require('../../utils/database.js');
 const { yuanToCents, centsToYuanText, formatPrice } = require('../../utils/money.js');
 const { seedDemoData } = require('../../utils/seed.js');
+const { myStoreId } = require('../../utils/merchant.js');
 
 Page({
   data: {
@@ -50,7 +51,7 @@ Page({
       let hasMore = true;
 
       while (hasMore) {
-        const res = await db.query('categories', {}, {
+        const res = await db.query('categories', { storeId: myStoreId() }, {
           orderBy: { field: 'createTime', order: 'asc' },
           limit: limit,
           skip: skip
@@ -90,7 +91,7 @@ Page({
       let hasMore = true;
 
       while (hasMore) {
-        const res = await db.query('drink_items', {}, {
+        const res = await db.query('drink_items', { storeId: myStoreId() }, {
           orderBy: { field: 'createTime', order: 'asc' },  // 按创建时间升序排序（最早的排第一）
           limit: limit,
           skip: skip
@@ -191,6 +192,7 @@ Page({
 
     try {
       const res = await db.add('categories', {
+        storeId: myStoreId(),
         name: categoryName.trim(),
         createTime: new Date().getTime()
       });
@@ -389,6 +391,7 @@ Page({
 
   try {
     const drinkData = {
+      storeId: myStoreId(),
       name: drinkName.trim(),
       price: yuanToCents(drinkPrice),
       calories: drinkCalories ? parseFloat(drinkCalories) : 0,

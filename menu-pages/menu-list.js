@@ -1,5 +1,7 @@
 const db = require('../utils/database.js');
 const { formatPrice } = require('../utils/money.js');
+const { parseStoreId, setStoreId, getStoreId } = require('../utils/storeContext.js');
+const { isMerchant, myStoreId } = require('../utils/merchant.js');
 
 Page({
   data: {
@@ -10,18 +12,30 @@ Page({
     isAdmin: false,
     cartCount: 0,
     store: {
+      storeId: '',
       storeName: '青柠咖啡',
       announcement: '',
       openTime: '',
-      pickupNote: ''
+      pickupNote: '',
+      status: 'open',
+      address: '',
+      phone: ''
     }
   },
 
-  onLoad: function() {
+  onLoad: function(options) {
     // 隐藏返回主页按钮
     wx.hideHomeButton();
-    
     this.setData({ isAdmin: false });
+
+    // 解析店铺：小程序码/分享带 storeId；商家直接打开则用自家店铺
+    const sid = parseStoreId(options);
+    if (sid) {
+      setStoreId(sid);
+    } else if (isMerchant()) {
+      setStoreId(myStoreId());
+    }
+
     this.loadStoreSettings();
     this.loadCategories();
     this.loadDrinkItems();
@@ -30,7 +44,11 @@ Page({
   onShow: function() {
     // 每次显示页面都尝试隐藏返回按钮
     wx.hideHomeButton();
-    
+
+    if (!getStoreId()) {
+      if (isMerchant()) setStoreId(myStoreId());
+    }
+
     this.loadStoreSettings();
     this.loadCategories();
     this.loadDrinkItems();
@@ -45,7 +63,7 @@ Page({
       let hasMore = true;
 
       while (hasMore) {
-        const res = await db.query('categories', {}, {
+        const res = await db.query('categories', { storeId: getStoreId() }, {
           orderBy: { field: 'createTime', order: 'asc' },
           limit: limit,
           skip: skip
@@ -81,7 +99,7 @@ Page({
       let hasMore = true;
 
       while (hasMore) {
-        const res = await db.query('drink_items', {}, {
+        const res = await db.query('drink_items', { storeId: getStoreId() }, {
           orderBy: { field: 'createTime', order: 'asc' },
           limit: limit,
           skip: skip
@@ -131,16 +149,22 @@ Page({
   },
 
   loadStoreSettings: async function() {
+    const sid = getStoreId();
+    if (!sid) return;
     try {
-      const res = await db.query('store_settings', {}, { limit: 1 });
+      const res = await db.query('stores', { storeId: sid }, { limit: 1 });
       if (res.success && res.data && res.data.length > 0) {
         const s = res.data[0];
         this.setData({
           store: {
+            storeId: s.storeId || sid,
             storeName: s.storeName || '欢迎光临',
             announcement: s.announcement || '',
             openTime: s.openTime || '',
-            pickupNote: s.pickupNote || ''
+            pickupNote: s.pickupNote || '',
+            status: s.status || 'open',
+            address: s.address || '',
+            phone: s.phone || ''
           }
         });
       }
@@ -177,6 +201,11 @@ Page({
 
   goToDetail: function(e) {
     const item = e.currentTarget.dataset.item;
+    // 歇业状态禁止下单
+    if (this.data.store.status === 'closed') {
+      wx.showToast({ title: '店铺休息中，暂不可下单', icon: 'none' });
+      return;
+    }
     if (item._id) {
       // 传递ID，从数据库加载最新数据，使用 redirectTo 禁止返回
       wx.redirectTo({

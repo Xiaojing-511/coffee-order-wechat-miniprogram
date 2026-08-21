@@ -6,6 +6,8 @@
 const db = require('./database.js');
 const orderUtil = require('./order.js');
 const money = require('./money.js');
+const { getStoreId, cartKey } = require('./storeContext.js');
+const { myStoreId } = require('./merchant.js');
 
 /**
  * 顾客身份：优先 openid（云开发登录），否则用本地设备ID（模拟环境）
@@ -47,6 +49,7 @@ const createOrder = async (params) => {
   const totalQuantity = items.reduce((s, it) => s + it.quantity, 0);
   const order = {
     orderNo: orderUtil.generateOrderNo(),
+    storeId: getStoreId() || myStoreId(),
     items: items,
     totalQuantity: totalQuantity,
     totalAmount: totalAmount,
@@ -137,7 +140,7 @@ const cancelOrder = async (orderId) => {
 const reorder = async (orderId) => {
   const order = await getOrderById(orderId);
   if (!order || !order.items) return 0;
-  wx.setStorageSync('cart', order.items.map(it => Object.assign({}, it)));
+  wx.setStorageSync(cartKey(), order.items.map(it => Object.assign({}, it)));
   const count = order.items.reduce((s, it) => s + (it.quantity || 1), 0);
   return count;
 };

@@ -6,6 +6,7 @@
         <!-- 订单头部 -->
         <view class="order-header" bindtap="toggleExpand" data-id="{{item._id}}">
           <view class="order-header-left">
+            <text class="order-store-name" wx:if="{{item.storeName}}">{{item.storeName}}</text>
             <text class="order-no">#{{item.orderNo}}</text>
             <text class="order-time">{{formatTime(item.createTime)}}</text>
           </view>
