@@ -3,6 +3,17 @@
   <view class="container">
     <!-- 欢迎标题 / 店铺信息 -->
     <view class="welcome-header">
+      <view class="header-icons">
+        <view class="header-icon-wrap" bindtap="goToMyOrders">
+          <text class="header-icon">📋</text>
+          <text class="header-icon-label">订单</text>
+        </view>
+        <view class="header-icon-wrap" bindtap="goToCart">
+          <text class="header-icon">🛒</text>
+          <text class="cart-badge" wx:if="{{cartCount > 0}}">{{cartCount}}</text>
+          <text class="header-icon-label">购物车</text>
+        </view>
+      </view>
       <text class="welcome-title">{{store.storeName || '欢迎光临'}}</text>
       <text class="welcome-subtitle" wx:if="{{store.openTime}}">营业时间 {{store.openTime}}</text>
       <text class="welcome-announcement" wx:if="{{store.announcement}}">{{store.announcement}}</text>

@@ -252,3 +252,51 @@
   transform: none;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
+
+/* 头部图标 */
+.header-icons {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  gap: 16px;
+  z-index: 10;
+}
+
+.header-icon-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fff;
+}
+
+.header-icon {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.header-icon-label {
+  font-size: 10px;
+  margin-top: 2px;
+  opacity: 0.9;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  min-width: 16px;
+  height: 16px;
+  line-height: 16px;
+  text-align: center;
+  background: #eb3349;
+  color: #fff;
+  font-size: 10px;
+  border-radius: 8px;
+  padding: 0 4px;
+}
+
+.welcome-header {
+  position: relative;
+}

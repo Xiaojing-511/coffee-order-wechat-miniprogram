@@ -8,7 +8,11 @@
     "pages/daily/daily",
     "pages/privacy/privacy",
     "menu-pages/menu-list",
-    "menu-pages/menu-detail"
+    "menu-pages/menu-detail",
+    "menu-pages/cart",
+    "menu-pages/checkout",
+    "menu-pages/order-success",
+    "menu-pages/my-orders"
   ],
   "window": {
     "backgroundTextStyle": "light",

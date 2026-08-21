@@ -1,0 +1,41 @@
+<view class="page-content-wrapper">
+  <view class="container">
+    <!-- 成功图标 -->
+    <view class="success-icon">✓</view>
+    <view class="success-title">支付成功</view>
+    <view class="success-subtitle" wx:if="{{order}}">订单已提交，请凭取餐码取餐</view>
+
+    <!-- 取餐码 -->
+    <view class="pickup-card" wx:if="{{order && order.pickupCode}}">
+      <text class="pickup-label">取餐码</text>
+      <text class="pickup-code">{{order.pickupCode}}</text>
+      <text class="pickup-note">到店请出示此码</text>
+    </view>
+
+    <!-- 订单信息 -->
+    <view class="order-info" wx:if="{{order}}">
+      <view class="info-row">
+        <text class="info-label">订单号</text>
+        <text class="info-value">{{order.orderNo}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">金额</text>
+        <text class="info-value price">{{formatPrice(order.totalAmount)}}</text>
+      </view>
+      <view class="info-row" wx:if="{{order.pickupTime}}">
+        <text class="info-label">取餐时间</text>
+        <text class="info-value">{{order.pickupTime}}</text>
+      </view>
+      <view class="info-row" wx:if="{{order.customerName}}">
+        <text class="info-label">取餐人</text>
+        <text class="info-value">{{order.customerName}}</text>
+      </view>
+    </view>
+
+    <!-- 按钮 -->
+    <view class="action-buttons">
+      <view class="action-btn primary" bindtap="goToMyOrders">查看我的订单</view>
+      <view class="action-btn" bindtap="goBackToMenu">返回饮品单</view>
+    </view>
+  </view>
+</view>

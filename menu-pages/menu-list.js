@@ -8,6 +8,7 @@ Page({
     categoryItemsMap: {},
     currentCategory: 'all',
     isAdmin: false,
+    cartCount: 0,
     store: {
       storeName: '青柠咖啡',
       announcement: '',
@@ -33,6 +34,7 @@ Page({
     this.loadStoreSettings();
     this.loadCategories();
     this.loadDrinkItems();
+    this.refreshCart();
   },
 
   loadCategories: async function() {
@@ -150,6 +152,22 @@ Page({
   // 金额格式化（供 WXML 使用）
   formatPrice: function(cents) {
     return formatPrice(cents);
+  },
+
+  // 购物车角标
+  refreshCart: function() {
+    const cart = wx.getStorageSync('cart') || [];
+    let count = 0;
+    cart.forEach(function(it) { count += it.quantity || 1; });
+    this.setData({ cartCount: count });
+  },
+
+  goToCart: function() {
+    wx.navigateTo({ url: '/menu-pages/cart' });
+  },
+
+  goToMyOrders: function() {
+    wx.navigateTo({ url: '/menu-pages/my-orders' });
   },
 
   selectCategory: function(e) {
