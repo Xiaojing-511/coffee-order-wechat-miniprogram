@@ -378,7 +378,7 @@ Page({
 
  // 添加/更新饮品
  addDrink: async function() {
-  const { drinkName, drinkCalories, drinkDescription, selectedCategory, editingDrink, drinkImageUrl } = this.data;
+  const { drinkName, drinkCalories, drinkDescription, selectedCategory, editingDrink, drinkImageUrl, drinkPrice, drinkAvailable } = this.data;
 
   if (!drinkName.trim()) {
     wx.showToast({ title: '请输入饮品名称', icon: 'none' });
