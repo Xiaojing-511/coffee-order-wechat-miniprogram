@@ -76,6 +76,15 @@ exports.main = async (event, context) => {
     return null
   }
 
+  // 集合不存在时自动创建（空库环境）
+  const ensureCollection = async (name) => {
+    try {
+      await db.createCollection(name)
+    } catch (e) {
+      // 已存在或并发创建，忽略
+    }
+  }
+
   // 读取订单（带异常处理）
   const getOrder = async (orderId) => {
     try {
@@ -96,8 +105,13 @@ exports.main = async (event, context) => {
       const ids = items.map(i => i.id).filter(Boolean)
       if (ids.length === 0) return { success: false, error: '饮品参数错误' }
 
-      // 读取菜单真实价格
-      const drinkRes = await db.collection('drink_items').where({ _id: _.in(ids), storeId: storeId }).limit(50).get()
+      // 读取菜单真实价格（集合不存在时视为空菜单）
+      let drinkRes
+      try {
+        drinkRes = await db.collection('drink_items').where({ _id: _.in(ids), storeId: storeId }).limit(50).get()
+      } catch (e) {
+        return { success: false, error: '店铺菜单为空' }
+      }
       const menu = {}
       ;(drinkRes.data || []).forEach(d => { menu[d._id] = d })
 
@@ -142,6 +156,7 @@ exports.main = async (event, context) => {
         openid: openid,
         createTime: Date.now()
       }
+      await ensureCollection('orders')
       const addRes = await db.collection('orders').add({ data: order })
       return { success: true, _id: addRes._id, order: Object.assign({}, order, { _id: addRes._id }) }
     }

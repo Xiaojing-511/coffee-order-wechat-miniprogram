@@ -28,6 +28,20 @@ exports.main = async (event, context) => {
   const db = cloud.database()
   const results = { merchants: 0, stores: 0, categories: 0, drinks: 0, seeded: false, callerOpenid: callerOpenid || '' }
 
+  // 0. 确保所有集合存在（空库环境自动创建）
+  const ensureCollection = async (name) => {
+    try {
+      await db.createCollection(name)
+    } catch (e) {
+      // 已存在或并发创建，忽略
+    }
+  }
+  await ensureCollection('merchants')
+  await ensureCollection('stores')
+  await ensureCollection('categories')
+  await ensureCollection('drink_items')
+  await ensureCollection('store_settings')
+
   // 1. 商家白名单：创始人 + 运行者自己（自动开通）
   const targets = []
   OWNER_OPENIDS.forEach(function(o) { if (targets.indexOf(o) === -1) targets.push(o) })

@@ -45,6 +45,15 @@ exports.main = async (event, context) => {
   const scene = 'storeId=' + storeId
   const cloudPath = 'store-qr/' + storeId + '.png'
 
+  // 集合不存在时自动创建（空库环境）
+  const ensureCollection = async (name) => {
+    try {
+      await db.createCollection(name)
+    } catch (e) {
+      // 已存在或并发创建，忽略
+    }
+  }
+
   try {
     // 1. 生成小程序码
     const qrRes = await cloud.openapi.wxacode.getUnlimited({
@@ -64,10 +73,15 @@ exports.main = async (event, context) => {
       fileContent: buffer
     })
 
-    // 3. 记录 fileID 到店铺信息
-    await db.collection('stores').where({ storeId: storeId }).update({
-      data: { qrFileId: uploadRes.fileID, qrUpdateTime: Date.now() }
-    })
+    // 3. 记录 fileID 到店铺信息（失败不阻塞，码已生成）
+    try {
+      await ensureCollection('stores')
+      await db.collection('stores').where({ storeId: storeId }).update({
+        data: { qrFileId: uploadRes.fileID, qrUpdateTime: Date.now() }
+      })
+    } catch (e) {
+      console.warn('记录 fileID 失败（不影响使用）:', e)
+    }
 
     return { success: true, fileID: uploadRes.fileID, scene: scene }
   } catch (err) {

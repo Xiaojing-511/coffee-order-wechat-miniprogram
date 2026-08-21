@@ -42,6 +42,15 @@ exports.main = async (event, context) => {
   if (expired) return { success: false, error: '服务已到期，请联系平台续费', code: 'expired' }
   const storeId = merchant.storeId
 
+  // 集合不存在时自动创建（空库环境）
+  const ensureCollection = async (name) => {
+    try {
+      await db.createCollection(name)
+    } catch (e) {
+      // 已存在或并发创建，忽略
+    }
+  }
+
   // 文档归属校验（防止跨店操作）
   const checkOwn = async (collection, id) => {
     try {
@@ -67,6 +76,7 @@ exports.main = async (event, context) => {
         await db.collection('categories').doc(id).update({ data: { name: trimmed, updateTime: Date.now() } })
         return { success: true }
       }
+      await ensureCollection('categories')
       const res = await db.collection('categories').add({ data: { storeId: storeId, name: trimmed, createTime: Date.now() } })
       return { success: true, _id: res._id }
     }
@@ -102,6 +112,7 @@ exports.main = async (event, context) => {
       }
       data.storeId = storeId
       data.createTime = Date.now()
+      await ensureCollection('drink_items')
       const res = await db.collection('drink_items').add({ data: data })
       return { success: true, _id: res._id }
     }
