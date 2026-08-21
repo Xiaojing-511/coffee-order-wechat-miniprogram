@@ -36,11 +36,13 @@ exports.main = async (event, context) => {
       // 已存在或并发创建，忽略
     }
   }
-  await ensureCollection('merchants')
-  await ensureCollection('stores')
-  await ensureCollection('categories')
-  await ensureCollection('drink_items')
-  await ensureCollection('store_settings')
+  await Promise.all([
+    ensureCollection('merchants'),
+    ensureCollection('stores'),
+    ensureCollection('categories'),
+    ensureCollection('drink_items'),
+    ensureCollection('store_settings')
+  ])
 
   // 1. 商家白名单：创始人 + 运行者自己（自动开通）
   const targets = []
@@ -111,11 +113,11 @@ exports.main = async (event, context) => {
   // 4. 空库时写入演示数据
   const catCount = await db.collection('categories').count()
   if (catCount.total === 0) {
-    for (const name of DEMO_CATEGORIES) {
-      await db.collection('categories').add({ data: { storeId: DEFAULT_STORE_ID, name: name, createTime: Date.now() } })
-    }
-    for (const d of DEMO_DRINKS) {
-      await db.collection('drink_items').add({ data: {
+    await Promise.all(DEMO_CATEGORIES.map(function(name) {
+      return db.collection('categories').add({ data: { storeId: DEFAULT_STORE_ID, name: name, createTime: Date.now() } })
+    }))
+    await Promise.all(DEMO_DRINKS.map(function(d) {
+      return db.collection('drink_items').add({ data: {
         storeId: DEFAULT_STORE_ID,
         name: d.name,
         price: d.price,
@@ -126,7 +128,7 @@ exports.main = async (event, context) => {
         createTime: Date.now(),
         updateTime: Date.now()
       } })
-    }
+    }))
     results.seeded = true
   }
 
