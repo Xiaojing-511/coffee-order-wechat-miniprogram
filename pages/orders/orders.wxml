@@ -15,6 +15,15 @@
     </view>
 
     <block wx:if="{{!notMerchant}}">
+      <!-- 商家前台点单入口 -->
+      <view class="counter-bar">
+        <view class="counter-info">
+          <text class="counter-icon">🏪</text>
+          <text class="counter-text">顾客到店？直接在手机上代客下单</text>
+        </view>
+        <view class="counter-btn" bindtap="goMerchantOrder">代客下单</view>
+      </view>
+
       <!-- 状态筛选 -->
       <view class="tabs">
         <view
@@ -37,7 +46,7 @@
               <text class="order-no">#{{item.orderNo}}</text>
               <text class="order-time">{{formatTime(item.createTime)}}<text wx:if="{{item.pickupTime}}"> · {{item.pickupTime}}取</text></text>
             </view>
-            <view class="order-status {{item.status}}">{{statusText[item.status] || item.status}}</view>
+            <view class="order-status {{item.status}}">{{statusText[item.status] || item.status}}<text class="source-tag" wx:if="{{item.source === 'merchant'}}">代客</text></view>
           </view>
 
           <view class="order-customer">

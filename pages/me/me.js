@@ -22,7 +22,7 @@ Page({
   goMenu: function() {
     const merchant = getMerchantInfo();
     const storeId = (merchant && merchant.storeId) || wx.getStorageSync('storeId') || 'S1001';
-    wx.redirectTo({ url: '/menu-pages/menu-list?storeId=' + storeId });
+    wx.redirectTo({ url: '/menu-pages/menu-list?storeId=' + storeId + '&source=merchant' });
   },
 
   goPrivacy: function() {

@@ -78,7 +78,7 @@ exports.main = async (event, context) => {
   switch (action) {
     // ===== 顾客：创建订单（服务端按菜单价计算金额） =====
     case 'create': {
-      const { storeId, items, customerName, customerPhone, pickupTime, remark } = event
+      const { storeId, items, customerName, customerPhone, pickupTime, remark, source } = event
       if (!storeId || !Array.isArray(items) || items.length === 0) {
         return { success: false, error: '参数错误' }
       }
@@ -127,6 +127,7 @@ exports.main = async (event, context) => {
         remark: remark || '',
         status: STATUS.PENDING,
         payMethod: 'mock',
+        source: source === 'merchant' ? 'merchant' : 'customer',
         openid: openid,
         createTime: Date.now()
       }

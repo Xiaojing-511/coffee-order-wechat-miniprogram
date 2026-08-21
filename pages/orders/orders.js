@@ -1,6 +1,6 @@
 const { formatPrice } = require('../../utils/money.js');
 const { ORDER_STATUS_TEXT } = require('../../utils/order.js');
-const { isMerchant } = require('../../utils/merchant.js');
+const { isMerchant, myStoreId } = require('../../utils/merchant.js');
 const orderService = require('../../utils/orderService.js');
 
 const TABS = [
@@ -34,6 +34,11 @@ Page({
     this.loadOrders().then(function() {
       wx.stopPullDownRefresh();
     });
+  },
+
+  // 商家前台点单（代客下单）：进入自己店铺的点单流程
+  goMerchantOrder: function() {
+    wx.redirectTo({ url: '/menu-pages/menu-list?storeId=' + myStoreId() + '&source=merchant' });
   },
 
   switchTab: function(e) {

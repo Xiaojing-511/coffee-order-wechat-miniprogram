@@ -22,6 +22,6 @@ Page({
   },
 
   goMenu: function() {
-    wx.redirectTo({ url: '/menu-pages/menu-list?storeId=' + this.data.storeId });
+    wx.redirectTo({ url: '/menu-pages/menu-list?storeId=' + this.data.storeId + '&source=merchant' });
   }
 });

@@ -64,6 +64,7 @@ const createOrder = async (params) => {
   const cloudRes = await callOrderFn({
     action: 'create',
     storeId: storeId,
+    source: params.source || 'customer',
     items: items,
     customerName: params.customerName || '',
     customerPhone: params.customerPhone || '',
@@ -91,6 +92,7 @@ const createOrder = async (params) => {
     remark: params.remark || '',
     status: orderUtil.ORDER_STATUS.PENDING,
     payMethod: 'mock',
+    source: params.source === 'merchant' ? 'merchant' : 'customer',
     openid: getCustomerId(),
     createTime: Date.now()
   };

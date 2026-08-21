@@ -72,9 +72,10 @@ Page({
     this.setData({ submitting: true });
     wx.showLoading({ title: '提交订单中...' });
     try {
-      // 1. 创建订单（待支付）
+      // 1. 创建订单（待支付）；商家代客下单标记 source
       const created = await orderService.createOrder({
         items: this.data.items,
+        source: wx.getStorageSync('orderSource') || 'customer',
         customerName: name,
         customerPhone: phone,
         pickupTime: this.data.pickupTime,
@@ -90,8 +91,9 @@ Page({
         throw new Error(paid.error || '支付失败');
       }
 
-      // 3. 清空购物车
+      // 3. 清空购物车 + 清除代客下单标记
       wx.setStorageSync(cartKey(), []);
+      wx.removeStorageSync('orderSource');
 
       wx.hideLoading();
       wx.redirectTo({

@@ -2,6 +2,7 @@ const db = require('../../utils/database.js');
 const { yuanToCents, centsToYuanText, formatPrice } = require('../../utils/money.js');
 const { seedDemoData } = require('../../utils/seed.js');
 const { myStoreId } = require('../../utils/merchant.js');
+const menuService = require('../../utils/menuService.js');
 
 Page({
   data: {
@@ -191,11 +192,7 @@ Page({
     wx.showLoading({ title: '添加中...' });
 
     try {
-      const res = await db.add('categories', {
-        storeId: myStoreId(),
-        name: categoryName.trim(),
-        createTime: new Date().getTime()
-      });
+      const res = await menuService.saveCategory(categoryName.trim());
 
       wx.hideLoading();
 
@@ -229,7 +226,7 @@ Page({
           wx.showLoading({ title: '删除中...' });
 
           try {
-            const result = await db.remove('categories', id);
+            const result = await menuService.deleteCategory(id);
             wx.hideLoading();
 
             if (result.success) {
@@ -409,11 +406,10 @@ Page({
     let res;
     if (editingDrink) {
       // 更新饮品
-      res = await db.update('drink_items', editingDrink._id, drinkData);
+      res = await menuService.saveDrink(drinkData, editingDrink._id);
     } else {
       // 新增饮品
-      drinkData.createTime = new Date().getTime();
-      res = await db.add('drink_items', drinkData);
+      res = await menuService.saveDrink(drinkData, '');
     }
 
     wx.hideLoading();
@@ -448,7 +444,7 @@ Page({
           wx.showLoading({ title: '删除中...' });
 
           try {
-            const result = await db.remove('drink_items', id);
+            const result = await menuService.deleteDrink(id);
             wx.hideLoading();
 
             if (result.success) {

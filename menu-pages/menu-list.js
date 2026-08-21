@@ -36,6 +36,11 @@ Page({
       setStoreId(myStoreId());
     }
 
+    // 商家前台点单（代客下单）标记
+    if (options && options.source === 'merchant') {
+      wx.setStorageSync('orderSource', 'merchant');
+    }
+
     this.loadStoreSettings();
     this.loadCategories();
     this.loadDrinkItems();
