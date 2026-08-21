@@ -1,4 +1,5 @@
 const db = require('../utils/database.js');
+const { formatPrice } = require('../utils/money.js');
 
 Page({
   data: {
@@ -41,6 +42,11 @@ Page({
   onShow: function() {
     // 每次显示页面都尝试隐藏返回按钮
     wx.hideHomeButton();
+  },
+
+  // 金额格式化（供 WXML 使用）
+  formatPrice: function(cents) {
+    return formatPrice(cents);
   },
 
   // 根据ID从数据库加载饮品数据

@@ -1,4 +1,6 @@
 const db = require('../../utils/database.js');
+const { yuanToCents, centsToYuanText, formatPrice } = require('../../utils/money.js');
+const { seedDemoData } = require('../../utils/seed.js');
 
 Page({
   data: {
@@ -18,6 +20,8 @@ Page({
     selectedCategory: '',
     editingDrink: null,
     drinkImageUrl: '',  // 饮品图片URL
+    drinkPrice: '',     // 饮品价格（元，输入框显示）
+    drinkAvailable: true, // 是否在售
     isAdmin: true  // 控制管理员按钮显示
   },
 
@@ -255,7 +259,9 @@ Page({
       drinkCalories: '',
       drinkDescription: '',
       selectedCategory: '',
-      drinkImageUrl: ''
+      drinkImageUrl: '',
+      drinkPrice: '',
+      drinkAvailable: true
     });
   },
 
@@ -268,7 +274,9 @@ Page({
       drinkCalories: '',
       drinkDescription: '',
       selectedCategory: '',
-      drinkImageUrl: ''
+      drinkImageUrl: '',
+      drinkPrice: '',
+      drinkAvailable: true
     });
   },
 
@@ -287,7 +295,9 @@ Page({
       drinkCalories: item.calories || '',
       drinkDescription: item.description || '',
       selectedCategory: item.category || '',
-      drinkImageUrl: item.imageUrl || ''
+      drinkImageUrl: item.imageUrl || '',
+      drinkPrice: item.price ? centsToYuanText(item.price) : '',
+      drinkAvailable: item.available !== false
     });
   },
 
@@ -299,6 +309,16 @@ Page({
   // 输入卡路里
   onDrinkCaloriesInput: function(e) {
     this.setData({ drinkCalories: e.detail.value });
+  },
+
+  // 输入价格（元）
+  onDrinkPriceInput: function(e) {
+    this.setData({ drinkPrice: e.detail.value });
+  },
+
+  // 售罄开关
+  onDrinkAvailableChange: function(e) {
+    this.setData({ drinkAvailable: e.detail.value });
   },
 
   // 输入饮品描述
@@ -370,9 +390,11 @@ Page({
   try {
     const drinkData = {
       name: drinkName.trim(),
+      price: yuanToCents(drinkPrice),
       calories: drinkCalories ? parseFloat(drinkCalories) : 0,
       description: drinkDescription.trim(),
       category: selectedCategory,
+      available: drinkAvailable,
       updateTime: new Date().getTime()
     };
 
@@ -440,6 +462,32 @@ Page({
         }
       }
     });
+  },
+
+  // 金额格式化（供 WXML 使用）
+  formatPrice: function(cents) {
+    return formatPrice(cents);
+  },
+
+  // 导入演示数据
+  seedDemo: async function() {
+    if (!this.data.isAdmin) {
+      wx.showToast({ title: '无权限', icon: 'none' });
+      return;
+    }
+    wx.showLoading({ title: '导入中...' });
+    const res = await seedDemoData();
+    wx.hideLoading();
+    if (res.skipped) {
+      wx.showToast({ title: '已有饮品数据，跳过导入', icon: 'none' });
+    } else if (res.error) {
+      wx.showToast({ title: '导入失败', icon: 'none' });
+      console.error('[seed] 导入失败:', res.error);
+    } else {
+      wx.showToast({ title: '导入成功', icon: 'success' });
+      this.loadCategories();
+      this.loadDrinkItems();
+    }
   },
 
   // 跳转隐私政策

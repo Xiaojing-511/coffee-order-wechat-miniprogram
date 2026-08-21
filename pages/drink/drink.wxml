@@ -26,8 +26,9 @@
     <view class="section">
       <view class="section-header">
         <text class="section-title">饮品</text>
-        <view class="btn btn-primary btn-small" bindtap="showDrinkModal" wx:if="{{isAdmin}}">
-          + 新建饮品
+        <view class="header-actions">
+          <view class="btn btn-ghost btn-small" bindtap="seedDemo" wx:if="{{isAdmin}}">导入演示数据</view>
+          <view class="btn btn-primary btn-small" bindtap="showDrinkModal" wx:if="{{isAdmin}}">+ 新建饮品</view>
         </view>
       </view>
 
@@ -43,7 +44,8 @@
             <view class="drink-item-grid" wx:for="{{categoryItemsMap[category.name]}}" wx:for-item="item" wx:for-id="{{item._id}}" wx:key="_id">
               <view class="drink-item-content">
                 <text class="drink-name-text">{{item.name}}</text>
-                <text class="drink-calories-text" wx:if="{{item.calories}}">{{item.calories}}</text>
+                <text class="drink-price-text" wx:if="{{item.price}}">{{formatPrice(item.price)}}</text>
+                <text class="drink-soldout-tag" wx:if="{{item.available === false}}">已售罄</text>
               </view>
               <view class="drink-item-actions" wx:if="{{isAdmin}}">
                 <view class="item-action-btn edit" catchtap="editDrink" data-item="{{item}}">编辑</view>
@@ -70,7 +72,8 @@
             <view class="drink-item-grid" wx:for="{{categoryItemsMap['未分类']}}" wx:for-item="item" wx:for-id="{{item._id}}" wx:key="_id">
               <view class="drink-item-content">
                 <text class="drink-name-text">{{item.name}}</text>
-                <text class="drink-calories-text" wx:if="{{item.calories}}">{{item.calories}}</text>
+                <text class="drink-price-text" wx:if="{{item.price}}">{{formatPrice(item.price)}}</text>
+                <text class="drink-soldout-tag" wx:if="{{item.available === false}}">已售罄</text>
               </view>
               <view class="drink-item-actions" wx:if="{{isAdmin}}">
                 <view class="item-action-btn edit" catchtap="editDrink" data-item="{{item}}">编辑</view>
@@ -154,6 +157,13 @@
         value="{{drinkCalories}}"
         bindinput="onDrinkCaloriesInput"
       />
+      <input
+        class="modal-input"
+        type="digit"
+        placeholder="价格（元，如 12.5）"
+        value="{{drinkPrice}}"
+        bindinput="onDrinkPriceInput"
+      />
       <picker
         mode="selector"
         range="{{categories}}"
@@ -165,6 +175,11 @@
           <text class="picker-value">{{selectedCategory || '请选择分类'}}</text>
         </view>
       </picker>
+
+      <view class="available-row">
+        <text class="available-label">在售</text>
+        <switch checked="{{drinkAvailable}}" bindchange="onDrinkAvailableChange" color="#8D6E63" />
+      </view>
       
       <textarea
         class="modal-textarea"

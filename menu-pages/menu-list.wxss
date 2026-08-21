@@ -211,3 +211,44 @@
   background: rgba(139, 69, 19, 0.1);
   color: #8B4513;
 }
+
+/* ===== 售卖版新增 ===== */
+.welcome-announcement {
+  display: block;
+  font-size: 13px;
+  margin-top: 8px;
+  color: #FFE0B2;
+  padding: 6px 12px;
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 16px;
+}
+
+.drink-price-line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.drink-price {
+  font-size: 14px;
+  font-weight: 700;
+  color: #C62828;
+}
+
+.drink-soldout {
+  font-size: 10px;
+  color: #fff;
+  background: #bdbdbd;
+  padding: 1px 6px;
+  border-radius: 8px;
+}
+
+.drink-card.soldout {
+  opacity: 0.55;
+}
+
+.drink-card.soldout:active {
+  transform: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}

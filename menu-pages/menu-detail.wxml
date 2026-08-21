@@ -24,10 +24,16 @@
     <!-- 饮品信息 -->
     <view class="info-section {{item.imageUrl ? 'has-image' : ''}}">
       <view class="drink-header">
-        <text class="drink-name">{{item.name}}</text>
+        <view class="drink-title-col">
+          <text class="drink-name">{{item.name}}</text>
+          <view class="drink-price-row" wx:if="{{item.price}}">
+            <text class="drink-price-main">{{formatPrice(item.price)}}</text>
+            <text class="drink-soldout-badge" wx:if="{{item.available === false}}">已售罄</text>
+          </view>
+        </view>
         <view class="calories-badge" wx:if="{{item.calories}}">
           <!-- <text class="calories-icon">🔥</text> -->
-          <text class="calories-value">{{item.calories}} </text>
+          <text class="calories-value">{{item.calories}} kcal</text>
         </view>
       </view>
       

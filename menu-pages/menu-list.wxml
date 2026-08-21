@@ -1,10 +1,11 @@
 <!-- 顾客饮品单页面 - 仅查看模式 -->
 <view class="page-content-wrapper">
   <view class="container">
-    <!-- 欢迎标题 -->
+    <!-- 欢迎标题 / 店铺信息 -->
     <view class="welcome-header">
-      <text class="welcome-title">欢迎光临</text>
-      <text class="welcome-subtitle">请浏览我们的饮品饮品单</text>
+      <text class="welcome-title">{{store.storeName || '欢迎光临'}}</text>
+      <text class="welcome-subtitle" wx:if="{{store.openTime}}">营业时间 {{store.openTime}}</text>
+      <text class="welcome-announcement" wx:if="{{store.announcement}}">{{store.announcement}}</text>
     </view>
 
     <!-- 饮品分类导航 -->
@@ -45,7 +46,7 @@
 
           <view class="drink-grid" wx:if="{{categoryItemsMap[category.name] && categoryItemsMap[category.name].length > 0}}">
             <view 
-              class="drink-card"
+              class="drink-card {{item.available === false ? 'soldout' : ''}}"
               wx:for="{{categoryItemsMap[category.name]}}"
               wx:for-item="item"
               wx:key="_id"
@@ -62,7 +63,10 @@
               </view>
               <view class="drink-info">
                 <text class="drink-name">{{item.name}}</text>
-                <text class="drink-calories" wx:if="{{item.calories}}">{{item.calories}} </text>
+                <view class="drink-price-line">
+                  <text class="drink-price" wx:if="{{item.price}}">{{formatPrice(item.price)}}</text>
+                  <text class="drink-soldout" wx:if="{{item.available === false}}">已售罄</text>
+                </view>
                 <text class="drink-description" wx:if="{{item.description}}">{{item.description}}</text>
               </view>
             </view>
@@ -78,7 +82,7 @@
 
           <view class="drink-grid">
             <view 
-              class="drink-card"
+              class="drink-card {{item.available === false ? 'soldout' : ''}}"
               wx:for="{{categoryItemsMap['未分类']}}"
               wx:for-item="item"
               wx:key="_id"
@@ -95,7 +99,10 @@
               </view>
               <view class="drink-info">
                 <text class="drink-name">{{item.name}}</text>
-                <text class="drink-calories" wx:if="{{item.calories}}">{{item.calories}} </text>
+                <view class="drink-price-line">
+                  <text class="drink-price" wx:if="{{item.price}}">{{formatPrice(item.price)}}</text>
+                  <text class="drink-soldout" wx:if="{{item.available === false}}">已售罄</text>
+                </view>
                 <text class="drink-description" wx:if="{{item.description}}">{{item.description}}</text>
               </view>
             </view>
@@ -106,7 +113,7 @@
       <!-- 单个分类展示 -->
       <view class="drink-grid" wx:if="{{currentCategory !== 'all'}}">
         <view 
-          class="drink-card"
+          class="drink-card {{item.available === false ? 'soldout' : ''}}"
           wx:for="{{categoryItemsMap[currentCategory] || []}}"
           wx:for-item="item"
           wx:key="_id"
@@ -123,7 +130,10 @@
           </view>
           <view class="drink-info">
             <text class="drink-name">{{item.name}}</text>
-            <text class="drink-calories" wx:if="{{item.calories}}">{{item.calories}} </text>
+            <view class="drink-price-line">
+              <text class="drink-price" wx:if="{{item.price}}">{{formatPrice(item.price)}}</text>
+              <text class="drink-soldout" wx:if="{{item.available === false}}">已售罄</text>
+            </view>
             <text class="drink-description" wx:if="{{item.description}}">{{item.description}}</text>
           </view>
         </view>

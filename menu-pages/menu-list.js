@@ -1,4 +1,5 @@
 const db = require('../utils/database.js');
+const { formatPrice } = require('../utils/money.js');
 
 Page({
   data: {
@@ -6,7 +7,13 @@ Page({
     drinkItems: [],
     categoryItemsMap: {},
     currentCategory: 'all',
-    isAdmin: false
+    isAdmin: false,
+    store: {
+      storeName: '青柠咖啡',
+      announcement: '',
+      openTime: '',
+      pickupNote: ''
+    }
   },
 
   onLoad: function() {
@@ -14,6 +21,7 @@ Page({
     wx.hideHomeButton();
     
     this.setData({ isAdmin: false });
+    this.loadStoreSettings();
     this.loadCategories();
     this.loadDrinkItems();
   },
@@ -22,6 +30,7 @@ Page({
     // 每次显示页面都尝试隐藏返回按钮
     wx.hideHomeButton();
     
+    this.loadStoreSettings();
     this.loadCategories();
     this.loadDrinkItems();
   },
@@ -117,6 +126,30 @@ Page({
     });
 
     this.setData({ categoryItemsMap });
+  },
+
+  loadStoreSettings: async function() {
+    try {
+      const res = await db.query('store_settings', {}, { limit: 1 });
+      if (res.success && res.data && res.data.length > 0) {
+        const s = res.data[0];
+        this.setData({
+          store: {
+            storeName: s.storeName || '欢迎光临',
+            announcement: s.announcement || '',
+            openTime: s.openTime || '',
+            pickupNote: s.pickupNote || ''
+          }
+        });
+      }
+    } catch (err) {
+      console.error('加载店铺信息失败:', err);
+    }
+  },
+
+  // 金额格式化（供 WXML 使用）
+  formatPrice: function(cents) {
+    return formatPrice(cents);
   },
 
   selectCategory: function(e) {

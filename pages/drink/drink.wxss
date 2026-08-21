@@ -613,3 +613,52 @@
   background: rgba(139, 69, 19, 0.1);
   color: #8B4513;
 }
+
+/* ===== 售卖版新增样式 ===== */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-ghost {
+  background: #fff;
+  color: #8D6E63;
+  border: 1px solid #D7CCC8;
+}
+
+.btn-ghost:active {
+  background: #f5efe6;
+}
+
+.drink-price-text {
+  font-size: 13px;
+  color: #C62828;
+  font-weight: 700;
+  text-align: center;
+}
+
+.drink-soldout-tag {
+  font-size: 10px;
+  color: #fff;
+  background: #bdbdbd;
+  padding: 1px 6px;
+  border-radius: 8px;
+  margin-top: 2px;
+}
+
+.available-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 4px;
+  border: 1px solid #E0E0E0;
+  border-radius: 6px;
+  background: #faf9f6;
+  margin-bottom: 12px;
+}
+
+.available-label {
+  font-size: 14px;
+  color: #5D4037;
+}
