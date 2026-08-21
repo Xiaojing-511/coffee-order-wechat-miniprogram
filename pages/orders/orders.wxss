@@ -110,3 +110,21 @@
   margin-left: 4px;
   vertical-align: 1px;
 }
+
+.source-tag {
+  font-size: 10px;
+  padding: 1px 5px;
+  border-radius: 6px;
+  margin-left: 4px;
+  vertical-align: 1px;
+}
+
+.source-tag.merchant {
+  background: #FFF3E0;
+  color: #E65100;
+}
+
+.source-tag.customer {
+  background: #E8F5E9;
+  color: #2E7D32;
+}

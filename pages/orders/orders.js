@@ -18,6 +18,7 @@ Page({
     orders: [],
     counts: {},
     statusText: ORDER_STATUS_TEXT,
+    sourceText: { merchant: '前台点单', customer: '顾客下单' },
     notMerchant: false,
     expired: false
   },
@@ -78,9 +79,9 @@ Page({
     const paidCount = counts.paid || 0;
     const lastCount = wx.getStorageSync('lastPaidCount') || 0;
     if (paidCount > 0) {
-      wx.setTabBarBadge({ index: 3, text: String(paidCount) });
+      wx.setTabBarBadge({ index: 0, text: String(paidCount) });
     } else {
-      wx.removeTabBarBadge({ index: 3 });
+      wx.removeTabBarBadge({ index: 0 });
     }
     if (paidCount > lastCount && lastCount > 0) {
       wx.vibrateShort({ type: 'medium' });

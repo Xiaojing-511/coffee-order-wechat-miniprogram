@@ -46,7 +46,7 @@
               <text class="order-no">#{{item.orderNo}}</text>
               <text class="order-time">{{formatTime(item.createTime)}}<text wx:if="{{item.pickupTime}}"> · {{item.pickupTime}}取</text></text>
             </view>
-            <view class="order-status {{item.status}}">{{statusText[item.status] || item.status}}<text class="source-tag" wx:if="{{item.source === 'merchant'}}">代客</text></view>
+            <view class="order-status {{item.status}}">{{statusText[item.status] || item.status}}<text class="source-tag {{item.source}}" wx:if="{{item.source}}">{{sourceText[item.source] || item.source}}</text></view>
           </view>
 
           <view class="order-customer">

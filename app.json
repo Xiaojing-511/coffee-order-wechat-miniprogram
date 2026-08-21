@@ -1,14 +1,9 @@
 {
   "pages": [
-    "pages/record/record",
     "pages/drink/drink",
-    "pages/item-detail/item-detail",
-    "pages/waiting-list/waiting-list",
-    "pages/detail/detail",
-    "pages/daily/daily",
-    "pages/privacy/privacy",
     "pages/orders/orders",
     "pages/me/me",
+    "pages/privacy/privacy",
     "pages/store-settings/store-settings",
     "pages/store-qr/store-qr",
     "menu-pages/menu-list",
@@ -21,7 +16,7 @@
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#f5efe6",
-    "navigationBarTitleText": "饮品记录",
+    "navigationBarTitleText": "饮品点单",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
@@ -31,28 +26,16 @@
     "backgroundColor": "#ffffff",
     "list": [
       {
-        "pagePath": "pages/record/record",
-        "iconPath": "images/record.png",
-        "selectedIconPath": "images/record-active.png",
-        "text": "记录"
+        "pagePath": "pages/orders/orders",
+        "iconPath": "images/orders.png",
+        "selectedIconPath": "images/orders-active.png",
+        "text": "订单"
       },
       {
         "pagePath": "pages/drink/drink",
         "iconPath": "images/drink.png",
         "selectedIconPath": "images/drink-active.png",
         "text": "饮品"
-      },
-      {
-        "pagePath": "pages/daily/daily",
-        "iconPath": "images/daily.png",
-        "selectedIconPath": "images/daily-active.png",
-        "text": "日报"
-      },
-      {
-        "pagePath": "pages/orders/orders",
-        "iconPath": "images/orders.png",
-        "selectedIconPath": "images/orders-active.png",
-        "text": "订单"
       },
       {
         "pagePath": "pages/me/me",
