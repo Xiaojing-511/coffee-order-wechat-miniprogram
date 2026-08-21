@@ -11,6 +11,7 @@ Page({
     currentCategory: 'all',
     isAdmin: false,
     cartCount: 0,
+    loading: true,
     store: {
       storeId: '',
       storeName: '青柠咖啡',
@@ -26,7 +27,7 @@ Page({
   onLoad: function(options) {
     // 隐藏返回主页按钮
     wx.hideHomeButton();
-    this.setData({ isAdmin: false });
+    this.setData({ isAdmin: false, loading: true });
 
     // 解析店铺：小程序码/分享带 storeId；商家直接打开则用自家店铺
     const sid = parseStoreId(options);
@@ -128,9 +129,31 @@ Page({
 
       this.setData({ drinkItems: allItems });
       this.buildCategoryItemsMap(allItems);
+      this.setData({ loading: false });
     } catch (err) {
       console.error('加载饮品失败:', err);
+      this.setData({ loading: false });
     }
+  },
+
+  // 下拉刷新
+  onPullDownRefresh: function() {
+    const done = function() { wx.stopPullDownRefresh(); };
+    Promise.all([
+      this.loadStoreSettings(),
+      this.loadCategories(),
+      this.loadDrinkItems(),
+      this.refreshCart()
+    ]).then(done).catch(done);
+  },
+
+  // 分享店铺给顾客
+  onShareAppMessage: function() {
+    const sid = getStoreId();
+    return {
+      title: (this.data.store.storeName || '饮品') + ' · 扫码点单',
+      path: '/menu-pages/menu-list?storeId=' + sid
+    };
   },
 
   buildCategoryItemsMap: function(drinkItems) {

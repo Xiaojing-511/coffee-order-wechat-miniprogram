@@ -25,6 +25,10 @@
 
     <!-- 取餐信息 -->
     <view class="card-section">
+      <view class="store-note" wx:if="{{storeName || storeNote}}">
+        <text class="store-note-name" wx:if="{{storeName}}">🏪 {{storeName}}</text>
+        <text class="store-note-text" wx:if="{{storeNote}}">📌 {{storeNote}}</text>
+      </view>
       <view class="section-title">取餐信息</view>
       <view class="form-row">
         <text class="form-label">取餐人</text>

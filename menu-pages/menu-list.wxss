@@ -321,3 +321,35 @@
   font-size: 13px;
   font-weight: 500;
 }
+
+.header-share-btn {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fff;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  font-size: 0;
+  line-height: 1;
+  border: none;
+}
+
+.header-share-btn::after { border: none; }
+
+.open-status {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 3px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  background: rgba(46, 125, 50, 0.25);
+  color: #C8E6C9;
+}
+
+.open-status.closed {
+  background: rgba(198, 40, 40, 0.25);
+  color: #FFCDD2;
+}

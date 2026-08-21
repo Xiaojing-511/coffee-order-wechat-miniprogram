@@ -1,6 +1,6 @@
 const db = require('../utils/database.js');
 const { formatPrice } = require('../utils/money.js');
-const { parseStoreId, setStoreId, cartKey } = require('../utils/storeContext.js');
+const { parseStoreId, setStoreId, getStoreId, cartKey } = require('../utils/storeContext.js');
 
 Page({
   data: {
@@ -171,6 +171,16 @@ Page({
   // 我的订单
   goToMyOrders: function() {
     wx.navigateTo({ url: '/menu-pages/my-orders' });
+  },
+
+  // 分享饮品给好友
+  onShareAppMessage: function() {
+    const item = this.data.item;
+    const sid = getStoreId();
+    return {
+      title: (item && item.name ? item.name + ' · ' : '') + '扫码点单',
+      path: '/menu-pages/menu-detail?id=' + (item ? item._id : '') + (sid ? ('&storeId=' + sid) : '')
+    };
   },
 
   // 返回饮品单列表

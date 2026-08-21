@@ -4,6 +4,10 @@
     <!-- 欢迎标题 / 店铺信息 -->
     <view class="welcome-header">
       <view class="header-icons">
+        <button class="header-share-btn" open-type="share">
+          <text class="header-icon">📤</text>
+          <text class="header-icon-label">分享</text>
+        </button>
         <view class="header-icon-wrap" bindtap="goToMyOrders">
           <text class="header-icon">📋</text>
           <text class="header-icon-label">订单</text>
@@ -15,6 +19,7 @@
         </view>
       </view>
       <text class="welcome-title">{{store.storeName || '欢迎光临'}}</text>
+      <view class="open-status {{store.status === 'closed' ? 'closed' : ''}}">{{store.status === 'closed' ? '休息中' : '营业中'}}</view>
       <text class="welcome-subtitle" wx:if="{{store.openTime}}">营业时间 {{store.openTime}}</text>
       <text class="welcome-announcement" wx:if="{{store.announcement}}">{{store.announcement}}</text>
       <view class="store-contact" wx:if="{{store.address || store.phone}}">
@@ -160,8 +165,14 @@
         </view>
       </view>
 
+      <!-- 加载中 -->
+      <view class="empty-state" wx:if="{{loading}}">
+        <text class="empty-icon">☕</text>
+        <text class="empty-text">加载中...</text>
+      </view>
+
       <!-- 空状态 -->
-      <view class="empty-state" wx:if="{{drinkItems.length === 0}}">
+      <view class="empty-state" wx:if="{{!loading && drinkItems.length === 0}}">
         <text class="empty-icon">📦</text>
         <text class="empty-text">暂无饮品</text>
       </view>

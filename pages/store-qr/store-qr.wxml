@@ -3,12 +3,27 @@
     <view class="store-card">
       <text class="store-name">{{storeName}}</text>
       <text class="store-id">店铺ID：{{storeId}}</text>
-      <view class="qr-placeholder">
-        <text class="qr-icon">📱</text>
-        <text class="qr-text">小程序码将在后续版本生成</text>
+
+      <!-- 小程序码 -->
+      <view class="qr-area">
+        <image class="qr-image" wx:if="{{qrFileId}}" src="{{qrFileId}}" mode="aspectFit" />
+        <view class="qr-placeholder" wx:else>
+          <text class="qr-icon">📱</text>
+          <text class="qr-text">{{generating ? '正在生成小程序码...' : '还没有小程序码'}}</text>
+        </view>
       </view>
-      <text class="hint">现在可先通过「分享」把点单页发给顾客</text>
-      <button class="share-btn" open-type="share">分享点单页给顾客</button>
+
+      <!-- 错误提示 -->
+      <view class="qr-error" wx:if="{{error}}">
+        <text class="error-text">{{error}}</text>
+      </view>
+
+      <text class="hint" wx:if="{{qrFileId}}">顾客扫一扫即可进入本店点单</text>
+
+      <view class="btn-row">
+        <button class="share-btn" open-type="share">分享点单页</button>
+        <view class="regenerate-btn" bindtap="generateQr">{{generating ? '生成中...' : '重新生成'}}</view>
+      </view>
       <view class="preview-btn" bindtap="goMenu">预览我的店铺</view>
     </view>
   </view>

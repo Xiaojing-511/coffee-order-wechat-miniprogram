@@ -1,5 +1,6 @@
 const { formatPrice } = require('../utils/money.js');
-const { cartKey } = require('../utils/storeContext.js');
+const { cartKey, getStoreId } = require('../utils/storeContext.js');
+const db = require('../utils/database.js');
 const orderService = require('../utils/orderService.js');
 
 Page({
@@ -12,11 +13,31 @@ Page({
     pickupTime: '尽快',
     pickupTimeOptions: ['尽快', '10分钟后', '20分钟后', '30分钟后', '45分钟后', '1小时后'],
     remark: '',
-    submitting: false
+    submitting: false,
+    storeNote: '',
+    storeName: ''
   },
 
   onLoad: function() {
     this.loadCart();
+    this.loadStore();
+  },
+
+  // 加载店铺取餐说明
+  loadStore: async function() {
+    const sid = getStoreId();
+    if (!sid) return;
+    try {
+      const res = await db.query('stores', { storeId: sid }, { limit: 1 });
+      if (res.success && res.data && res.data.length > 0) {
+        this.setData({
+          storeNote: res.data[0].pickupNote || '',
+          storeName: res.data[0].storeName || ''
+        });
+      }
+    } catch (err) {
+      console.error('加载店铺信息失败:', err);
+    }
   },
 
   loadCart: function() {
