@@ -3,6 +3,16 @@
 // 安全：校验 merchants 白名单 + 到期时间 + 文档店铺归属（防止跨店改数据）
 const cloud = require('wx-server-sdk')
 
+// 演示数据（seedDemo 用）
+const DEMO_CATEGORIES = ['经典咖啡', '特调咖啡', '茶饮', '鲜果茶']
+
+const DEMO_DRINKS = [
+  { name: '美式咖啡', price: 1200, calories: 10, description: '精选阿拉比卡豆，浓郁醇厚', category: '经典咖啡' },
+  { name: '拿铁', price: 1500, calories: 120, description: '醇香浓缩与丝滑牛奶的经典融合', category: '经典咖啡' },
+  { name: '生椰拿铁', price: 1900, calories: 180, description: '清甜生椰乳搭配浓缩咖啡', category: '特调咖啡' },
+  { name: '珍珠奶茶', price: 1600, calories: 300, description: 'Q弹珍珠搭配经典奶茶', category: '茶饮' }
+]
+
 // 平台创始人白名单（merchants 集合缺失时兜底为商家）
 const OWNER_OPENIDS = [
   "oCZJh3WBgr-C9IRK2udIW30FFWzo",
@@ -122,6 +132,34 @@ exports.main = async (event, context) => {
       const own = await checkOwn('drink_items', id)
       if (!own.ok) return { success: false, error: own.error }
       await db.collection('drink_items').doc(id).remove()
+      return { success: true }
+    }
+
+    // 导入演示数据（幂等，仅当该店无饮品时）
+    case 'seedDemo': {
+      const exist = await db.collection('drink_items').where({ storeId: storeId }).limit(1).get()
+      if (exist.data && exist.data.length > 0) {
+        return { success: true, skipped: true }
+      }
+      await ensureCollection('categories')
+      await ensureCollection('drink_items')
+      const now = Date.now()
+      await Promise.all(DEMO_CATEGORIES.map(function(n) {
+        return db.collection('categories').add({ data: { storeId: storeId, name: n, createTime: now } })
+      }))
+      await Promise.all(DEMO_DRINKS.map(function(d) {
+        return db.collection('drink_items').add({ data: {
+          storeId: storeId,
+          name: d.name,
+          price: d.price,
+          calories: d.calories,
+          description: d.description,
+          category: d.category,
+          available: true,
+          createTime: now,
+          updateTime: now
+        } })
+      }))
       return { success: true }
     }
 

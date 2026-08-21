@@ -1,6 +1,5 @@
 const db = require('../../utils/database.js');
 const { yuanToCents, centsToYuanText, formatPrice } = require('../../utils/money.js');
-const { seedDemoData } = require('../../utils/seed.js');
 const { myStoreId } = require('../../utils/merchant.js');
 const menuService = require('../../utils/menuService.js');
 
@@ -201,7 +200,7 @@ Page({
         this.loadCategories();
         wx.showToast({ title: '添加成功', icon: 'success' });
       } else {
-        wx.showToast({ title: '添加失败', icon: 'none' });
+        this.handleServiceError(res, '添加失败');
       }
     } catch (err) {
       wx.hideLoading();
@@ -233,7 +232,7 @@ Page({
               this.loadCategories();
               wx.showToast({ title: '删除成功', icon: 'success' });
             } else {
-              wx.showToast({ title: '删除失败', icon: 'none' });
+              this.handleServiceError(result, '删除失败');
             }
           } catch (err) {
             wx.hideLoading();
@@ -419,7 +418,7 @@ Page({
       this.loadDrinkItems();
       wx.showToast({ title: '保存成功', icon: 'success' });
     } else {
-      wx.showToast({ title: '保存失败', icon: 'none' });
+      this.handleServiceError(res, '保存失败');
     }
   } catch (err) {
     wx.hideLoading();
@@ -451,7 +450,7 @@ Page({
               this.loadDrinkItems();
               wx.showToast({ title: '删除成功', icon: 'success' });
             } else {
-              wx.showToast({ title: '删除失败', icon: 'none' });
+              this.handleServiceError(result, '删除失败');
             }
           } catch (err) {
             wx.hideLoading();
@@ -475,17 +474,31 @@ Page({
       return;
     }
     wx.showLoading({ title: '导入中...' });
-    const res = await seedDemoData();
+    const res = await menuService.seedDemo();
     wx.hideLoading();
     if (res.skipped) {
       wx.showToast({ title: '已有饮品数据，跳过导入', icon: 'none' });
-    } else if (res.error) {
-      wx.showToast({ title: '导入失败', icon: 'none' });
-      console.error('[seed] 导入失败:', res.error);
-    } else {
+    } else if (res.success) {
       wx.showToast({ title: '导入成功', icon: 'success' });
       this.loadCategories();
       this.loadDrinkItems();
+    } else {
+      this.handleServiceError(res, '导入失败');
+      console.error('[seed] 导入失败:', res.error);
+    }
+  },
+
+  // 服务错误统一处理（到期提示）
+  handleServiceError: function(res, fallbackMsg) {
+    if (res && res.code === 'expired') {
+      wx.showModal({
+        title: '服务已到期',
+        content: '您的店铺服务已到期，请联系平台续费后继续使用。',
+        showCancel: false,
+        confirmColor: '#8B4513'
+      });
+    } else {
+      wx.showToast({ title: (res && res.error) || fallbackMsg, icon: 'none' });
     }
   },
 

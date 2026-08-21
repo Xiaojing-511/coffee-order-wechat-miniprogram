@@ -3,6 +3,7 @@
  */
 const db = require('./database.js');
 const { myStoreId } = require('./merchant.js');
+const { seedDemoData } = require('./seed.js');
 
 const callMenuFn = async (data) => {
   try {
@@ -71,4 +72,15 @@ const deleteDrink = async (id) => {
   return res.success ? { success: true } : { success: false, error: '删除失败' };
 };
 
-module.exports = { saveCategory, deleteCategory, saveDrink, deleteDrink };
+/**
+ * 导入演示数据（云函数优先，本地降级）
+ */
+const seedDemo = async () => {
+  const cloudRes = await callMenuFn({ action: 'seedDemo' });
+  if (cloudRes) {
+    return cloudRes.success ? { success: true, skipped: !!cloudRes.skipped } : fail(cloudRes);
+  }
+  return seedDemoData();
+};
+
+module.exports = { saveCategory, deleteCategory, saveDrink, deleteDrink, seedDemo };

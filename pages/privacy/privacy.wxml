@@ -1,27 +1,25 @@
 <view class="container">
   <view class="header">
     <text class="title">隐私政策</text>
-    <text class="update-time">更新日期：2026年3月25日</text>
+    <text class="update-time">更新日期：2026年8月21日</text>
   </view>
 
   <view class="content">
     <view class="section">
       <view class="section-title">一、应用说明</view>
       <view class="section-content">
-        <text>饮品备忘录是一款个人自用的工具类小程序，用于记录个人饮品的名称、卡路里、口味偏好等信息，帮助用户了解和统计自己的饮品消费情况。</text>
+        <text>本小程序为饮品店铺提供在线点单与到店自取服务。顾客可通过扫描店铺二维码或分享链接进入相应店铺，浏览菜单、下单并到店取餐；商家通过本小程序接收订单、制作饮品并核销取餐。</text>
       </view>
     </view>
 
     <view class="section">
       <view class="section-title">二、数据收集</view>
       <view class="section-content">
-        <text>本应用仅在用户主动录入时收集以下信息：</text>
+        <text>我们仅在您使用点单功能时收集以下必要信息：</text>
         <view class="list">
-          <text>• 饮品名称、分类、描述</text>
-          <text>• 饮品卡路里信息</text>
-          <text>• 饮品的冰度、糖度等偏好设置</text>
-          <text>• 饮品记录的时间和数量</text>
-          <text>• 用户自定义的备注信息</text>
+          <text>• 微信身份标识（openid）：用于识别用户身份与订单归属</text>
+          <text>• 订单信息：所选饮品、规格（温度/冰度/糖度）、数量、金额、取餐时间、备注</text>
+          <text>• 取餐人姓名与手机号（选填）：用于到店取餐核验与订单联系</text>
         </view>
       </view>
     </view>
@@ -31,48 +29,53 @@
       <view class="section-content">
         <text>收集的数据仅用于以下用途：</text>
         <view class="list">
-          <text>• 保存用户的饮品记录和偏好设置</text>
-          <text>• 生成统计报表和数据分析</text>
-          <text>• 为用户提供记录查看和查询功能</text>
+          <text>• 完成在线点单、订单制作与到店取餐</text>
+          <text>• 将订单信息提供给您所下单的店铺，用于备餐与核销</text>
+          <text>• 供商家查看与管理订单、统计店铺经营数据</text>
+          <text>• 为您提供订单查询、再来一单等便捷功能</text>
         </view>
-        <text class="warning">我们不会将您的数据用于任何商业目的、营销推广或第三方共享。</text>
       </view>
     </view>
 
     <view class="section">
       <view class="section-title">四、数据存储</view>
       <view class="section-content">
-        <text>您的数据存储在腾讯云开发服务中，仅您本人可以访问和操作。数据采用 openid 隔离机制，确保不同用户之间的数据完全隔离，保护您的隐私安全。</text>
+        <text>您的数据存储在腾讯云开发（微信云开发）服务中。订单数据按店铺隔离存储，订单信息仅您本人与您所下单的店铺可见，其他店铺无法查看。</text>
       </view>
     </view>
 
     <view class="section">
-      <view class="section-title">五、权限说明</view>
+      <view class="section-title">五、信息共享</view>
       <view class="section-content">
-        <text>本应用不收集任何设备信息、位置信息、联系人信息等个人敏感数据。我们仅使用微信小程序提供的云开发服务进行数据存储，不涉及任何第三方数据接口。</text>
+        <text>我们仅与您所下单的店铺共享必要的订单信息（用于备餐与取餐核验）。我们不会向其他第三方出售或共享您的个人信息，不接入任何第三方统计或广告 SDK。</text>
       </view>
     </view>
 
     <view class="section">
-      <view class="section-title">六、数据删除</view>
+      <view class="section-title">六、权限说明</view>
       <view class="section-content">
-        <text>您可以随时在小程序中删除自己的饮品记录和分类信息。删除后数据将从云服务器中永久移除，无法恢复。</text>
-        <text class="warning">如需注销账号并清除所有数据，请通过小程序客服渠道联系我们。</text>
+        <text>手机号信息为选填，仅在您填写时收集。本小程序不收集设备信息、位置信息、联系人信息等敏感数据。</text>
       </view>
     </view>
 
     <view class="section">
-      <view class="section-title">七、未成年人保护</view>
+      <view class="section-title">七、数据删除</view>
       <view class="section-content">
-        <text>本应用主要面向成年用户。如果您是未成年人，请在监护人的指导下使用本应用。</text>
+        <text>您可以联系所下单的店铺删除订单记录，或通过小程序客服渠道联系我们协助删除相关数据。删除后数据将从云服务器中移除。</text>
       </view>
     </view>
 
     <view class="section">
-      <view class="section-title">八、联系我们</view>
+      <view class="section-title">八、未成年人保护</view>
       <view class="section-content">
-        <text>如果您对本隐私政策有任何疑问或建议，请通过小程序客服渠道联系我们。</text>
-        <text>我们将认真听取您的意见，并持续改进我们的隐私保护措施。</text>
+        <text>本小程序主要面向成年用户。如果您是未成年人，请在监护人的指导下使用。</text>
+      </view>
+    </view>
+
+    <view class="section">
+      <view class="section-title">九、联系我们</view>
+      <view class="section-content">
+        <text>如果您对本隐私政策有任何疑问或建议，请通过小程序客服渠道联系我们。我们将认真听取您的意见，并持续改进我们的隐私保护措施。</text>
       </view>
     </view>
   </view>
