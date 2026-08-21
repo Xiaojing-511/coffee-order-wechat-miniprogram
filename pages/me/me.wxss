@@ -20,3 +20,16 @@
 .menu-label { flex: 1; font-size: 15px; color: #333; }
 .menu-arrow { font-size: 18px; color: #ccc; }
 .menu-item:active { background: #faf9f6; }
+
+.menu-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.menu-sub {
+  font-size: 11px;
+  color: #999;
+  word-break: break-all;
+}

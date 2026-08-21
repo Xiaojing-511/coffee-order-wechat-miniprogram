@@ -3,12 +3,32 @@ const { getMerchantInfo, hasValidService } = require('../../utils/merchant.js');
 Page({
   data: {
     merchant: null,
-    valid: false
+    valid: false,
+    openid: ''
   },
 
   onShow: function() {
     const merchant = getMerchantInfo();
-    this.setData({ merchant: merchant, valid: hasValidService() });
+    let openid = '';
+    try {
+      const app = getApp();
+      openid = (app && app.globalData && app.globalData.openid) || wx.getStorageSync('openid') || '';
+    } catch (e) { /* 忽略 */ }
+    this.setData({ merchant: merchant, valid: hasValidService(), openid: openid });
+  },
+
+  // 复制 openid（便于平台方加白名单）
+  copyOpenid: function() {
+    if (!this.data.openid) {
+      wx.showToast({ title: '暂无 openid', icon: 'none' });
+      return;
+    }
+    wx.setClipboardData({
+      data: this.data.openid,
+      success: function() {
+        wx.showToast({ title: '已复制', icon: 'success' });
+      }
+    });
   },
 
   goStoreSettings: function() {

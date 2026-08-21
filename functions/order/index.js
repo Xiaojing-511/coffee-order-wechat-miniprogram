@@ -48,7 +48,8 @@ const genPickupCode = (seq) => {
 
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
-  const openid = wxContext.OPENID
+  // 云端测试没有用户上下文时，允许 __test + openid 模拟身份（仅测试用）
+  const openid = wxContext.OPENID || (event.__test === true ? (event.openid || '') : '')
   const db = cloud.database()
   const _ = db.command
   const action = event.action
