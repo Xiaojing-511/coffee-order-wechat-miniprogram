@@ -9,5 +9,12 @@
         "type": "none"
       }
     }
+  },
+  "app": {
+    "serviceName": "crazy-coffee-landing",
+    "framework": "static",
+    "installCommand": "",
+    "buildCommand": "",
+    "outputDir": "./landing"
   }
 }
