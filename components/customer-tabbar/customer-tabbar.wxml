@@ -1,0 +1,11 @@
+<!-- 顾客端底部 Tab：点单 / 我的 -->
+<view class="tabbar">
+  <view class="tab {{active === 'menu' ? 'active' : ''}}" data-tab="menu" bindtap="onTabTap">
+    <text class="tab-icon">☕</text>
+    <text class="tab-label">点单</text>
+  </view>
+  <view class="tab {{active === 'mine' ? 'active' : ''}}" data-tab="mine" bindtap="onTabTap">
+    <text class="tab-icon">👤</text>
+    <text class="tab-label">我的</text>
+  </view>
+</view>

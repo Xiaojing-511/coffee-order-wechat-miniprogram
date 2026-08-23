@@ -23,11 +23,39 @@
     "miniprogram": {
       "list": [
         {
+          "name": "home",
+          "pathName": "menu-pages/store-home",
+          "query": "storeId=S1001&src=landing",
+          "scene": null,
+          "launchMode": "default"
+        },
+        {
+          "name": "menu-pages/menu-list?storeId=S1001&src=landing",
+          "pathName": "menu-pages/menu-list",
+          "query": "storeId=S1001&src=landing",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "menu-pages/menu-list",
           "pathName": "menu-pages/menu-list",
           "query": "",
-          "scene": null,
-          "launchMode": "default"
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/orders/orders",
+          "pathName": "pages/orders/orders",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "menu-pages/menu-list",
+          "pathName": "menu-pages/menu-list",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

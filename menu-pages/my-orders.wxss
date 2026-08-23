@@ -1,24 +1,138 @@
+/* 「我的」顾客端 —— 高级咖啡品牌风（暖奶油 / 深咖 / 焦糖金） */
 .page-content-wrapper {
   min-height: 100vh;
-  background: #f5efe6;
+  background: #f5efe4;
 }
 
 .container {
-  padding: 12px;
-  padding-bottom: 40px;
+  padding: 0 14px 90px;
 }
 
+/* ===== 用户信息头部 ===== */
+.profile-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 18px 4px 16px;
+  padding: 20px 18px;
+  background: linear-gradient(150deg, #241511 0%, #1a0f0a 100%);
+  border-radius: 18px;
+  box-shadow: 0 8px 22px rgba(32, 16, 16, 0.22);
+}
+
+.avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(150deg, #d4a95e 0%, #c99343 100%);
+  color: #fff;
+  font-size: 26px;
+  line-height: 56px;
+  text-align: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(201, 147, 67, 0.4);
+}
+
+.profile-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.profile-name {
+  display: block;
+  font-size: 19px;
+  font-weight: 700;
+  color: #faf6ef;
+  letter-spacing: 1px;
+  font-family: "Songti SC", "STSong", "SimSun", serif;
+}
+
+.profile-openid {
+  display: block;
+  font-size: 11px;
+  color: #c9b39b;
+  margin-top: 5px;
+  letter-spacing: 0.5px;
+}
+
+.profile-tag {
+  font-size: 11px;
+  color: #e6c98f;
+  border: 1px solid rgba(230, 201, 143, 0.5);
+  border-radius: 99px;
+  padding: 3px 10px;
+  letter-spacing: 1px;
+  flex-shrink: 0;
+}
+
+/* ===== 订单状态快捷入口 ===== */
+.status-bar {
+  display: flex;
+  background: #faf6ef;
+  border: 1px solid #e5d3b8;
+  border-radius: 16px;
+  padding: 12px 4px;
+  margin-bottom: 18px;
+}
+
+.status-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 0;
+  border-radius: 12px;
+  color: #6b564a;
+}
+
+.status-item.active {
+  background: #201010;
+  color: #f0e0d0;
+}
+
+.status-num {
+  font-size: 19px;
+  font-weight: 700;
+  color: #a9782f;
+}
+
+.status-item.active .status-num {
+  color: #e6c98f;
+}
+
+.status-label {
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+/* ===== 区块标题 ===== */
+.section-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #33261e;
+  margin: 4px 4px 12px;
+  font-family: "Songti SC", "STSong", "SimSun", serif;
+}
+
+.section-title::before {
+  content: '· ';
+  color: #c99343;
+}
+
+/* ===== 订单列表 ===== */
 .order-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
 }
 
 .order-card {
-  background: #fff;
-  border-radius: 12px;
+  background: #faf6ef;
+  border: 1px solid #e5d3b8;
+  border-radius: 16px;
   padding: 14px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 3px 12px rgba(32, 16, 16, 0.05);
 }
 
 .order-header {
@@ -26,7 +140,7 @@
   justify-content: space-between;
   align-items: center;
   padding-bottom: 10px;
-  border-bottom: 1px solid #f5f5f5;
+  border-bottom: 1px dashed #e5d3b8;
 }
 
 .order-header-left {
@@ -34,32 +148,33 @@
   flex-direction: column;
 }
 
-.order-no {
-  font-size: 14px;
+.order-store-name {
+  font-size: 13px;
+  color: #a9782f;
   font-weight: 600;
-  color: #333;
+  margin-bottom: 2px;
 }
 
 .order-time {
   font-size: 11px;
-  color: #999;
-  margin-top: 2px;
+  color: #a08a76;
 }
 
 .order-status {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   padding: 4px 12px;
-  border-radius: 12px;
+  border-radius: 99px;
+  letter-spacing: 1px;
 }
 
-.order-status.pending { background: #FFF3E0; color: #E65100; }
-.order-status.paid { background: #E3F2FD; color: #1565C0; }
-.order-status.accepted { background: #F3E5F5; color: #6A1B9A; }
-.order-status.ready { background: #E8F5E9; color: #2E7D32; }
-.order-status.done { background: #F5F5F5; color: #616161; }
-.order-status.cancelled { background: #FFEBEE; color: #C62828; }
-.order-status.refunded { background: #FCE4EC; color: #AD1457; }
+.order-status.pending { background: #fdf3e3; color: #a9782f; }
+.order-status.paid { background: #eef3fb; color: #2f6fba; }
+.order-status.accepted { background: #f4ecf7; color: #7a4a9e; }
+.order-status.ready { background: #eaf5ec; color: #2e7d32; }
+.order-status.done { background: #f1ece4; color: #6b564a; }
+.order-status.cancelled { background: #fdecea; color: #c0392b; }
+.order-status.refunded { background: #f9e8ee; color: #ad5a7e; }
 
 .order-items {
   padding: 10px 0;
@@ -74,25 +189,34 @@
 
 .oi-name {
   font-size: 14px;
-  color: #333;
+  color: #33261e;
 }
 
 .oi-spec {
   font-size: 11px;
-  color: #999;
+  color: #a08a76;
   flex: 1;
 }
 
 .oi-qty {
   font-size: 13px;
-  color: #666;
+  color: #6b564a;
+}
+
+.oi-price {
+  font-size: 13px;
+  color: #a9782f;
+  font-weight: 600;
+  min-width: 48px;
+  text-align: right;
 }
 
 .order-detail {
   margin-top: 8px;
-  padding: 10px;
-  background: #faf9f6;
-  border-radius: 8px;
+  padding: 10px 12px;
+  background: #f5efe4;
+  border: 1px solid #e5d3b8;
+  border-radius: 12px;
 }
 
 .detail-row {
@@ -103,11 +227,11 @@
 }
 
 .detail-label {
-  color: #999;
+  color: #a08a76;
 }
 
 .detail-value {
-  color: #333;
+  color: #33261e;
   max-width: 60%;
   text-align: right;
 }
@@ -115,7 +239,7 @@
 .detail-value.pickup {
   font-size: 18px;
   font-weight: 800;
-  color: #5D4037;
+  color: #8a5f22;
   letter-spacing: 2px;
 }
 
@@ -124,12 +248,12 @@
   justify-content: space-between;
   align-items: center;
   padding-top: 10px;
-  border-top: 1px solid #f5f5f5;
+  border-top: 1px dashed #e5d3b8;
 }
 
 .order-total-label {
   font-size: 12px;
-  color: #999;
+  color: #a08a76;
 }
 
 .order-actions {
@@ -140,62 +264,93 @@
 
 .order-action-btn {
   font-size: 12px;
-  padding: 6px 12px;
-  border-radius: 14px;
-  background: #f5efe6;
-  color: #5D4037;
-  border: 1px solid #D7CCC8;
+  padding: 6px 14px;
+  border-radius: 99px;
+  background: #f5efe4;
+  color: #6b564a;
+  border: 1px solid #e5d3b8;
 }
 
 .order-action-btn.primary {
-  background: linear-gradient(135deg, #8B4513 0%, #6F4E37 100%);
-  color: #fff;
+  background: #201010;
+  color: #f0e0d0;
   border: none;
 }
 
 .order-action-btn.danger {
   background: #fff;
   color: #eb3349;
-  border-color: #F3C1C6;
+  border-color: #f3c1c6;
 }
 
 .order-amount {
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 700;
-  color: #C62828;
+  color: #a9782f;
 }
 
+/* ===== 空状态 ===== */
 .empty-orders {
   text-align: center;
-  padding: 100px 0;
+  padding: 60px 0;
 }
 
 .empty-icon {
   display: block;
-  font-size: 56px;
-  margin-bottom: 12px;
+  font-size: 48px;
+  margin-bottom: 14px;
 }
 
 .empty-text {
   font-size: 14px;
-  color: #999;
+  color: #a08a76;
   display: block;
-  margin-bottom: 24px;
+  margin-bottom: 22px;
 }
 
 .go-shopping-btn {
   display: inline-block;
-  padding: 10px 36px;
-  border-radius: 24px;
-  background: linear-gradient(135deg, #8B4513 0%, #6F4E37 100%);
-  color: #fff;
+  padding: 10px 40px;
+  border-radius: 99px;
+  background: #201010;
+  color: #f0e0d0;
   font-size: 14px;
   font-weight: 600;
+  letter-spacing: 2px;
 }
 
-.order-store-name {
-  font-size: 12px;
-  color: #8D6E63;
-  font-weight: 600;
-  margin-bottom: 2px;
+/* ===== 服务列表 ===== */
+.service-list {
+  margin-top: 22px;
+  background: #faf6ef;
+  border: 1px solid #e5d3b8;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.service-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px 16px;
+  border-bottom: 1px solid #efe3cf;
+}
+
+.service-item:last-child {
+  border-bottom: none;
+}
+
+.service-icon {
+  font-size: 16px;
+}
+
+.service-label {
+  flex: 1;
+  font-size: 14px;
+  color: #33261e;
+}
+
+.service-arrow {
+  font-size: 16px;
+  color: #b3a08c;
 }

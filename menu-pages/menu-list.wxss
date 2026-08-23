@@ -1,37 +1,262 @@
+/* 顾客点单页 —— 高级咖啡品牌风
+ * 调色板与 landing 一致：暖奶油 #f5efe4 / 深咖 #201010 / 焦糖金 #c99343
+ */
 .page-content-wrapper {
   min-height: 100vh;
-  background: #f5efe6;
+  background: #f5efe4;
 }
 
 .container {
   padding: 0;
-  padding-bottom: 100px;
+  padding-bottom: 150px;
 }
 
+/* ===== 商家代客下单顶栏 ===== */
+.merchant-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: #201010;
+  color: #f0e0d0;
+}
+
+.merchant-bar-title {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.merchant-back-btn {
+  font-size: 12px;
+  color: #201010;
+  background: #e6c98f;
+  padding: 6px 14px;
+  border-radius: 99px;
+  font-weight: 600;
+}
+
+/* ===== 店铺信息头部（深咖主视觉） ===== */
 .welcome-header {
-  padding: 24px 16px;
-  background: linear-gradient(135deg, #8B4513 0%, #6F4E37 100%);
-  color: #fff;
-  text-align: center;
+  position: relative;
+  padding: 30px 20px 22px;
+  background: linear-gradient(160deg, #241511 0%, #1a0f0a 100%);
+  color: #f0e0d0;
+  overflow: hidden;
+}
+
+.welcome-header::after {
+  content: '';
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #c99343 30%, #c99343 70%, transparent);
+  opacity: 0.7;
+}
+
+.header-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.store-title-col {
+  flex: 1;
+  min-width: 0;
 }
 
 .welcome-title {
   display: block;
-  font-size: 24px;
-  font-weight: 600;
-  margin-bottom: 8px;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: 1px;
+  font-family: "Songti SC", "STSong", "SimSun", serif;
+}
+
+.open-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  font-size: 12px;
+  color: #d9f2e0;
+  background: rgba(46, 125, 50, 0.35);
+  border: 1px solid rgba(120, 200, 140, 0.5);
+  padding: 3px 12px;
+  border-radius: 99px;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+.open-status.closed {
+  color: #ffdcdc;
+  background: rgba(198, 40, 40, 0.4);
+  border-color: rgba(255, 150, 150, 0.5);
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #7fd68f;
+}
+
+.open-status.closed .status-dot {
+  background: #ff8a8a;
+}
+
+.header-icons {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.header-share-btn {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #f0e0d0;
+  background: rgba(240, 224, 208, 0.1);
+  border: 1px solid rgba(240, 224, 208, 0.22);
+  padding: 8px 10px;
+  margin: 0;
+  font-size: 0;
+  border-radius: 12px;
+  line-height: 1.2;
+}
+
+.header-share-btn::after {
+  border: none;
+}
+
+.header-icon {
+  font-size: 16px;
+  line-height: 1.3;
+}
+
+.header-icon-label {
+  font-size: 10px;
+  margin-top: 2px;
+  color: rgba(240, 224, 208, 0.9);
 }
 
 .welcome-subtitle {
   display: block;
-  font-size: 14px;
-  opacity: 0.9;
+  font-size: 13px;
+  color: #c9b39b;
+  margin-top: 12px;
+  letter-spacing: 0.5px;
 }
 
+.welcome-announcement {
+  display: block;
+  font-size: 13px;
+  color: #f0e0d0;
+  margin-top: 10px;
+  background: rgba(240, 224, 208, 0.08);
+  border-left: 2px solid #c99343;
+  border-radius: 4px 10px 10px 4px;
+  padding: 9px 12px;
+  line-height: 1.6;
+}
+
+.store-contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin-top: 10px;
+  font-size: 12px;
+  color: #c9b39b;
+}
+
+/* ===== 官网体验模式提示 ===== */
+.landing-demo-banner {
+  margin: 12px 16px 0;
+  padding: 10px 12px;
+  background: #fdf3e3;
+  border: 1px solid #f0d9ae;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ld-icon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.ld-text {
+  font-size: 12px;
+  color: #8a5f22;
+  line-height: 1.5;
+  flex: 1;
+}
+
+/* ===== 歇业提示 ===== */
+.store-closed-banner {
+  background: #fdecea;
+  color: #c0392b;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  border-bottom: 1px solid #f3d4d0;
+}
+
+/* ===== 搜索栏 ===== */
+.search-bar {
+  padding: 14px 16px 0;
+}
+
+.search-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #faf6ef;
+  border: 1px solid #e5d3b8;
+  border-radius: 12px;
+  padding: 0 12px;
+  height: 42px;
+  box-shadow: 0 2px 10px rgba(32, 16, 16, 0.04);
+}
+
+.search-icon {
+  font-size: 15px;
+  opacity: 0.7;
+}
+
+.search-input {
+  flex: 1;
+  font-size: 14px;
+  color: #33261e;
+  height: 42px;
+}
+
+.search-placeholder {
+  color: #b3a08c;
+}
+
+.search-clear {
+  font-size: 13px;
+  color: #b3a08c;
+  padding: 6px;
+}
+
+/* ===== 分类导航（吸顶） ===== */
 .category-nav {
-  background: #fff;
-  border-bottom: 1px solid #E0E0E0;
-  padding: 12px 0;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(245, 239, 228, 0.96);
+  padding: 14px 0 6px;
 }
 
 .category-scroll {
@@ -41,248 +266,276 @@
 .category-nav-list {
   display: inline-flex;
   padding: 0 16px;
+  gap: 8px;
 }
 
 .category-nav-item {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   padding: 8px 16px;
-  margin-right: 8px;
-  font-size: 14px;
-  color: #5D4037;
-  background: #f5efe6;
-  border-radius: 20px;
-  transition: all 0.3s;
-}
-
-.category-nav-item:last-child {
-  margin-right: 0;
+  font-size: 13px;
+  color: #6b564a;
+  background: #faf6ef;
+  border-radius: 99px;
+  transition: all 0.2s;
+  border: 1px solid #e5d3b8;
 }
 
 .category-nav-item.active {
-  background: linear-gradient(135deg, #8B4513 0%, #6F4E37 100%);
   color: #fff;
+  background: #201010;
+  border-color: #201010;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(32, 16, 16, 0.22);
 }
 
-.category-nav-item:active {
-  opacity: 0.8;
-  transform: scale(0.95);
+.cat-count {
+  font-size: 10px;
+  background: rgba(107, 86, 74, 0.1);
+  border-radius: 99px;
+  padding: 1px 6px;
+  line-height: 1.4;
 }
 
+.category-nav-item.active .cat-count {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* ===== 饮品列表 ===== */
 .menu-section {
-  padding: 12px;
-}
-
-.category-block {
-  display: flex;
-  flex-direction: column;
+  padding: 6px 16px 16px;
 }
 
 .category-group {
-  margin-bottom: 16px;
-}
-
-.category-group:last-child {
-  margin-bottom: 0;
+  margin-bottom: 20px;
 }
 
 .category-header {
   display: flex;
+  align-items: baseline;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-  padding: 8px 12px;
-  background: rgba(93, 64, 55, 0.7);
-  border-radius: 8px;
+  padding: 14px 2px 10px;
 }
 
 .category-title {
-  font-size: 15px;
-  font-weight: 500;
-  color: #fff;
+  font-size: 17px;
+  font-weight: 700;
+  color: #33261e;
+  font-family: "Songti SC", "STSong", "SimSun", serif;
+}
+
+.category-title::before {
+  content: '· ';
+  color: #c99343;
 }
 
 .drink-count {
   font-size: 12px;
-  color: #8D6E63;
-  background: #FFF3E0;
-  padding: 2px 6px;
-  border-radius: 10px;
+  color: #a08a76;
 }
 
 .drink-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
+  flex-wrap: wrap;
   gap: 12px;
 }
 
 .drink-card {
-  background: #fff;
-  border-radius: 12px;
+  width: calc(50% - 6px);
+  background: #faf6ef;
+  border: 1px solid #e5d3b8;
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  border: 0.5px solid #f0f0f0;
-  transition: all 0.3s;
-  display: flex;
-  flex-direction: column;
+  box-shadow: 0 3px 12px rgba(32, 16, 16, 0.05);
+  transition: transform 0.15s, box-shadow 0.15s;
 }
 
 .drink-card:active {
   transform: scale(0.97);
-  box-shadow: 0 4px 12px rgba(139, 69, 19, 0.15);
-  border-color: #d4c4a8;
+  box-shadow: 0 1px 6px rgba(32, 16, 16, 0.08);
 }
 
 .drink-image-box {
-  width: 100%;
-  background: #f5f5f5;
   position: relative;
-  overflow: hidden;
-  flex: 1;
-  min-height: 120px;
+  width: 100%;
+  height: 0;
+  padding-bottom: 78%;
+  background: linear-gradient(160deg, #efe3cf 0%, #e5d3b8 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .drink-image {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  display: block;
+}
+
+.drink-emoji {
+  font-size: 42px;
+  line-height: 1;
+  filter: drop-shadow(0 3px 4px rgba(32, 16, 16, 0.12));
+}
+
+.soldout-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(250, 246, 239, 0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.soldout-text {
+  font-size: 13px;
+  font-weight: 600;
+  color: #8a5f22;
+  background: #faf6ef;
+  border: 1px solid #e5d3b8;
+  padding: 4px 14px;
+  border-radius: 99px;
+  letter-spacing: 2px;
 }
 
 .drink-info {
-  padding: 8px;
-  display: flex;
-  flex-direction: column;
-  max-height: 60px;
-  overflow: hidden;
-  flex-shrink: 0;
+  padding: 11px 12px 13px;
 }
 
 .drink-name {
-  font-size: 13px;
+  display: block;
+  font-size: 15px;
   font-weight: 600;
-  color: #333;
-  line-height: 1.3;
-}
-
-.drink-calories {
-  font-size: 11px;
-  color: #D2691E;
-  font-weight: 500;
-  margin-top: 4px;
+  color: #33261e;
+  line-height: 1.35;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .drink-description {
-  font-size: 10px;
-  color: #666;
-  line-height: 1.3;
+  display: block;
+  font-size: 11px;
+  color: #a08a76;
   margin-top: 4px;
-}
-
-.empty-state {
-  text-align: center;
-  padding: 60px 0;
-}
-
-.empty-icon {
-  display: block;
-  font-size: 48px;
-  margin-bottom: 12px;
-}
-
-.empty-text {
-  font-size: 14px;
-  color: #999;
-}
-
-.privacy-link {
-  font-size: 12px;
-  color: #999;
-  text-align: center;
-  padding: 20px 0;
-  margin-top: 20px;
-}
-
-.privacy-text {
-  padding: 8px 16px;
-  border-radius: 4px;
-  transition: all 0.3s;
-}
-
-.privacy-text:active {
-  background: rgba(139, 69, 19, 0.1);
-  color: #8B4513;
-}
-
-/* ===== 售卖版新增 ===== */
-.welcome-announcement {
-  display: block;
-  font-size: 13px;
-  margin-top: 8px;
-  color: #FFE0B2;
-  padding: 6px 12px;
-  background: rgba(0, 0, 0, 0.15);
-  border-radius: 16px;
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .drink-price-line {
   display: flex;
   align-items: center;
-  gap: 6px;
-  margin-top: 4px;
+  justify-content: space-between;
+  margin-top: 9px;
 }
 
 .drink-price {
-  font-size: 14px;
+  font-size: 17px;
   font-weight: 700;
-  color: #C62828;
+  color: #a9782f;
 }
 
-.drink-soldout {
-  font-size: 10px;
+.add-btn {
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  background: linear-gradient(150deg, #d4a95e 0%, #c99343 100%);
   color: #fff;
-  background: #bdbdbd;
-  padding: 1px 6px;
-  border-radius: 8px;
+  font-size: 17px;
+  line-height: 25px;
+  text-align: center;
+  font-weight: 600;
+  box-shadow: 0 3px 8px rgba(201, 147, 67, 0.45);
 }
 
-.drink-card.soldout {
-  opacity: 0.55;
+.drink-card.soldout .add-btn {
+  display: none;
 }
 
-.drink-card.soldout:active {
-  transform: none;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+/* ===== 空状态 / 加载中 ===== */
+.empty-state {
+  padding: 60px 0;
+  text-align: center;
 }
 
-/* 头部图标 */
-.header-icons {
-  position: absolute;
-  top: 12px;
-  right: 12px;
+.empty-icon {
+  display: block;
+  font-size: 44px;
+  margin-bottom: 12px;
+}
+
+.empty-text {
+  font-size: 14px;
+  color: #a08a76;
+}
+
+.empty-btn {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 8px 22px;
+  font-size: 13px;
+  color: #fff;
+  background: #201010;
+  border-radius: 99px;
+}
+
+/* ===== 隐私政策 ===== */
+.privacy-link {
+  text-align: center;
+  padding: 14px 0 6px;
+}
+
+.privacy-text {
+  font-size: 12px;
+  color: #b3a08c;
+}
+
+/* ===== 底部购物车栏（悬浮在 Tab 上方） ===== */
+.bottom-space {
+  height: 90px;
+}
+
+.cart-bar {
+  position: fixed;
+  left: 14px;
+  right: 14px;
+  bottom: calc(64px + env(safe-area-inset-bottom));
+  z-index: 60;
   display: flex;
-  gap: 16px;
-  z-index: 10;
-}
-
-.header-icon-wrap {
-  position: relative;
-  display: flex;
-  flex-direction: column;
   align-items: center;
-  color: #fff;
+  justify-content: space-between;
+  background: #201010;
+  border: 1px solid rgba(201, 147, 67, 0.4);
+  border-radius: 99px;
+  padding: 8px 8px 8px 18px;
+  box-shadow: 0 10px 28px rgba(32, 16, 16, 0.35);
 }
 
-.header-icon {
+.cart-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.cart-ico-wrap {
+  position: relative;
+}
+
+.cart-ico {
   font-size: 22px;
-  line-height: 1;
 }
 
-.header-icon-label {
-  font-size: 10px;
-  margin-top: 2px;
-  opacity: 0.9;
-}
-
-.cart-badge {
+.cart-bar-badge {
   position: absolute;
   top: -6px;
   right: -8px;
@@ -293,63 +546,23 @@
   background: #eb3349;
   color: #fff;
   font-size: 10px;
-  border-radius: 8px;
+  border-radius: 99px;
   padding: 0 4px;
 }
 
-.welcome-header {
-  position: relative;
+.cart-bar-total {
+  font-size: 18px;
+  font-weight: 700;
+  color: #f0e0d0;
 }
 
-.store-contact {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  margin-top: 8px;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.92);
-}
-
-.store-closed-banner {
-  background: #FFEBEE;
-  color: #C62828;
-  padding: 10px 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  font-size: 13px;
-  font-weight: 500;
-}
-
-.header-share-btn {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.cart-bar-btn {
+  background: linear-gradient(150deg, #d4a95e 0%, #c99343 100%);
   color: #fff;
-  background: transparent;
-  padding: 0;
-  margin: 0;
-  font-size: 0;
-  line-height: 1;
-  border: none;
-}
-
-.header-share-btn::after { border: none; }
-
-.open-status {
-  display: inline-block;
-  margin-top: 8px;
-  padding: 3px 12px;
-  border-radius: 12px;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
-  background: rgba(46, 125, 50, 0.25);
-  color: #C8E6C9;
-}
-
-.open-status.closed {
-  background: rgba(198, 40, 40, 0.25);
-  color: #FFCDD2;
+  padding: 10px 24px;
+  border-radius: 99px;
+  letter-spacing: 2px;
+  box-shadow: 0 4px 12px rgba(201, 147, 67, 0.4);
 }

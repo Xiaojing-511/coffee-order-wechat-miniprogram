@@ -1,0 +1,46 @@
+/* 顾客端底部 Tab：暖奶油 + 深咖 + 焦糖金 品牌色 */
+.tabbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  display: flex;
+  background: #fffdf8;
+  border-top: 1px solid #e5d3b8;
+  padding-bottom: env(safe-area-inset-bottom);
+  box-shadow: 0 -4px 20px rgba(32, 16, 16, 0.06);
+}
+
+.tab {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 9px 0 7px;
+  color: #a08a76;
+  transition: color 0.2s;
+}
+
+.tab-icon {
+  font-size: 21px;
+  line-height: 1.2;
+}
+
+.tab-label {
+  font-size: 11px;
+  margin-top: 2px;
+  letter-spacing: 1px;
+}
+
+.tab.active {
+  color: #8a5f22;
+}
+
+.tab.active .tab-icon {
+  transform: translateY(-1px);
+}
+
+.tab.active .tab-label {
+  font-weight: 600;
+}

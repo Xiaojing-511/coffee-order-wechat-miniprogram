@@ -1,6 +1,7 @@
 const db = require('../utils/database.js');
 const { formatPrice } = require('../utils/money.js');
-const { parseStoreId, setStoreId, getStoreId, cartKey } = require('../utils/storeContext.js');
+const { parseStoreId, setStoreId, getStoreId, cartKey, getOrderSource } = require('../utils/storeContext.js');
+const { isMerchant } = require('../utils/merchant.js');
 
 Page({
   data: {
@@ -12,6 +13,7 @@ Page({
     sugarLevel: '正常糖',
     cartCount: 0,
     cartTotal: 0,
+    merchantMode: false,
     // 规格选项
     temperatureOptions: ['冷', '热'],
     iceOptions: ['去冰', '少冰', '正常冰', '多冰'],
@@ -19,7 +21,10 @@ Page({
   },
 
   onLoad: function(options) {
-    wx.hideHomeButton();
+    // 商家代客下单模式：保留返回链路，不隐藏首页按钮
+    const merchantMode = isMerchant() && getOrderSource() === 'merchant';
+    this.setData({ merchantMode: merchantMode });
+    if (!merchantMode) wx.hideHomeButton();
     // 店铺上下文兜底
     const sid = parseStoreId(options);
     if (sid) setStoreId(sid);
@@ -43,7 +48,9 @@ Page({
   },
 
   onShow: function() {
-    wx.hideHomeButton();
+    if (!this.data.merchantMode) {
+      wx.hideHomeButton();
+    }
     this.refreshCart();
   },
 
@@ -127,10 +134,7 @@ Page({
       wx.showToast({ title: '该饮品已售罄', icon: 'none' });
       return;
     }
-    if (!item.price) {
-      wx.showToast({ title: '该饮品暂未定价', icon: 'none' });
-      return;
-    }
+    // 不校验价格：缺失/为 0 一律按 ¥0（免费）加购，避免「未定价」提示
 
     const cart = this.getCart();
     const d = this.data;
@@ -149,7 +153,7 @@ Page({
         id: item._id,
         key: item._id + '_' + d.temperature + '_' + d.iceLevel + '_' + d.sugarLevel,
         name: item.name,
-        price: item.price,
+        price: parseInt(item.price, 10) || 0,
         calories: item.calories || 0,
         quantity: d.quantity,
         temperature: d.temperature,
@@ -183,8 +187,12 @@ Page({
     };
   },
 
-  // 返回饮品单列表
+  // 返回饮品单列表（商家代客下单时用 navigateBack 保留返回链路）
   goBack: function() {
+    if (this.data.merchantMode) {
+      wx.navigateBack({ delta: 1 });
+      return;
+    }
     wx.redirectTo({ url: '/menu-pages/menu-list' });
   }
 });

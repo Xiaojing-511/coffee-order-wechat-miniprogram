@@ -1,0 +1,40 @@
+<!-- 店铺欢迎页：扫码第一屏 -->
+<view class="store-home">
+  <image class="bg" src="/images/store-home-bg.jpg" mode="aspectFill" />
+  <view class="overlay"></view>
+
+  <!-- 顶部操作 -->
+  <view class="top-bar">
+    <view class="back-btn" wx:if="{{canBack}}" bindtap="goBack">
+      <text class="back-arrow">←</text>
+    </view>
+    <!-- <button class="share-btn" open-type="share">
+      <text class="share-text">📤 分享</text>
+    </button> -->
+  </view>
+
+  <!-- 主内容 -->
+  <view class="content">
+    <view class="eyebrow">COFFEE · FRESH BREW</view>
+    <text class="store-name">{{store.storeName || '欢迎光临'}}</text>
+
+    <view class="open-status {{store.status === 'closed' ? 'closed' : ''}}">
+      <text class="status-dot"></text>{{store.status === 'closed' ? '休息中' : '营业中'}}
+    </view>
+
+    <view class="hairline"></view>
+
+    <text class="desc" wx:if="{{store.announcement}}">{{store.announcement}}</text>
+    <text class="desc" wx:else>新鲜手作咖啡 · 扫码即点即取，无需下载、无需注册</text>
+
+    <text class="open-time" wx:if="{{store.openTime}}">🕐 营业时间 {{store.openTime}}</text>
+
+    <view class="contact" wx:if="{{store.address || store.phone}}">
+      <text class="contact-item" wx:if="{{store.address}}">📍 {{store.address}}</text>
+      <text class="contact-item" wx:if="{{store.phone}}">📞 {{store.phone}}</text>
+    </view>
+
+    <view class="enter-btn" bindtap="goOrder">开始点单</view>
+    <text class="hint">点击进入菜单 · 选好饮品即可下单</text>
+  </view>
+</view>

@@ -26,7 +26,7 @@
       <view class="drink-header">
         <view class="drink-title-col">
           <text class="drink-name">{{item.name}}</text>
-          <view class="drink-price-row" wx:if="{{item.price}}">
+          <view class="drink-price-row">
             <text class="drink-price-main">{{formatPrice(item.price)}}</text>
             <text class="drink-soldout-badge" wx:if="{{item.available === false}}">已售罄</text>
           </view>

@@ -383,6 +383,12 @@ Page({
     return;
   }
 
+  // 价格必填（免费饮品填 0），避免顾客点单时出现「未定价」提示
+  if (drinkPrice === '' || drinkPrice === null || drinkPrice === undefined) {
+    wx.showToast({ title: '请输入价格（免费填 0）', icon: 'none' });
+    return;
+  }
+
   wx.showLoading({ title: '保存中...' });
 
   try {
@@ -426,6 +432,35 @@ Page({
     wx.showToast({ title: '保存失败', icon: 'none' });
   }
 },
+
+  // 一键补齐缺价饮品（价格缺失或为 0 的自动设置）
+  fillPrices: async function() {
+    if (!this.data.isAdmin) {
+      wx.showToast({ title: '只有管理员可以管理饮品', icon: 'none' });
+      return;
+    }
+    const that = this;
+    wx.showModal({
+      title: '统一设置价格',
+      content: '将本店所有饮品价格统一设置为 ¥10（1000 分）。确认继续？',
+      confirmColor: '#A67C52',
+      success: async function(res) {
+        if (!res.confirm) return;
+        wx.showLoading({ title: '设置中...' });
+        const result = await menuService.fillPrices();
+        wx.hideLoading();
+        if (result.success) {
+          wx.showToast({
+            title: result.filled > 0 ? ('已设置 ' + result.filled + ' 个饮品价格为 ¥10') : '没有饮品需要设置',
+            icon: 'none'
+          });
+          that.loadDrinkItems();
+        } else {
+          wx.showToast({ title: result.error || '设置失败', icon: 'none' });
+        }
+      }
+    });
+  },
 
   // 删除饮品
   deleteDrink: async function(e) {
@@ -509,9 +544,9 @@ Page({
     });
   },
 
-  // 跳转顾客饮品单
+  // 跳转顾客饮品单（navigateTo 保留返回商家端的链路）
   goToMenu: function() {
-    wx.redirectTo({
+    wx.navigateTo({
       url: '/menu-pages/menu-list'
     });
   }

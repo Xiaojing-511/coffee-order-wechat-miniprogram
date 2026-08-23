@@ -2,8 +2,8 @@
   <view class="container">
     <!-- 成功图标 -->
     <view class="success-icon">✓</view>
-    <view class="success-title">支付成功</view>
-    <view class="success-subtitle" wx:if="{{order}}">订单已提交，请凭取餐码取餐</view>
+    <view class="success-title">{{merchantMode ? '下单成功' : '支付成功'}}</view>
+    <view class="success-subtitle" wx:if="{{order}}">{{merchantMode ? '订单已提交至商家订单列表' : '订单已提交，请凭取餐码取餐'}}</view>
 
     <!-- 取餐码 -->
     <view class="pickup-card" wx:if="{{order && order.pickupCode}}">
@@ -14,6 +14,19 @@
 
     <!-- 订单信息 -->
     <view class="order-info" wx:if="{{order}}">
+      <!-- 商品清单 -->
+      <view class="oi-list" wx:if="{{order.items && order.items.length > 0}}">
+        <view class="oi-row" wx:for="{{order.items}}" wx:for-item="oi" wx:key="key">
+          <view class="oi-main">
+            <text class="oi-name">{{oi.name}}</text>
+            <text class="oi-spec" wx:if="{{oi.temperature || oi.iceLevel || oi.sugarLevel}}">{{oi.temperature}}/{{oi.iceLevel}}/{{oi.sugarLevel}}</text>
+          </view>
+          <view class="oi-right">
+            <text class="oi-unit">{{formatPrice(oi.price)}} × {{oi.quantity}}</text>
+            <text class="oi-price">{{formatPrice(oi.price * oi.quantity)}}</text>
+          </view>
+        </view>
+      </view>
       <view class="info-row">
         <text class="info-label">订单号</text>
         <text class="info-value">{{order.orderNo}}</text>
@@ -34,8 +47,9 @@
 
     <!-- 按钮 -->
     <view class="action-buttons">
-      <view class="action-btn primary" bindtap="goToMyOrders">查看我的订单</view>
-      <view class="action-btn" bindtap="goBackToMenu">返回饮品单</view>
+      <view class="action-btn primary" wx:if="{{merchantMode}}" bindtap="goMerchantHome">返回商家端</view>
+      <view class="action-btn primary" wx:else bindtap="goToMyOrders">查看我的订单</view>
+      <view class="action-btn" bindtap="goBackToMenu">继续点单</view>
     </view>
   </view>
 </view>

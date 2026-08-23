@@ -217,7 +217,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
   padding:14px;display:flex;align-items:center;gap:14px;z-index:5;width:max-content;
 }
 .qr-box{width:86px;height:86px;border-radius:10px;background:#fff;padding:6px;box-shadow:inset 0 0 0 1px var(--cream-300)}
-.qr-box svg{width:100%;height:100%}
+.qr-box svg,.qr-box img{width:100%;height:100%;border-radius:6px;display:block}
 .qr-txt b{font-size:13.5px;color:var(--ink);display:block;line-height:1.4}
 .qr-txt span{font-size:11px;color:var(--ink-soft)}
 .qr-txt .tag{display:inline-block;margin-top:6px;font-size:10px;color:var(--caramel-700);background:var(--caramel-200);padding:2px 8px;border-radius:99px}
@@ -341,7 +341,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .cta .btn-dark{background:var(--coffee-950);color:var(--caramel-300)}
 .cta-qr{display:inline-flex;align-items:center;gap:16px;background:rgba(255,255,255,.85);padding:14px 22px;border-radius:18px;margin-top:28px;box-shadow:var(--shadow-md);text-align:left}
 .cta-qr .qr-box{width:72px;height:72px;border-radius:10px;padding:5px;background:#fff;box-shadow:inset 0 0 0 1px rgba(32,16,16,.12)}
-.cta-qr .qr-box svg{width:100%;height:100%}
+.cta-qr .qr-box svg,.cta-qr .qr-box img{width:100%;height:100%;border-radius:6px;display:block}
 .cta-qr b{font-size:14px;display:block;color:var(--ink)}
 .cta-qr span{font-size:12px;color:var(--ink-soft)}
 
@@ -469,9 +469,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
       <div class="qr-card">
         <div class="qr-box" id="heroQr"></div>
         <div class="qr-txt">
-          <b>扫码体验点单</b>
-          <span>打开本页 · 一键联系开通</span>
-          <span class="tag">每店专属店铺码</span>
+          <b>微信扫码体验点单</b>
+          <span>直达演示店铺 · 扫码即点即下单</span>
+          <span class="tag">无需下载 · 打开即用</span>
         </div>
       </div>
     </div>
@@ -707,7 +707,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
     </div>
     <div class="cta-qr reveal">
       <div class="qr-box" id="ctaQr"></div>
-      <div><b>扫码联系开通</b><span>微信：CoffeeOrder-SaaS<br>（页面二维码指向本页，扫一扫即可分享）</span></div>
+      <div><b>微信扫码体验点单</b><span>扫一扫直达演示店铺菜单<br>客服微信：CoffeeOrder-SaaS</span></div>
     </div>
   </div>
 </section>
@@ -795,10 +795,17 @@ document.querySelectorAll('.faq-item').forEach(item => {
   });
 });
 
-/* ---------- 页面二维码（指向当前页面 URL，扫码即打开本页） ---------- */
-function renderQr(containerId, size) {
-  const box = document.getElementById(containerId);
-  if (!box || typeof qrcode === 'undefined') return;
+/* ---------- 体验小程序码（微信扫码直达演示店铺欢迎页） ----------
+ * 生成方式见 landing/README.md「扫码体验小程序」：
+ *   1) 微信公众平台 → 工具 → 生成小程序码：
+ *      页面路径 menu-pages/store-home，场景参数 storeId=S1001&src=landing
+ *   2) 或小程序内调用云函数 storeQr（event.demo=true）一键生成后下载
+ * 把生成的图片保存到下方路径（可自行修改）；图片缺失时自动回退为「本页 URL 二维码」
+ */
+const MINI_PROGRAM_QR = 'img/mini-program-demo-code.png';
+
+function renderPageQr(box, size) {
+  if (typeof qrcode === 'undefined') return;
   const url = location.href.split('#')[0];
   const qr = qrcode(0, 'M');
   qr.addData(url);
@@ -806,6 +813,22 @@ function renderQr(containerId, size) {
   box.innerHTML = qr.createSvgTag({cellSize: size / 25, margin: 0});
   const svg = box.querySelector('svg');
   if (svg) { svg.setAttribute('width','100%'); svg.setAttribute('height','100%'); }
+}
+
+function renderQr(containerId, size) {
+  const box = document.getElementById(containerId);
+  if (!box) return;
+  if (MINI_PROGRAM_QR) {
+    // 预加载小程序码图片：存在则展示，缺失则回退为页面二维码
+    const img = new Image();
+    img.onload = function() {
+      box.innerHTML = '<img src="' + MINI_PROGRAM_QR + '" alt="微信扫码体验小程序点单">';
+    };
+    img.onerror = function() { renderPageQr(box, size); };
+    img.src = MINI_PROGRAM_QR;
+    return;
+  }
+  renderPageQr(box, size);
 }
 renderQr('heroQr', 86);
 renderQr('ctaQr', 72);

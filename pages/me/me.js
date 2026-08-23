@@ -42,7 +42,8 @@ Page({
   goMenu: function() {
     const merchant = getMerchantInfo();
     const storeId = (merchant && merchant.storeId) || wx.getStorageSync('storeId') || 'S1001';
-    wx.redirectTo({ url: '/menu-pages/menu-list?storeId=' + storeId + '&source=merchant' });
+    // 预览顾客端：扫码落地的店铺欢迎页 → 开始点单
+    wx.navigateTo({ url: '/menu-pages/store-home?storeId=' + storeId });
   },
 
   goPrivacy: function() {

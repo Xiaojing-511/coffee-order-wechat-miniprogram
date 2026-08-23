@@ -27,6 +27,7 @@
       <view class="section-header">
         <text class="section-title">饮品</text>
         <view class="header-actions">
+          <view class="btn btn-ghost btn-small" bindtap="fillPrices" wx:if="{{isAdmin}}">价格统一¥10</view>
           <view class="btn btn-ghost btn-small" bindtap="seedDemo" wx:if="{{isAdmin}}">导入演示数据</view>
           <view class="btn btn-primary btn-small" bindtap="showDrinkModal" wx:if="{{isAdmin}}">+ 新建饮品</view>
         </view>
@@ -44,7 +45,7 @@
             <view class="drink-item-grid" wx:for="{{categoryItemsMap[category.name]}}" wx:for-item="item" wx:for-id="{{item._id}}" wx:key="_id">
               <view class="drink-item-content">
                 <text class="drink-name-text">{{item.name}}</text>
-                <text class="drink-price-text" wx:if="{{item.price}}">{{formatPrice(item.price)}}</text>
+                <text class="drink-price-text" wx:if="{{item.price != null}}">{{formatPrice(item.price)}}</text>
                 <text class="drink-soldout-tag" wx:if="{{item.available === false}}">已售罄</text>
               </view>
               <view class="drink-item-actions" wx:if="{{isAdmin}}">
@@ -72,7 +73,7 @@
             <view class="drink-item-grid" wx:for="{{categoryItemsMap['未分类']}}" wx:for-item="item" wx:for-id="{{item._id}}" wx:key="_id">
               <view class="drink-item-content">
                 <text class="drink-name-text">{{item.name}}</text>
-                <text class="drink-price-text" wx:if="{{item.price}}">{{formatPrice(item.price)}}</text>
+                <text class="drink-price-text" wx:if="{{item.price != null}}">{{formatPrice(item.price)}}</text>
                 <text class="drink-soldout-tag" wx:if="{{item.available === false}}">已售罄</text>
               </view>
               <view class="drink-item-actions" wx:if="{{isAdmin}}">

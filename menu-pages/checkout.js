@@ -52,7 +52,9 @@ Page({
     if (items.length === 0) {
       wx.showToast({ title: '购物车是空的', icon: 'none' });
       setTimeout(function() {
-        wx.redirectTo({ url: '/menu-pages/menu-list' });
+        // 商家代客下单返回时保留商家模式标记
+        const src = wx.getStorageSync('orderSource') === 'merchant' ? '?source=merchant' : '';
+        wx.redirectTo({ url: '/menu-pages/menu-list' + src });
       }, 500);
       return;
     }
@@ -112,13 +114,14 @@ Page({
         throw new Error(paid.error || '支付失败');
       }
 
-      // 3. 清空购物车 + 清除代客下单标记
+      // 3. 清空购物车 + 清除代客下单标记（商家模式通过 URL 传给成功页）
+      const source = wx.getStorageSync('orderSource') === 'merchant' ? '&source=merchant' : '';
       wx.setStorageSync(cartKey(), []);
       wx.removeStorageSync('orderSource');
 
       wx.hideLoading();
       wx.redirectTo({
-        url: '/menu-pages/order-success?id=' + created._id
+        url: '/menu-pages/order-success?id=' + created._id + source
       });
     } catch (err) {
       wx.hideLoading();

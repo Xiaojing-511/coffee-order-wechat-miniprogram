@@ -37,9 +37,9 @@ Page({
     });
   },
 
-  // 商家前台点单（代客下单）：进入自己店铺的点单流程
+  // 商家前台点单（代客下单）：进入自己店铺的点单流程（navigateTo 保留返回商家端的链路）
   goMerchantOrder: function() {
-    wx.redirectTo({ url: '/menu-pages/menu-list?storeId=' + myStoreId() + '&source=merchant' });
+    wx.navigateTo({ url: '/menu-pages/menu-list?storeId=' + myStoreId() + '&source=merchant' });
   },
 
   switchTab: function(e) {

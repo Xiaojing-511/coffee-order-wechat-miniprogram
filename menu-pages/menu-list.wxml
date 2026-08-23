@@ -1,31 +1,41 @@
-<!-- 顾客饮品单页面 - 仅查看模式 -->
+<!-- 顾客饮品单页面（扫码点单 / 商家代客下单） -->
 <view class="page-content-wrapper">
   <view class="container">
+
+    <!-- 商家代客下单顶栏 -->
+    <view class="merchant-bar" wx:if="{{merchantMode}}">
+      <text class="merchant-bar-title">🛎️ 前台点单 · 代客下单</text>
+      <view class="merchant-back-btn" bindtap="goMerchantHome">返回商家端</view>
+    </view>
+
     <!-- 欢迎标题 / 店铺信息 -->
     <view class="welcome-header">
-      <view class="header-icons">
-        <button class="header-share-btn" open-type="share">
-          <text class="header-icon">📤</text>
-          <text class="header-icon-label">分享</text>
-        </button>
-        <view class="header-icon-wrap" bindtap="goToMyOrders">
-          <text class="header-icon">📋</text>
-          <text class="header-icon-label">订单</text>
+      <view class="header-top">
+        <view class="store-title-col">
+          <text class="welcome-title">{{store.storeName || '欢迎光临'}}</text>
+          <view class="open-status {{store.status === 'closed' ? 'closed' : ''}}">
+            <text class="status-dot"></text>{{store.status === 'closed' ? '休息中' : '营业中'}}
+          </view>
         </view>
-        <view class="header-icon-wrap" bindtap="goToCart">
-          <text class="header-icon">🛒</text>
-          <text class="cart-badge" wx:if="{{cartCount > 0}}">{{cartCount}}</text>
-          <text class="header-icon-label">购物车</text>
+        <view class="header-icons">
+          <button class="header-share-btn" open-type="share">
+            <text class="header-icon">📤</text>
+            <text class="header-icon-label">分享</text>
+          </button>
         </view>
       </view>
-      <text class="welcome-title">{{store.storeName || '欢迎光临'}}</text>
-      <view class="open-status {{store.status === 'closed' ? 'closed' : ''}}">{{store.status === 'closed' ? '休息中' : '营业中'}}</view>
-      <text class="welcome-subtitle" wx:if="{{store.openTime}}">营业时间 {{store.openTime}}</text>
+      <text class="welcome-subtitle" wx:if="{{store.openTime}}">🕐 营业时间 {{store.openTime}}</text>
       <text class="welcome-announcement" wx:if="{{store.announcement}}">{{store.announcement}}</text>
       <view class="store-contact" wx:if="{{store.address || store.phone}}">
         <text class="store-address" wx:if="{{store.address}}">📍 {{store.address}}</text>
         <text class="store-phone" wx:if="{{store.phone}}">📞 {{store.phone}}</text>
       </view>
+    </view>
+
+    <!-- 官网扫码体验模式提示 -->
+    <view class="landing-demo-banner" wx:if="{{isLandingDemo}}">
+      <text class="ld-icon">🧪</text>
+      <text class="ld-text">来自「疯狂咖啡官网」体验店铺 · 下单均为演示订单</text>
     </view>
 
     <!-- 歇业提示 -->
@@ -34,23 +44,45 @@
       <text class="closed-text">店铺休息中，暂不可下单</text>
     </view>
 
-    <!-- 饮品分类导航 -->
-    <view class="category-nav" wx:if="{{categories.length > 1}}">
-      <scroll-view scroll-x class="category-scroll">
+    <!-- 搜索栏 -->
+    <view class="search-bar">
+      <view class="search-input-wrap">
+        <text class="search-icon">🔍</text>
+        <input
+          class="search-input"
+          placeholder="搜索「拿铁 / 果茶 / 甜品」"
+          placeholder-class="search-placeholder"
+          value="{{keyword}}"
+          bindinput="onSearchInput"
+          confirm-type="search"
+        />
+        <text class="search-clear" wx:if="{{keyword}}" bindtap="onSearchClear">✕</text>
+      </view>
+    </view>
+
+    <!-- 饮品分类导航（吸顶） -->
+    <view class="category-nav">
+      <scroll-view scroll-x class="category-scroll" enhanced show-scrollbar="{{false}}">
         <view class="category-nav-list">
-          <view 
+          <view
             class="category-nav-item {{currentCategory === 'all' ? 'active' : ''}}"
             bindtap="selectCategory"
             data-category="all"
-          >全部</view>
-          <view 
+          >
+            <text>全部</text>
+            <text class="cat-count" wx:if="{{totalCount > 0}}">{{totalCount}}</text>
+          </view>
+          <view
             class="category-nav-item {{currentCategory === item.name ? 'active' : ''}}"
             wx:for="{{categories}}"
             wx:for-item="item"
             wx:key="_id"
             bindtap="selectCategory"
             data-category="{{item.name}}"
-          >{{item.name}}</view>
+          >
+            <text>{{item.name}}</text>
+            <text class="cat-count" wx:if="{{categoryCounts[item.name] > 0}}">{{categoryCounts[item.name]}}</text>
+          </view>
         </view>
       </scroll-view>
     </view>
@@ -59,7 +91,7 @@
     <view class="menu-section">
       <!-- 按分类展示饮品 -->
       <view class="category-block" wx:if="{{currentCategory === 'all'}}">
-        <view 
+        <view
           class="category-group"
           wx:for="{{categories}}"
           wx:key="_id"
@@ -71,7 +103,7 @@
           </view>
 
           <view class="drink-grid" wx:if="{{categoryItemsMap[category.name] && categoryItemsMap[category.name].length > 0}}">
-            <view 
+            <view
               class="drink-card {{item.available === false ? 'soldout' : ''}}"
               wx:for="{{categoryItemsMap[category.name]}}"
               wx:for-item="item"
@@ -80,20 +112,30 @@
               bindtap="goToDetail"
               data-item="{{item}}"
             >
-              <view class="drink-image-box" wx:if="{{item.imageUrl}}">
-                <image 
-                  class="drink-image" 
-                  src="{{item.imageUrl}}" 
+              <view class="drink-image-box">
+                <image
+                  wx:if="{{item.imageUrl}}"
+                  class="drink-image"
+                  src="{{item.imageUrl}}"
                   mode="aspectFill"
                 />
+                <text wx:else class="drink-emoji">{{itemEmoji(item)}}</text>
+                <view class="soldout-mask" wx:if="{{item.available === false}}">
+                  <text class="soldout-text">已售罄</text>
+                </view>
               </view>
               <view class="drink-info">
                 <text class="drink-name">{{item.name}}</text>
-                <view class="drink-price-line">
-                  <text class="drink-price" wx:if="{{item.price}}">{{formatPrice(item.price)}}</text>
-                  <text class="drink-soldout" wx:if="{{item.available === false}}">已售罄</text>
-                </view>
                 <text class="drink-description" wx:if="{{item.description}}">{{item.description}}</text>
+                <view class="drink-price-line">
+                  <text class="drink-price">{{formatPrice(item.price)}}</text>
+                  <view
+                    class="add-btn"
+                    wx:if="{{item.available !== false}}"
+                    catchtap="quickAdd"
+                    data-item="{{item}}"
+                  >＋</view>
+                </view>
               </view>
             </view>
           </view>
@@ -107,7 +149,7 @@
           </view>
 
           <view class="drink-grid">
-            <view 
+            <view
               class="drink-card {{item.available === false ? 'soldout' : ''}}"
               wx:for="{{categoryItemsMap['未分类']}}"
               wx:for-item="item"
@@ -116,20 +158,30 @@
               bindtap="goToDetail"
               data-item="{{item}}"
             >
-              <view class="drink-image-box" wx:if="{{item.imageUrl}}">
-                <image 
-                  class="drink-image" 
-                  src="{{item.imageUrl}}" 
+              <view class="drink-image-box">
+                <image
+                  wx:if="{{item.imageUrl}}"
+                  class="drink-image"
+                  src="{{item.imageUrl}}"
                   mode="aspectFill"
                 />
+                <text wx:else class="drink-emoji">{{itemEmoji(item)}}</text>
+                <view class="soldout-mask" wx:if="{{item.available === false}}">
+                  <text class="soldout-text">已售罄</text>
+                </view>
               </view>
               <view class="drink-info">
                 <text class="drink-name">{{item.name}}</text>
-                <view class="drink-price-line">
-                  <text class="drink-price" wx:if="{{item.price}}">{{formatPrice(item.price)}}</text>
-                  <text class="drink-soldout" wx:if="{{item.available === false}}">已售罄</text>
-                </view>
                 <text class="drink-description" wx:if="{{item.description}}">{{item.description}}</text>
+                <view class="drink-price-line">
+                  <text class="drink-price">{{formatPrice(item.price)}}</text>
+                  <view
+                    class="add-btn"
+                    wx:if="{{item.available !== false}}"
+                    catchtap="quickAdd"
+                    data-item="{{item}}"
+                  >＋</view>
+                </view>
               </view>
             </view>
           </view>
@@ -138,7 +190,7 @@
 
       <!-- 单个分类展示 -->
       <view class="drink-grid" wx:if="{{currentCategory !== 'all'}}">
-        <view 
+        <view
           class="drink-card {{item.available === false ? 'soldout' : ''}}"
           wx:for="{{categoryItemsMap[currentCategory] || []}}"
           wx:for-item="item"
@@ -147,20 +199,30 @@
           bindtap="goToDetail"
           data-item="{{item}}"
         >
-          <view class="drink-image-box" wx:if="{{item.imageUrl}}">
-            <image 
-              class="drink-image" 
-              src="{{item.imageUrl}}" 
+          <view class="drink-image-box">
+            <image
+              wx:if="{{item.imageUrl}}"
+              class="drink-image"
+              src="{{item.imageUrl}}"
               mode="aspectFill"
             />
+            <text wx:else class="drink-emoji">{{itemEmoji(item)}}</text>
+            <view class="soldout-mask" wx:if="{{item.available === false}}">
+              <text class="soldout-text">已售罄</text>
+            </view>
           </view>
           <view class="drink-info">
             <text class="drink-name">{{item.name}}</text>
-            <view class="drink-price-line">
-              <text class="drink-price" wx:if="{{item.price}}">{{formatPrice(item.price)}}</text>
-              <text class="drink-soldout" wx:if="{{item.available === false}}">已售罄</text>
-            </view>
             <text class="drink-description" wx:if="{{item.description}}">{{item.description}}</text>
+            <view class="drink-price-line">
+              <text class="drink-price">{{formatPrice(item.price)}}</text>
+              <view
+                class="add-btn"
+                wx:if="{{item.available !== false}}"
+                catchtap="quickAdd"
+                data-item="{{item}}"
+              >＋</view>
+            </view>
           </view>
         </view>
       </view>
@@ -173,8 +235,9 @@
 
       <!-- 空状态 -->
       <view class="empty-state" wx:if="{{!loading && drinkItems.length === 0}}">
-        <text class="empty-icon">📦</text>
-        <text class="empty-text">暂无饮品</text>
+        <text class="empty-icon">{{keyword ? '🔍' : '📦'}}</text>
+        <text class="empty-text">{{keyword ? '没有找到相关饮品' : '暂无饮品'}}</text>
+        <view class="empty-btn" wx:if="{{keyword}}" bindtap="onSearchClear">清除搜索</view>
       </view>
     </view>
 
@@ -182,5 +245,23 @@
     <view class="privacy-link">
       <text bindtap="goToPrivacy" class="privacy-text">隐私政策</text>
     </view>
+
+    <!-- 底部占位（给购物车栏） -->
+    <view class="bottom-space"></view>
   </view>
+
+  <!-- 底部购物车栏 -->
+  <view class="cart-bar" wx:if="{{cartCount > 0}}">
+    <view class="cart-bar-left" bindtap="goToCart">
+      <view class="cart-ico-wrap">
+        <text class="cart-ico">🛒</text>
+        <text class="cart-bar-badge" wx:if="{{cartCount > 0}}">{{cartCount}}</text>
+      </view>
+      <text class="cart-bar-total">{{formatPrice(cartTotal)}}</text>
+    </view>
+    <view class="cart-bar-btn" bindtap="goToCart">去下单</view>
+  </view>
+
+  <!-- 顾客端底部 Tab（商家代客下单模式不显示） -->
+  <customer-tabbar wx:if="{{!merchantMode}}" active="menu" bind:change="onTabChange" />
 </view>

@@ -22,11 +22,14 @@ const DEMO_DRINKS = [
   { name: '珍珠奶茶', price: 1600, calories: 300, description: 'Q弹珍珠搭配经典奶茶', category: '茶饮' }
 ]
 
+// 统一价格默认值：所有饮品价格设为 ¥10（1000 分）
+const FALLBACK_PRICE = 1000
+
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
   const callerOpenid = wxContext.OPENID
   const db = cloud.database()
-  const results = { merchants: 0, stores: 0, categories: 0, drinks: 0, seeded: false, callerOpenid: callerOpenid || '' }
+  const results = { merchants: 0, stores: 0, categories: 0, drinks: 0, seeded: false, filledPrices: 0, callerOpenid: callerOpenid || '' }
 
   // 0. 确保所有集合存在（空库环境自动创建）
   const ensureCollection = async (name) => {
@@ -130,6 +133,19 @@ exports.main = async (event, context) => {
       } })
     }))
     results.seeded = true
+  }
+
+  // 5. 统一所有饮品价格 = ¥10（1000 分）（用户要求：直接把所有价格填成 10）
+  try {
+    const drinks = await db.collection('drink_items').limit(1000).get()
+    for (const d of (drinks.data || [])) {
+      await db.collection('drink_items').doc(d._id).update({
+        data: { price: FALLBACK_PRICE, updateTime: Date.now() }
+      })
+      results.filledPrices++
+    }
+  } catch (e) {
+    console.log('统一价格跳过:', e.message)
   }
 
   console.log('=== migrate 完成 ===', JSON.stringify(results))

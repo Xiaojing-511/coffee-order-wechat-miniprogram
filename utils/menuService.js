@@ -5,6 +5,9 @@ const db = require('./database.js');
 const { myStoreId } = require('./merchant.js');
 const { seedDemoData } = require('./seed.js');
 
+// 统一价格默认值：所有饮品价格设为 ¥10（1000 分）
+const FALLBACK_PRICE = 1000;
+
 const callMenuFn = async (data) => {
   try {
     if (wx.cloud && wx.cloud.callFunction) {
@@ -83,4 +86,28 @@ const seedDemo = async () => {
   return seedDemoData();
 };
 
-module.exports = { saveCategory, deleteCategory, saveDrink, deleteDrink, seedDemo };
+/**
+ * 一键统一价格（云函数优先，本地降级）：本店所有饮品价格设为 fallbackPrice（默认 ¥10）
+ * @param {number} [fallbackPrice] 统一价格（分），默认 1000（¥10）
+ * @returns {Promise<{success:boolean, filled:number, list:Array}>}
+ */
+const fillPrices = async (fallbackPrice) => {
+  const fallback = parseInt(fallbackPrice, 10) || FALLBACK_PRICE;
+  const cloudRes = await callMenuFn({ action: 'fillPrices', fallbackPrice: fallback });
+  if (cloudRes) {
+    return cloudRes.success
+      ? { success: true, filled: cloudRes.filled || 0, list: cloudRes.list || [] }
+      : fail(cloudRes);
+  }
+  // 本地降级：本店所有饮品统一价格
+  const filled = [];
+  const res = await db.query('drink_items', { storeId: myStoreId() }, { limit: 1000 });
+  const items = (res.success && res.data) ? res.data : [];
+  for (const d of items) {
+    await db.update('drink_items', d._id, { price: fallback, updateTime: Date.now() });
+    filled.push({ id: d._id, name: d.name, price: fallback });
+  }
+  return { success: true, filled: filled.length, list: filled };
+};
+
+module.exports = { saveCategory, deleteCategory, saveDrink, deleteDrink, seedDemo, fillPrices };

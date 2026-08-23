@@ -1,6 +1,6 @@
 .page-content-wrapper {
   min-height: 100vh;
-  background: #f5efe6;
+  background: #f5efe4;
 }
 
 .container {
@@ -113,7 +113,7 @@
   align-items: center;
   gap: 4px;
   padding: 6px 12px;
-  background: #f5efe6;
+  background: #f5efe4;
   border-radius: 6px;
   margin-bottom: 16px;
 }
@@ -185,7 +185,7 @@
   align-items: center;
   gap: 12px;
   padding: 12px;
-  background: #f5efe6;
+  background: #f5efe4;
   border-radius: 8px;
 }
 
@@ -267,7 +267,7 @@
 .drink-price-main {
   font-size: 22px;
   font-weight: 700;
-  color: #C62828;
+  color: #a9782f;
 }
 
 .drink-soldout-badge {
@@ -301,7 +301,7 @@
   border-radius: 20px;
   font-size: 13px;
   color: #5D4037;
-  background: #f5efe6;
+  background: #f5efe4;
   border: 1px solid #D7CCC8;
   transition: all 0.2s;
 }
@@ -339,7 +339,7 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: #f5efe6;
+  background: #f5efe4;
   color: #5D4037;
   font-size: 18px;
   font-weight: 600;
@@ -438,12 +438,12 @@
 .cart-total-price {
   font-size: 20px;
   font-weight: 700;
-  color: #C62828;
+  color: #a9782f;
 }
 
 .add-cart-btn {
-  background: linear-gradient(135deg, #8B4513 0%, #6F4E37 100%);
-  color: #fff;
+  background: #201010;
+  color: #f0e0d0;
   font-size: 15px;
   font-weight: 600;
   padding: 12px 28px;

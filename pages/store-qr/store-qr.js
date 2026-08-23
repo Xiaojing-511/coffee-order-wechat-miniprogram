@@ -55,11 +55,11 @@ Page({
   onShareAppMessage: function() {
     return {
       title: this.data.storeName + ' · 扫码点单',
-      path: '/menu-pages/menu-list?storeId=' + this.data.storeId
+      path: '/menu-pages/store-home?storeId=' + this.data.storeId
     };
   },
 
   goMenu: function() {
-    wx.redirectTo({ url: '/menu-pages/menu-list?storeId=' + this.data.storeId + '&source=merchant' });
+    wx.navigateTo({ url: '/menu-pages/store-home?storeId=' + this.data.storeId });
   }
 });

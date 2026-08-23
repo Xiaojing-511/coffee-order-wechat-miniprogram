@@ -1,4 +1,6 @@
 {
-  "usingComponents": {},
-  "navigationBarTitleText": "我的订单"
+  "usingComponents": {
+    "customer-tabbar": "/components/customer-tabbar/customer-tabbar"
+  },
+  "navigationBarTitleText": "我的"
 }

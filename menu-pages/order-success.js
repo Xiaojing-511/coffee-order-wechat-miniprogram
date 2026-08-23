@@ -1,13 +1,20 @@
 const { formatPrice } = require('../utils/money.js');
 const orderService = require('../utils/orderService.js');
+const { getOrderSource } = require('../utils/storeContext.js');
+const { isMerchant } = require('../utils/merchant.js');
 
 Page({
   data: {
     order: null,
-    orderId: ''
+    orderId: '',
+    merchantMode: false
   },
 
   onLoad: function(options) {
+    // 商家代客下单成功：展示「返回商家端」
+    const merchantMode = isMerchant() &&
+      (options.source === 'merchant' || getOrderSource() === 'merchant');
+    this.setData({ merchantMode: merchantMode });
     if (options.id) {
       this.setData({ orderId: options.id });
       this.loadOrder(options.id);
@@ -30,7 +37,17 @@ Page({
   },
 
   goBackToMenu: function() {
+    if (this.data.merchantMode) {
+      // 商家继续点单：保持代客下单模式
+      wx.redirectTo({ url: '/menu-pages/menu-list?source=merchant' });
+      return;
+    }
     wx.redirectTo({ url: '/menu-pages/menu-list' });
+  },
+
+  // 商家代客下单完成：返回商家端订单页
+  goMerchantHome: function() {
+    wx.switchTab({ url: '/pages/orders/orders' });
   },
 
   formatPrice: function(cents) {

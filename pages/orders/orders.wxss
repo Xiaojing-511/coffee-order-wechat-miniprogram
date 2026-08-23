@@ -24,8 +24,7 @@
 .order-list { display: flex; flex-direction: column; gap: 12px; }
 .order-card { background: #fff; border-radius: 12px; padding: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
 .order-head { display: flex; justify-content: space-between; align-items: center; padding-bottom: 10px; border-bottom: 1px solid #f5f5f5; }
-.order-no { font-size: 14px; font-weight: 600; color: #333; display: block; }
-.order-time { font-size: 11px; color: #999; }
+.order-time { font-size: 13px; font-weight: 600; color: #333; }
 .order-status { font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 10px; }
 .order-status.pending { background: #FFF3E0; color: #E65100; }
 .order-status.paid { background: #E3F2FD; color: #1565C0; }
@@ -45,6 +44,7 @@
 .oi-name { font-size: 13px; color: #333; }
 .oi-spec { font-size: 11px; color: #999; flex: 1; }
 .oi-qty { font-size: 12px; color: #666; }
+.oi-price { font-size: 12px; color: #B3592E; font-weight: 600; min-width: 52px; text-align: right; }
 .oi-remark { font-size: 12px; color: #8D6E63; padding-top: 4px; }
 
 .order-foot { display: flex; justify-content: space-between; align-items: center; padding-top: 10px; border-top: 1px solid #f5f5f5; }

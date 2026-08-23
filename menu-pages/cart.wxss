@@ -1,6 +1,6 @@
 .page-content-wrapper {
   min-height: 100vh;
-  background: #f5efe6;
+  background: #f5efe4;
 }
 
 .container {
@@ -46,7 +46,7 @@
 .spec-tag {
   font-size: 11px;
   color: #8D6E63;
-  background: #f5efe6;
+  background: #f5efe4;
   padding: 2px 8px;
   border-radius: 10px;
 }
@@ -61,7 +61,7 @@
 .cart-item-price {
   font-size: 14px;
   font-weight: 700;
-  color: #C62828;
+  color: #a9782f;
 }
 
 .cart-item-subtotal {
@@ -86,7 +86,7 @@
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: #f5efe6;
+  background: #f5efe4;
   border: 1px solid #D7CCC8;
   color: #5D4037;
   font-size: 16px;
@@ -146,8 +146,8 @@
   display: inline-block;
   padding: 10px 36px;
   border-radius: 24px;
-  background: linear-gradient(135deg, #8B4513 0%, #6F4E37 100%);
-  color: #fff;
+  background: #201010;
+  color: #f0e0d0;
   font-size: 14px;
   font-weight: 600;
 }
@@ -185,12 +185,12 @@
 .checkout-total-price {
   font-size: 22px;
   font-weight: 700;
-  color: #C62828;
+  color: #a9782f;
 }
 
 .checkout-btn {
-  background: linear-gradient(135deg, #8B4513 0%, #6F4E37 100%);
-  color: #fff;
+  background: #201010;
+  color: #f0e0d0;
   font-size: 15px;
   font-weight: 600;
   padding: 12px 28px;

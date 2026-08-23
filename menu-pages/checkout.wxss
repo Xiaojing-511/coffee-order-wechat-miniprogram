@@ -1,6 +1,6 @@
 .page-content-wrapper {
   min-height: 100vh;
-  background: #f5efe6;
+  background: #f5efe4;
 }
 
 .container {
@@ -65,6 +65,12 @@
   color: #666;
 }
 
+.order-item-unit {
+  font-size: 13px;
+  color: #B3592E;
+  font-weight: 600;
+}
+
 .order-item-price {
   font-size: 14px;
   font-weight: 700;
@@ -97,7 +103,7 @@
 .total-amount-price {
   font-size: 20px;
   font-weight: 700;
-  color: #C62828;
+  color: #a9782f;
 }
 
 .form-row {
@@ -128,7 +134,7 @@
   font-size: 14px;
   color: #333;
   padding: 4px 8px;
-  background: #f5efe6;
+  background: #f5efe4;
   border-radius: 6px;
 }
 
@@ -171,7 +177,7 @@
 .submit-total-price {
   font-size: 22px;
   font-weight: 700;
-  color: #C62828;
+  color: #a9782f;
 }
 
 .submit-total-note {
@@ -180,8 +186,8 @@
 }
 
 .submit-btn {
-  background: linear-gradient(135deg, #8B4513 0%, #6F4E37 100%);
-  color: #fff;
+  background: #201010;
+  color: #f0e0d0;
   font-size: 15px;
   font-weight: 600;
   padding: 12px 32px;
@@ -197,7 +203,7 @@
 }
 
 .store-note {
-  background: #f5efe6;
+  background: #f5efe4;
   border-radius: 8px;
   padding: 10px 12px;
   margin-bottom: 12px;

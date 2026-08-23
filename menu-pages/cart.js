@@ -88,7 +88,9 @@ Page({
   },
 
   goShopping: function() {
-    wx.redirectTo({ url: '/menu-pages/menu-list' });
+    // 商家代客下单返回时保留商家模式标记
+    const src = wx.getStorageSync('orderSource') === 'merchant' ? '?source=merchant' : '';
+    wx.redirectTo({ url: '/menu-pages/menu-list' + src });
   },
 
   formatPrice: function(cents) {

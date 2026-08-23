@@ -13,6 +13,9 @@ const DEMO_DRINKS = [
   { name: '珍珠奶茶', price: 1600, calories: 300, description: 'Q弹珍珠搭配经典奶茶', category: '茶饮' }
 ]
 
+// 统一价格默认值：所有饮品价格设为 ¥10（1000 分）
+const FALLBACK_PRICE = 1000
+
 // 平台创始人白名单（merchants 集合缺失时兜底为商家）
 const OWNER_OPENIDS = [
   "oCZJh3WBgr-C9IRK2udIW30FFWzo",
@@ -133,6 +136,21 @@ exports.main = async (event, context) => {
       if (!own.ok) return { success: false, error: own.error }
       await db.collection('drink_items').doc(id).remove()
       return { success: true }
+    }
+
+    // 一键统一价格：将该店所有饮品价格设为 fallbackPrice（默认 ¥10 / 1000 分）
+    // 返回更新明细（用户要求：所有价格直接填 ¥10）
+    case 'fillPrices': {
+      const fallback = parseInt(event.fallbackPrice, 10) || FALLBACK_PRICE
+      const list = await db.collection('drink_items').where({ storeId: storeId }).limit(1000).get()
+      const filled = []
+      for (const d of (list.data || [])) {
+        await db.collection('drink_items').doc(d._id).update({
+          data: { price: fallback, updateTime: Date.now() }
+        })
+        filled.push({ id: d._id, name: d.name, price: fallback })
+      }
+      return { success: true, filled: filled.length, list: filled }
     }
 
     // 导入演示数据（幂等，仅当该店无饮品时）
