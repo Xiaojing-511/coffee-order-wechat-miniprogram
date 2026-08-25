@@ -13,6 +13,7 @@ Page({
     sugarLevel: '正常糖',
     cartCount: 0,
     cartTotal: 0,
+    cartTotalText: '¥0',
     merchantMode: false,
     // 规格选项
     temperatureOptions: ['冷', '热'],
@@ -34,6 +35,7 @@ Page({
     } else if (options.item) {
       try {
         const item = JSON.parse(decodeURIComponent(options.item));
+        item.priceText = formatPrice(item.price);
         this.setData({ item: item, loading: false });
         wx.setNavigationBarTitle({ title: item.name || '饮品详情' });
       } catch (err) {
@@ -65,6 +67,7 @@ Page({
       const res = await db.query('drink_items', { _id: id });
       if (res.success && res.data && res.data.length > 0) {
         const item = res.data[0];
+        item.priceText = formatPrice(item.price);
         this.setData({ item: item, loading: false });
         wx.setNavigationBarTitle({ title: item.name || '饮品详情' });
       } else {
@@ -123,7 +126,7 @@ Page({
       count += it.quantity || 1;
       total += (it.price || 0) * (it.quantity || 1);
     });
-    this.setData({ cartCount: count, cartTotal: total });
+    this.setData({ cartCount: count, cartTotal: total, cartTotalText: formatPrice(total) });
   },
 
   // 加入购物车（同规格合并数量）

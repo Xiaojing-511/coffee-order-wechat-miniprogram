@@ -55,7 +55,7 @@
             <text class="oi-name">{{oi.name}}</text>
             <text class="oi-spec" wx:if="{{oi.temperature || oi.sugarLevel}}">{{oi.temperature}}/{{oi.iceLevel}}/{{oi.sugarLevel}}</text>
             <text class="oi-qty">×{{oi.quantity}}</text>
-            <text class="oi-price">{{formatPrice(oi.price * oi.quantity)}}</text>
+            <text class="oi-price">{{oi.priceText}}</text>
           </view>
           <!-- 展开详情 -->
           <view class="order-detail" wx:if="{{expandedId === item._id}}">
@@ -75,7 +75,7 @@
             <view class="order-action-btn" wx:if="{{item.status === 'pending'}}" catchtap="payNow" data-id="{{item._id}}">去支付</view>
             <view class="order-action-btn danger" wx:if="{{item.status === 'pending' || item.status === 'paid'}}" catchtap="cancelOrder" data-id="{{item._id}}">取消订单</view>
             <view class="order-action-btn primary" wx:if="{{item.status !== 'pending' && item.status !== 'cancelled' && item.status !== 'refunded'}}" catchtap="reorder" data-id="{{item._id}}">再来一单</view>
-            <text class="order-amount">{{formatPrice(item.totalAmount)}}</text>
+            <text class="order-amount">{{item.totalAmountText}}</text>
           </view>
         </view>
       </view>
@@ -95,11 +95,11 @@
         <text class="service-label">关于本店</text>
         <text class="service-arrow">›</text>
       </view>
-      <view class="service-item" bindtap="copyContact">
+      <button class="service-item service-contact" open-type="contact">
         <text class="service-icon">💬</text>
-        <text class="service-label">联系客服（微信：CoffeeOrder-SaaS）</text>
+        <text class="service-label">联系客服</text>
         <text class="service-arrow">›</text>
-      </view>
+      </button>
       <view class="service-item" bindtap="goPrivacy">
         <text class="service-icon">📄</text>
         <text class="service-label">隐私政策</text>

@@ -11,8 +11,8 @@
             <text class="spec-tag">{{item.sugarLevel}}</text>
           </view>
           <view class="cart-item-price-line">
-            <text class="cart-item-price">{{formatPrice(item.price)}}</text>
-            <text class="cart-item-subtotal">小计 {{formatPrice(item.price * item.quantity)}}</text>
+            <text class="cart-item-price">{{item.priceText}}</text>
+            <text class="cart-item-subtotal">小计 {{item.subtotalText}}</text>
           </view>
         </view>
         <view class="cart-item-right">
@@ -42,7 +42,7 @@
   <view class="checkout-bar" wx:if="{{items.length > 0}}">
     <view class="checkout-total">
       <text class="checkout-total-label">合计</text>
-      <text class="checkout-total-price">{{formatPrice(totalAmount)}}</text>
+      <text class="checkout-total-price">{{totalAmountText}}</text>
     </view>
     <view class="checkout-btn" bindtap="goCheckout">去结算（{{totalQuantity}}）</view>
   </view>

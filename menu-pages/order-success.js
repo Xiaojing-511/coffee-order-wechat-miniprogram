@@ -26,6 +26,14 @@ Page({
   loadOrder: async function(orderId) {
     const order = await orderService.getOrderById(orderId);
     if (order) {
+      // 预格式化价格展示文本（直接绑定，避免模板方法调用不生效导致价格不显示）
+      if (order.items) {
+        order.items.forEach(function(oi) {
+          oi.priceText = formatPrice(oi.price || 0);
+          oi.subtotalText = formatPrice((oi.price || 0) * (oi.quantity || 1));
+        });
+      }
+      order.totalAmountText = formatPrice(order.totalAmount);
       this.setData({ order: order });
     } else {
       wx.showToast({ title: '订单不存在', icon: 'none' });

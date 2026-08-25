@@ -194,6 +194,56 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .mp-bar .sum b{color:var(--caramel-700)}
 .mp-bar .pay{background:var(--coffee-900);color:var(--caramel-300);font-size:12px;font-weight:600;padding:9px 16px;border-radius:99px}
 
+/* ===== 欢迎页（真实 menu-pages/store-home 界面） ===== */
+.phone-screen.welcome{
+  position:relative;
+  background-image: url('img/store-home-bg.jpg');
+  background-size:100%;
+}
+.wl-topbar{position:absolute;top:8px;left:0;right:0;z-index:3;display:flex;justify-content:space-between;align-items:center;padding:2px 14px}
+.wl-back{width:30px;height:30px;border-radius:50%;background:rgba(20,10,6,.45);border:1px solid rgba(240,224,208,.35);display:grid;place-items:center;font-size:14px;color:#f0e0d0}
+.wl-share{font-size:10px;color:#f0e0d0;background:rgba(20,10,6,.45);border:1px solid rgba(240,224,208,.35);border-radius:99px;padding:5px 12px;letter-spacing:.08em}
+.wl-body{position:relative;z-index:2;margin-top:auto;padding:0 20px 26px;text-align:center;display:flex;flex-direction:column;align-items:center}
+.wl-eyebrow{font-size:9.5px;letter-spacing:.34em;color:#e6c98f;font-weight:600}
+.wl-name{font-family:var(--font-serif);font-size:32px;font-weight:700;color:#faf6ef;letter-spacing:.16em;margin-top:10px;text-shadow:0 3px 18px rgba(0,0,0,.45)}
+.wl-status{display:inline-flex;align-items:center;gap:5px;margin-top:11px;font-size:10px;color:#d9f2e0;background:rgba(46,125,50,.5);border:1px solid rgba(140,210,160,.55);padding:3px 12px;border-radius:99px;letter-spacing:.1em}
+.wl-status i{width:5px;height:5px;border-radius:50%;background:#7fd68f;display:block}
+.wl-hairline{width:40px;height:2px;background:linear-gradient(90deg,transparent,#c99343,transparent);margin:16px 0 13px}
+.wl-desc{font-size:11.5px;line-height:1.8;color:#f0e0d0;max-width:220px;text-shadow:0 2px 10px rgba(0,0,0,.5)}
+.wl-time{font-size:10.5px;color:#e6c98f;letter-spacing:.07em;margin-top:9px}
+.wl-enter{width:188px;height:46px;line-height:46px;border-radius:99px;background:linear-gradient(150deg,#d4a95e,#c99343);color:#fff;font-size:15px;font-weight:700;letter-spacing:.3em;text-indent:.3em;margin-top:22px;box-shadow:0 8px 26px rgba(201,147,67,.5);text-align:center}
+.wl-hint{font-size:10px;color:#c9b39b;letter-spacing:.07em;margin-top:12px}
+
+/* ===== 点单页（真实 menu-pages/menu-list 界面） ===== */
+.phone-screen.menu{background:var(--cream-100)}
+.ml-header{background:linear-gradient(160deg,#241511,#1a0f0a);color:#f0e0d0;padding:12px 14px 10px;position:relative}
+.ml-header::after{content:"";position:absolute;left:14px;right:14px;bottom:0;height:1px;background:linear-gradient(90deg,transparent,#c99343 30%,#c99343 70%,transparent);opacity:.7}
+.ml-store{font-size:19px;font-weight:700;letter-spacing:.04em;font-family:var(--font-serif);display:flex;align-items:center;gap:8px}
+.ml-store .st{font-size:10px;color:#d9f2e0;background:rgba(46,125,50,.35);border:1px solid rgba(120,200,140,.5);padding:2px 9px;border-radius:99px;display:inline-flex;align-items:center;gap:4px;font-family:var(--font-sans)}
+.ml-store .st i{width:5px;height:5px;border-radius:50%;background:#7fd68f;display:block}
+.ml-ann{margin-top:6px;font-size:9.5px;color:#f0e0d0;background:rgba(240,224,208,.08);border-left:2px solid #c99343;border-radius:3px 8px 8px 3px;padding:5px 8px;line-height:1.55}
+.ml-time{font-size:9.5px;color:#c9b39b;margin-top:6px}
+.ml-demo{margin:7px 14px 0;background:#fdf3e3;border:1px solid #f0d9ae;border-radius:10px;padding:6px 8px;display:flex;align-items:center;gap:6px;font-size:9.5px;color:#8a5f22;line-height:1.5}
+.ml-search{margin:9px 14px 0;background:#faf6ef;border:1px solid #e5d3b8;border-radius:11px;height:34px;padding:0 11px;display:flex;align-items:center;gap:6px;font-size:10.5px;color:#b3a08c;box-shadow:0 2px 10px rgba(32,16,16,.04)}
+.ml-cats{display:flex;gap:6px;padding:9px 14px 3px;overflow:hidden}
+.ml-cats span{font-size:10px;padding:5px 11px;border-radius:99px;background:#faf6ef;border:1px solid #e5d3b8;color:#6b564a;white-space:nowrap}
+.ml-cats span.on{background:#201010;border-color:#201010;color:#fff;font-weight:600;box-shadow:0 4px 12px rgba(32,16,16,.22)}
+.ml-grid{flex:1;overflow:hidden;padding:5px 14px 6px;display:flex;flex-wrap:wrap;gap:7px;align-content:flex-start}
+.ml-card{width:calc(50% - 3.5px);background:#faf6ef;border:1px solid #e5d3b8;border-radius:13px;overflow:hidden;box-shadow:0 3px 12px rgba(32,16,16,.05)}
+.ml-card .ph{height:50px;background:linear-gradient(160deg,#efe3cf,#e5d3b8);display:grid;place-items:center;font-size:23px}
+.ml-card .bd{padding:6px 8px 8px}
+.ml-card .nm{font-size:11.5px;font-weight:600;color:#33261e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ml-card .ds{font-size:8.5px;color:#a08a76;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ml-card .pr{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.ml-card .pr b{font-size:13px;color:#a9782f;font-weight:700}
+.ml-card .pr .add{width:18px;height:18px;border-radius:50%;background:linear-gradient(150deg,#d4a95e,#c99343);color:#fff;display:grid;place-items:center;font-size:12px;line-height:1;box-shadow:0 3px 8px rgba(201,147,67,.45)}
+.ml-cart{display:flex;justify-content:space-between;align-items:center;background:#201010;border:1px solid rgba(201,147,67,.4);border-radius:99px;margin:0 10px 10px;padding:7px 7px 7px 14px;box-shadow:0 10px 28px rgba(32,16,16,.35)}
+.ml-cart .lft{display:flex;align-items:center;gap:9px;color:#f0e0d0}
+.ml-cart .lft .ico{position:relative;font-size:18px}
+.ml-cart .lft .badge{position:absolute;top:-5px;right:-7px;min-width:14px;height:14px;line-height:14px;text-align:center;background:#eb3349;color:#fff;font-size:8.5px;border-radius:99px;padding:0 3px;font-family:var(--font-sans)}
+.ml-cart .lft .tot{font-size:15px;font-weight:700}
+.ml-cart .go{background:linear-gradient(150deg,#d4a95e,#c99343);color:#fff;font-size:11px;font-weight:600;padding:8px 16px;border-radius:99px;letter-spacing:.12em}
+
 /* Hero 浮动卡片 */
 .float-card{
   position:absolute;background:rgba(250,246,239,.97);backdrop-filter:blur(6px);
@@ -212,7 +262,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 
 /* Hero 二维码卡片 */
 .qr-card{
-  position:absolute;bottom:-34px;left:50%;transform:translateX(-50%);
+  position:absolute;bottom:-74px;left:-10%;transform:translateX(-50%);
   background:#fff;border-radius:18px;box-shadow:var(--shadow-lg);
   padding:14px;display:flex;align-items:center;gap:14px;z-index:5;width:max-content;
 }
@@ -441,25 +491,29 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
     <div class="hero-visual">
       <div class="phone">
         <div class="phone-notch"></div>
-        <div class="phone-status"><span>9:41</span><span>饮品点单</span><span>📶 🔋</span></div>
-        <div class="phone-screen">
-          <div class="mp-head">
-            <h4>青柠咖啡 <span>营业中</span></h4>
+        <div class="phone-status"><span>9:41</span><span>青柠咖啡</span><span>📶 🔋</span></div>
+        <div class="phone-screen welcome">
+          <!-- 真实欢迎页：menu-pages/store-home -->
+          <!-- <div class="wl-topbar">
+            <span class="wl-back">←</span>
+            <span class="wl-share">📤 分享</span>
+          </div> -->
+          <div class="wl-body">
+            <span class="wl-eyebrow">COFFEE · FRESH BREW</span>
+            <span class="wl-name">青柠咖啡</span>
+            <span class="wl-status"><i></i>营业中</span>
+            <span class="wl-hairline"></span>
+            <span class="wl-desc">新店开业，全场饮品第二杯半价！</span>
+            <span class="wl-time">🕐 营业时间 09:00 - 21:00</span>
+            <span class="wl-enter">开始点单</span>
+            <span class="wl-hint">点击进入菜单 · 选好饮品即可下单</span>
           </div>
-          <div class="mp-search">🔍 搜索「拿铁 / 果茶 / 甜品」</div>
-          <div class="mp-cats"><span class="on">咖啡</span><span>茶饮</span><span>果汁</span><span>甜品</span></div>
-          <div class="mp-items">
-            <div class="mp-item"><span class="ico" style="background:#f3e3d2">☕</span><div class="info"><div class="nm">经典拿铁</div><div class="ds">浓缩咖啡 · 丝滑奶泡</div><div class="pr">¥18</div></div><span class="add">+</span></div>
-            <div class="mp-item"><span class="ico" style="background:#efe6d5">🧋</span><div class="info"><div class="nm">厚乳奶茶</div><div class="ds">可选糖度 · 冷热</div><div class="pr">¥16</div></div><span class="add">+</span></div>
-            <div class="mp-item"><span class="ico" style="background:#f0e8d8">🍰</span><div class="info"><div class="nm">巴斯克芝士</div><div class="ds">当日现烤</div><div class="pr">¥22</div></div><span class="add">+</span></div>
-          </div>
-          <div class="mp-bar"><span class="sum">共 2 件 · <b>¥34</b></span><span class="pay">去下单</span></div>
         </div>
       </div>
 
       <div class="float-card fc-order">
         <span class="fc-ico">🔔</span>
-        <div><div class="fc-t">新订单 +1</div><div class="fc-s">经典拿铁 ×1 · 已接单</div></div>
+        <div><div class="fc-t">新订单 +1</div><div class="fc-s">拿铁 ×1 · 已接单</div></div>
       </div>
       <div class="float-card fc-done">
         <span class="fc-ico">✅</span>
@@ -546,20 +600,30 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
         <div class="phone phone-demo">
           <div class="phone-notch"></div>
           <div class="phone-status"><span>9:41</span><span>饮品点单</span><span>📶 🔋</span></div>
-          <div class="phone-screen">
-            <div class="mp-head"><h4>青柠咖啡 <span>营业中</span></h4></div>
-            <div class="mp-search">🔍 搜索饮品</div>
-            <div class="mp-cats"><span class="on">咖啡</span><span>茶饮</span><span>果汁</span></div>
-            <div class="mp-items">
-              <div class="mp-item"><span class="ico" style="background:#f3e3d2">☕</span><div class="info"><div class="nm">冰美式</div><div class="ds">双份浓缩 · 0 卡</div><div class="pr">¥15</div></div><span class="add">+</span></div>
-              <div class="mp-item"><span class="ico" style="background:#efe6d5">🧋</span><div class="info"><div class="nm">满杯葡萄</div><div class="ds">冰 · 少糖</div><div class="pr">¥19</div></div><span class="add">+</span></div>
+          <div class="phone-screen menu">
+            <!-- 真实点单页：menu-pages/menu-list -->
+            <div class="ml-header">
+              <div class="ml-store">青柠咖啡 <span class="st"><i></i>营业中</span></div>
+              <div class="ml-ann">新店开业，全场饮品第二杯半价！</div>
+              <div class="ml-time">🕐 营业时间 09:00 - 21:00</div>
             </div>
-            <div class="mp-bar"><span class="sum">共 2 件 · <b>¥34</b></span><span class="pay">去下单</span></div>
+            <div class="ml-demo">🧪 来自「疯狂咖啡官网」体验店铺 · 下单均为演示订单</div>
+            <div class="ml-search">🔍 搜索「拿铁 / 果茶 / 甜品」</div>
+            <div class="ml-cats"><span class="on">全部 12</span><span>经典咖啡 4</span><span>特调咖啡 3</span><span>茶饮 2</span><span>鲜果茶 3</span></div>
+            <div class="ml-grid">
+              <div class="ml-card"><div class="ph">☕</div><div class="bd"><div class="nm">美式咖啡</div><div class="ds">精选阿拉比卡豆 · 浓郁醇厚</div><div class="pr"><b>¥12</b><span class="add">＋</span></div></div></div>
+              <div class="ml-card"><div class="ph">☕</div><div class="bd"><div class="nm">拿铁</div><div class="ds">醇香浓缩与丝滑牛奶</div><div class="pr"><b>¥15</b><span class="add">＋</span></div></div></div>
+              <div class="ml-card"><div class="ph">☕</div><div class="bd"><div class="nm">生椰拿铁</div><div class="ds">清甜生椰乳 · 入口丝滑</div><div class="pr"><b>¥19</b><span class="add">＋</span></div></div></div>
+              <div class="ml-card"><div class="ph">🧋</div><div class="bd"><div class="nm">珍珠奶茶</div><div class="ds">Q弹珍珠 · 快乐加倍</div><div class="pr"><b>¥16</b><span class="add">＋</span></div></div></div>
+              <div class="ml-card"><div class="ph">🍹</div><div class="bd"><div class="nm">满杯红柚</div><div class="ds">当季红柚 · 酸甜多汁</div><div class="pr"><b>¥17</b><span class="add">＋</span></div></div></div>
+              <div class="ml-card"><div class="ph">🍵</div><div class="bd"><div class="nm">茉莉绿茶</div><div class="ds">清新茉莉花香</div><div class="pr"><b>¥10</b><span class="add">＋</span></div></div></div>
+            </div>
+            <div class="ml-cart"><span class="lft"><span class="ico">🛒<span class="badge">2</span></span><span class="tot">¥34</span></span><span class="go">去下单</span></div>
           </div>
         </div>
         <ul class="showcase-steps">
-          <li><b>①</b>扫店铺码进入专属菜单</li>
-          <li><b>②</b>选饮品 · 调糖度温度 · 加购</li>
+          <li><b>①</b>扫店铺码进入专属欢迎页</li>
+          <li><b>②</b>点「开始点单」进菜单 · 加购饮品</li>
           <li><b>③</b>模拟支付下单，秒出取餐码</li>
         </ul>
       </div>
@@ -573,9 +637,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
           <div class="phone-screen">
             <div class="mp-head"><h4>今日订单 <span>12 单</span></h4></div>
             <div style="flex:1;padding:12px 14px;display:flex;flex-direction:column;gap:9px;overflow:hidden">
-              <div class="order-row"><span class="o-ico" style="background:#fdecea">☕</span><div class="o-nm"><b>#1024 经典拿铁 ×2</b><span>11:42 · 到店自取</span></div><span class="o-st new">待接单</span></div>
-              <div class="order-row"><span class="o-ico" style="background:#fff3e0">🧋</span><div class="o-nm"><b>#1023 厚乳奶茶 ×1</b><span>11:38 · 到店自取</span></div><span class="o-st making">制作中</span></div>
-              <div class="order-row"><span class="o-ico" style="background:#e8f3ea">🍰</span><div class="o-nm"><b>#1022 巴斯克 ×1</b><span>11:31 · 已取餐</span></div><span class="o-st done">已核销</span></div>
+              <div class="order-row"><span class="o-ico" style="background:#fdecea">☕</span><div class="o-nm"><b>#1024 拿铁 ×2</b><span>11:42 · 到店自取</span></div><span class="o-st new">待接单</span></div>
+              <div class="order-row"><span class="o-ico" style="background:#fff3e0">🧋</span><div class="o-nm"><b>#1023 珍珠奶茶 ×1</b><span>11:38 · 到店自取</span></div><span class="o-st making">制作中</span></div>
+              <div class="order-row"><span class="o-ico" style="background:#e8f3ea">☕</span><div class="o-nm"><b>#1022 美式咖啡 ×1</b><span>11:31 · 已取餐</span></div><span class="o-st done">已核销</span></div>
             </div>
             <div class="mp-bar"><span class="sum">今日营收 <b>¥312</b></span><span class="pay">代客下单</span></div>
           </div>
@@ -707,7 +771,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
     </div>
     <div class="cta-qr reveal">
       <div class="qr-box" id="ctaQr"></div>
-      <div><b>微信扫码体验点单</b><span>扫一扫直达演示店铺菜单<br>客服微信：CoffeeOrder-SaaS</span></div>
+      <div><b>微信扫码体验点单</b><span>扫一扫直达演示店铺欢迎页<br>客服微信：CoffeeOrder-SaaS</span></div>
     </div>
   </div>
 </section>

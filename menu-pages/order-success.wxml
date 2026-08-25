@@ -22,8 +22,8 @@
             <text class="oi-spec" wx:if="{{oi.temperature || oi.iceLevel || oi.sugarLevel}}">{{oi.temperature}}/{{oi.iceLevel}}/{{oi.sugarLevel}}</text>
           </view>
           <view class="oi-right">
-            <text class="oi-unit">{{formatPrice(oi.price)}} × {{oi.quantity}}</text>
-            <text class="oi-price">{{formatPrice(oi.price * oi.quantity)}}</text>
+            <text class="oi-unit">{{oi.priceText}} × {{oi.quantity}}</text>
+            <text class="oi-price">{{oi.subtotalText}}</text>
           </view>
         </view>
       </view>
@@ -33,7 +33,7 @@
       </view>
       <view class="info-row">
         <text class="info-label">金额</text>
-        <text class="info-value price">{{formatPrice(order.totalAmount)}}</text>
+        <text class="info-value price">{{order.totalAmountText}}</text>
       </view>
       <view class="info-row" wx:if="{{order.pickupTime}}">
         <text class="info-label">取餐时间</text>

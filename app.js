@@ -34,8 +34,8 @@ App({
       if (sid) setStoreId(sid)
     }
 
-    // 获取登录态（openid + 商家信息）
-    this.initLogin()
+    // 获取登录态（openid + 商家信息）；暴露 Promise 供欢迎页等冷启动页面等待
+    this.loginReady = this.initLogin()
   },
 
   // 初始化登录态

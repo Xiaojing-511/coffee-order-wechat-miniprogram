@@ -27,7 +27,7 @@
         <view class="drink-title-col">
           <text class="drink-name">{{item.name}}</text>
           <view class="drink-price-row">
-            <text class="drink-price-main">{{formatPrice(item.price)}}</text>
+            <text class="drink-price-main">{{item.priceText}}</text>
             <text class="drink-soldout-badge" wx:if="{{item.available === false}}">已售罄</text>
           </view>
         </view>
@@ -127,7 +127,7 @@
       <text class="cart-badge" wx:if="{{cartCount > 0}}">{{cartCount}}</text>
     </view>
     <view class="cart-total" wx:if="{{cartCount > 0}}" bindtap="goToCart">
-      <text class="cart-total-price">{{formatPrice(cartTotal)}}</text>
+      <text class="cart-total-price">{{cartTotalText}}</text>
     </view>
     <view class="add-cart-btn" bindtap="addToCart">加入购物车</view>
   </view>

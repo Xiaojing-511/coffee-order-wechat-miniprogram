@@ -25,6 +25,16 @@
         <view class="regenerate-btn" bindtap="generateQr">{{generating ? '生成中...' : '重新生成'}}</view>
       </view>
       <view class="preview-btn" bindtap="goMenu">预览我的店铺</view>
+
+      <!-- 官网宣传体验码（平台级，仅创始人可用） -->
+      <view class="demo-btn" bindtap="generateDemoQr">{{demoGenerating ? '生成中...' : '生成官网宣传体验码'}}</view>
+      <text class="demo-hint">用于官网落地页「扫码体验点单」，路径 store-home · scene=storeId=S1001&src=landing</text>
+
+      <!-- 宣传码预览 -->
+      <view class="demo-qr-area" wx:if="{{demoQrFileId}}">
+        <image class="demo-qr-image" src="{{demoQrFileId}}" mode="aspectFit" />
+        <text class="demo-qr-tip">已生成。原图可在云开发控制台 → 存储 → store-qr/landing-demo.png 下载，保存为 landing/img/mini-program-demo-code.png</text>
+      </view>
     </view>
   </view>
 </view>

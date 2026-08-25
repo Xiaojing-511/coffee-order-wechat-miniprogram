@@ -25,7 +25,7 @@
         {
           "name": "home",
           "pathName": "menu-pages/store-home",
-          "query": "storeId=S1001&src=landing",
+          "query": "",
           "scene": null,
           "launchMode": "default"
         },

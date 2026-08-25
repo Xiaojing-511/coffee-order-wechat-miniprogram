@@ -26,6 +26,7 @@ Page({
     isAdmin: false,
     cartCount: 0,
     cartTotal: 0,
+    cartTotalText: '¥0',
     loading: true,
     keyword: '',
     merchantMode: false,    // 商家代客下单模式
@@ -156,6 +157,11 @@ Page({
         }
       }
 
+      // 预格式化价格展示文本（直接绑定，避免模板方法调用不生效导致价格不显示）
+      allItems.forEach(function(it) {
+        it.priceText = formatPrice(it.price);
+      });
+
       this.setData({ allDrinkItems: allItems });
       this.applyFilter();
     } catch (err) {
@@ -277,7 +283,7 @@ Page({
       count += it.quantity || 1;
       total += (it.price || 0) * (it.quantity || 1);
     });
-    this.setData({ cartCount: count, cartTotal: total });
+    this.setData({ cartCount: count, cartTotal: total, cartTotalText: formatPrice(total) });
   },
 
   // 快捷加购（默认规格，同规格合并）

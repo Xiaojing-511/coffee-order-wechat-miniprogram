@@ -1,7 +1,9 @@
 const db = require('../utils/database.js');
 const { parseStoreId, parseSceneParams, setStoreId, getStoreId } = require('../utils/storeContext.js');
+const { isMerchant } = require('../utils/merchant.js');
 
-// 店铺欢迎页：扫码第一屏，咖啡图背景 + 店铺介绍 + 点单入口
+// 店铺欢迎页：扫码第一屏 / 冷启动首页，咖啡图背景 + 店铺介绍 + 点单入口
+// 商家身份（冷启动进入）自动切换到商家端
 Page({
   data: {
     store: {
@@ -17,7 +19,7 @@ Page({
     isLandingDemo: false // 官网落地页扫码体验
   },
 
-  onLoad: function(options) {
+  onLoad: async function(options) {
     // 非扫码直入（商家预览/分享）时显示返回按钮
     this.setData({ canBack: getCurrentPages().length > 1 });
 
@@ -32,6 +34,18 @@ Page({
     }
 
     this.loadStore();
+
+    // 冷启动（欢迎页为入口页）时：等登录完成后，商家身份直接切到商家端
+    if (getCurrentPages().length === 1) {
+      try {
+        const app = getApp();
+        if (app && app.loginReady) await app.loginReady;
+      } catch (e) { /* 忽略 */ }
+      if (isMerchant()) {
+        wx.switchTab({ url: '/pages/orders/orders' });
+        return;
+      }
+    }
   },
 
   loadStore: async function() {

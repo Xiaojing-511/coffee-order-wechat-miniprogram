@@ -60,11 +60,15 @@ Page({
       return;
     }
     const orders = res.orders || [];
-    // 补 items key
+    // 补 items key + 预格式化价格展示文本（避免模板方法调用不生效导致价格不显示）
     orders.forEach(function(order) {
       if (order.items) {
-        order.items.forEach(function(oi, i) { oi.key = oi.key || (oi.id + '_' + i); });
+        order.items.forEach(function(oi, i) {
+          oi.key = oi.key || (oi.id + '_' + i);
+          oi.priceText = formatPrice((oi.price || 0) * (oi.quantity || 1));
+        });
       }
+      order.totalAmountText = formatPrice(order.totalAmount);
     });
     // 统计各状态数量
     const counts = {};

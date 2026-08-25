@@ -2,7 +2,19 @@
     "description": "饮品备忘录 - 个人自用的饮品记录工具，符合工具>备忘录类目，无商业属性",
     "cloudfunctionRoot": "functions/",
     "packOptions": {
-        "ignore": [],
+        "ignore": [
+            { "type": "file", "value": "images/coffee.png" },
+            { "type": "folder", "value": "landing" },
+            { "type": "folder", "value": "docs" },
+            { "type": "folder", "value": "scripts" },
+            { "type": "folder", "value": ".cloudbase" },
+            { "type": "folder", "value": ".codebuddy" },
+            { "type": "folder", "value": ".git" },
+            { "type": "folder", "value": "functions" },
+            { "type": "file", "value": ".mcp.json" },
+            { "type": "suffix", "value": ".DS_Store" },
+            { "type": "suffix", "value": ".bak" }
+        ],
         "include": []
     },
     "setting": {

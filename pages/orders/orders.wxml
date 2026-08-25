@@ -59,13 +59,13 @@
               <text class="oi-name">{{oi.name}}</text>
               <text class="oi-spec">{{oi.temperature}}/{{oi.iceLevel}}/{{oi.sugarLevel}}</text>
               <text class="oi-qty">×{{oi.quantity}}</text>
-              <text class="oi-price">{{formatPrice(oi.price * oi.quantity)}}</text>
+              <text class="oi-price">{{oi.priceText}}</text>
             </view>
             <view class="oi-remark" wx:if="{{item.remark}}">备注：{{item.remark}}</view>
           </view>
 
           <view class="order-foot">
-            <text class="amount">{{formatPrice(item.totalAmount)}}</text>
+            <text class="amount">{{item.totalAmountText}}</text>
             <view class="actions">
               <view class="action-btn danger" wx:if="{{item.status === 'pending' || item.status === 'paid'}}" catchtap="cancelOrder" data-id="{{item._id}}">取消</view>
               <view class="action-btn primary" wx:if="{{item.status === 'paid'}}" catchtap="acceptOrder" data-id="{{item._id}}">接单</view>

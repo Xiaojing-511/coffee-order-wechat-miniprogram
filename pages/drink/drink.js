@@ -122,6 +122,10 @@ Page({
       }
 
       console.log(`总共加载了 ${allItems.length} 条饮品数据`);
+      // 预格式化价格展示文本（直接绑定，避免模板方法调用不生效导致价格不显示）
+      allItems.forEach(function(it) {
+        it.priceText = formatPrice(it.price);
+      });
       this.setData({ drinkItems: allItems });
       this.buildCategoryItemsMap(allItems);
     } catch (err) {
@@ -329,49 +333,6 @@ Page({
     const index = e.detail.value;
     const category = this.data.categories[index];
     this.setData({ selectedCategory: category.name });
-  },
-  // 上传饮品图片
-  chooseDrinkImage: function() {
-    wx.chooseMedia({
-      count: 1,
-      mediaType: ['image'],
-      sourceType: ['album', 'camera'],
-      success: async (res) => {
-        const tempFilePath = res.tempFiles[0].tempFilePath;
-        wx.showLoading({ title: '上传中...' });
-        
-        try {
-          // 上传到云存储
-          const cloudPath = `drink-images/${Date.now()}-${Math.random().toString(36).substr(2, 9)}.png`;
-          
-          const uploadRes = await wx.cloud.uploadFile({
-            cloudPath: cloudPath,
-            filePath: tempFilePath
-          });
-
-          if (uploadRes.fileID) {
-            this.setData({ drinkImageUrl: uploadRes.fileID });
-            wx.hideLoading();
-            wx.showToast({ title: '上传成功', icon: 'success' });
-          } else {
-            wx.hideLoading();
-            wx.showToast({ title: '上传失败', icon: 'none' });
-          }
-        } catch (err) {
-          wx.hideLoading();
-          console.error('上传图片失败:', err);
-          wx.showToast({ title: '上传失败', icon: 'none' });
-        }
-      },
-      fail: (err) => {
-        console.log('选择图片取消或失败', err);
-      }
-    });
-  },
-
-  // 删除饮品图片
-  removeDrinkImage: function() {
-    this.setData({ drinkImageUrl: '' });
   },
 
  // 添加/更新饮品

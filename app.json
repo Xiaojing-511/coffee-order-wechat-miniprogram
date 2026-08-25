@@ -1,12 +1,12 @@
 {
   "pages": [
+    "menu-pages/store-home",
     "pages/drink/drink",
     "pages/orders/orders",
     "pages/me/me",
     "pages/privacy/privacy",
     "pages/store-settings/store-settings",
     "pages/store-qr/store-qr",
-    "menu-pages/store-home",
     "menu-pages/menu-list",
     "menu-pages/menu-detail",
     "menu-pages/cart",

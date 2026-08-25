@@ -12,13 +12,12 @@
 
     <!-- 功能列表 -->
     <view class="menu-list">
-      <view class="menu-item" bindtap="copyOpenid">
+      <view class="menu-item">
         <text class="menu-icon">🆔</text>
         <view class="menu-col">
-          <text class="menu-label">我的 openid（复制用于开通店铺）</text>
+          <text class="menu-label">我的 openid（发送给平台方开通店铺）</text>
           <text class="menu-sub">{{openid || '登录后可获取'}}</text>
         </view>
-        <text class="menu-arrow">›</text>
       </view>
       <view class="menu-item" bindtap="goStoreSettings">
         <text class="menu-icon">⚙️</text>

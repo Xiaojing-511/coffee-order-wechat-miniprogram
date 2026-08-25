@@ -1,7 +1,15 @@
 {
   "envId": "cloud1-7gjfr85i3b664708",
   "functionRoot": "./functions",
-  "functions": [],
+  "functions": [
+    {
+      "name": "storeQr",
+      "runtime": "Nodejs16.13",
+      "handler": "index.main",
+      "timeout": 10,
+      "memorySize": 256
+    }
+  ],
   "ai": {
     "defaultAgent": "{{env.AI_DEFAULT_AGENT}}",
     "agents": {

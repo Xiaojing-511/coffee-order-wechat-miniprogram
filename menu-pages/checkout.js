@@ -8,6 +8,7 @@ Page({
     items: [],
     totalQuantity: 0,
     totalAmount: 0,
+    totalAmountText: '¥0',
     customerName: '',
     customerPhone: '',
     pickupTime: '尽快',
@@ -44,10 +45,16 @@ Page({
     const items = wx.getStorageSync(cartKey()) || [];
     let totalQuantity = 0;
     let totalAmount = 0;
-    items.forEach(function(it) {
+    // 预格式化价格展示文本（直接绑定，避免模板方法调用不生效导致价格不显示）
+    const viewItems = items.map(function(it) {
       const qty = it.quantity || 1;
+      const price = it.price || 0;
       totalQuantity += qty;
-      totalAmount += (it.price || 0) * qty;
+      totalAmount += price * qty;
+      return Object.assign({}, it, {
+        priceText: formatPrice(price),
+        subtotalText: formatPrice(price * qty)
+      });
     });
     if (items.length === 0) {
       wx.showToast({ title: '购物车是空的', icon: 'none' });
@@ -58,7 +65,12 @@ Page({
       }, 500);
       return;
     }
-    this.setData({ items: items, totalQuantity: totalQuantity, totalAmount: totalAmount });
+    this.setData({
+      items: viewItems,
+      totalQuantity: totalQuantity,
+      totalAmount: totalAmount,
+      totalAmountText: formatPrice(totalAmount)
+    });
   },
 
   onNameInput: function(e) {

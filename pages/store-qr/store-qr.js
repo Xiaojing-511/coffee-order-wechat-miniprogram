@@ -7,6 +7,8 @@ Page({
     storeName: '',
     qrFileId: '',
     generating: false,
+    demoGenerating: false,
+    demoQrFileId: '',
     error: ''
   },
 
@@ -49,6 +51,31 @@ Page({
     } catch (err) {
       console.error('生成店铺码失败:', err);
       this.setData({ error: '生成失败：请确认已部署 storeQr 云函数', generating: false });
+    }
+  },
+
+  // 生成官网宣传体验码（平台级，仅创始人 openid 有权限）
+  // page: menu-pages/store-home  scene: storeId=S1001&src=landing
+  generateDemoQr: async function() {
+    if (this.data.demoGenerating) return;
+    this.setData({ demoGenerating: true, error: '' });
+    try {
+      const res = await wx.cloud.callFunction({ name: 'storeQr', data: { demo: true } });
+      const result = res.result || {};
+      if (result.success && result.fileID) {
+        this.setData({ demoQrFileId: result.fileID, demoGenerating: false });
+        wx.showToast({ title: '宣传码已生成', icon: 'success' });
+        return;
+      } else if (result.code === 'not_owner') {
+        wx.showToast({ title: '仅平台创始人可生成', icon: 'none' });
+      } else {
+        wx.showToast({ title: result.error || '生成失败', icon: 'none' });
+      }
+    } catch (err) {
+      console.error('生成官网宣传码失败:', err);
+      wx.showToast({ title: '生成失败：请确认已部署最新 storeQr 云函数', icon: 'none' });
+    } finally {
+      this.setData({ demoGenerating: false });
     }
   },
 

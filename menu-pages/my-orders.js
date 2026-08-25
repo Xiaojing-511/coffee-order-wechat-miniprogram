@@ -23,13 +23,15 @@ Page({
   loadOrders: async function() {
     this.setData({ loading: true });
     const orders = await orderService.getMyOrders();
-    // 为每条 order item 补唯一 key（避免 wx:key 告警）
+    // 为每条 order item 补唯一 key + 预格式化价格展示文本（避免模板方法调用不生效导致价格不显示）
     orders.forEach(function(order) {
       if (order.items) {
         order.items.forEach(function(oi, i) {
           oi.key = oi.key || (oi.id + '_' + i);
+          oi.priceText = formatPrice((oi.price || 0) * (oi.quantity || 1));
         });
       }
+      order.totalAmountText = formatPrice(order.totalAmount);
     });
 
     // 加载订单对应店铺名
@@ -150,16 +152,6 @@ Page({
 
   goShopping: function() {
     wx.redirectTo({ url: '/menu-pages/menu-list' });
-  },
-
-  // 联系客服：复制微信号
-  copyContact: function() {
-    wx.setClipboardData({
-      data: 'CoffeeOrder-SaaS',
-      success: function() {
-        wx.showToast({ title: '微信号已复制', icon: 'none' });
-      }
-    });
   },
 
   // 关于本店：回到店铺欢迎页
